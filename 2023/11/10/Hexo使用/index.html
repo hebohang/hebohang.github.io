@@ -20,15 +20,19 @@
     var CONFIG = {"hostname":"hebohang.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta property="og:type" content="article">
+  <meta name="description" content="建站选型博客分静态博客和动态博客，静态博客维护成本小，因此我这里选择的是静态博客的方式。主流的几个静态博客框架是jekyll、hexo和hugo，我们这里使用的是 Hexo 进行静态博客的生成，随后部署在Github Pages上。 主要参考的链接是：https:&#x2F;&#x2F;blog.csdn.net&#x2F;yaorongke&#x2F;article&#x2F;details&#x2F;119089190 关于Hexo文档：documen">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Hexo使用">
 <meta property="og:url" content="https://hebohang.github.io/2023/11/10/Hexo%E4%BD%BF%E7%94%A8/index.html">
 <meta property="og:site_name" content="hbh">
+<meta property="og:description" content="建站选型博客分静态博客和动态博客，静态博客维护成本小，因此我这里选择的是静态博客的方式。主流的几个静态博客框架是jekyll、hexo和hugo，我们这里使用的是 Hexo 进行静态博客的生成，随后部署在Github Pages上。 主要参考的链接是：https:&#x2F;&#x2F;blog.csdn.net&#x2F;yaorongke&#x2F;article&#x2F;details&#x2F;119089190 关于Hexo文档：documen">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-11-10T07:38:39.000Z">
-<meta property="article:modified_time" content="2023-11-10T07:40:54.586Z">
+<meta property="article:modified_time" content="2023-11-13T07:31:25.980Z">
 <meta property="article:author" content="He Bohang">
 <meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="Github">
+<meta property="article:tag" content="建站">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://hebohang.github.io/2023/11/10/Hexo%E4%BD%BF%E7%94%A8/">
@@ -214,10 +218,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2023-11-10 15:38:39 / 修改时间：15:40:54" itemprop="dateCreated datePublished" datetime="2023-11-10T15:38:39+08:00">2023-11-10</time>
+              <time title="创建时间：2023-11-10 15:38:39" itemprop="dateCreated datePublished" datetime="2023-11-10T15:38:39+08:00">2023-11-10</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-11-13 15:31:25" itemprop="dateModified" datetime="2023-11-13T15:31:25+08:00">2023-11-13</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -239,7 +249,36 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        
+        <h1 id="建站选型"><a href="#建站选型" class="headerlink" title="建站选型"></a>建站选型</h1><p>博客分静态博客和动态博客，静态博客维护成本小，因此我这里选择的是静态博客的方式。主流的几个静态博客框架是jekyll、hexo和hugo，我们这里使用的是 <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> 进行静态博客的生成，随后部署在Github Pages上。</p>
+<p>主要参考的链接是：<a target="_blank" rel="noopener" href="https://blog.csdn.net/yaorongke/article/details/119089190">https://blog.csdn.net/yaorongke/article/details/119089190</a></p>
+<h1 id="关于Hexo"><a href="#关于Hexo" class="headerlink" title="关于Hexo"></a>关于Hexo</h1><p>文档：<a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/index.html">documentation</a></p>
+<p>疑问：<a target="_blank" rel="noopener" href="https://hexo.io/zh-cn/docs/troubleshooting.html">troubleshooting</a></p>
+<p>Github：<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a></p>
+<h2 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h2><p>Windows Powershell 多个指令不能用 &amp;&amp; 了，我们可以使用分号 ;</p>
+<p>我的常用指令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo s</span><br><span class="line">hexo g -d</span><br></pre></td></tr></table></figure>
+
+<p>因此本地测试我们可以直接：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo clean; hexo g; hexo s</span><br></pre></td></tr></table></figure>
+<p>一步到位。</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="新建博客"><a href="#新建博客" class="headerlink" title="新建博客"></a>新建博客</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="本地起一个服务器"><a href="#本地起一个服务器" class="headerlink" title="本地起一个服务器"></a>本地起一个服务器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
+<p>主要是用于本地自测，可以简单用写： <code>hexo s</code></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
+<p>本地生成，<code>hexo g</code> 一键部署.</p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<p>我们配好部署网站后端后，就可以直接用 <code>hexo g -d</code></p>
+<h1 id="关于Next"><a href="#关于Next" class="headerlink" title="关于Next"></a>关于Next</h1><p>我们选择的主题theme是Next主题，参考使用文档：<br><a target="_blank" rel="noopener" href="https://theme-next.iissnan.com/getting-started.html">https://theme-next.iissnan.com/getting-started.html</a></p>
+<p>Github位置：<a target="_blank" rel="noopener" href="https://github.com/theme-next/hexo-theme-next">https://github.com/theme-next/hexo-theme-next</a></p>
+
     </div>
 
     
@@ -249,6 +288,8 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/Hexo/" rel="tag"># Hexo</a>
+              <a href="/tags/Github/" rel="tag"># Github</a>
+              <a href="/tags/%E5%BB%BA%E7%AB%99/" rel="tag"># 建站</a>
           </div>
 
         
@@ -319,6 +360,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BB%BA%E7%AB%99%E9%80%89%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">建站选型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B3%E4%BA%8EHexo"><span class="nav-number">2.</span> <span class="nav-text">关于Hexo</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%8C%87%E4%BB%A4"><span class="nav-number">2.1.</span> <span class="nav-text">常用指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">2.2.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%96%B0%E5%BB%BA%E5%8D%9A%E5%AE%A2"><span class="nav-number">2.2.1.</span> <span class="nav-text">新建博客</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E8%B5%B7%E4%B8%80%E4%B8%AA%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">2.2.2.</span> <span class="nav-text">本地起一个服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">2.2.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">2.2.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B3%E4%BA%8ENext"><span class="nav-number">3.</span> <span class="nav-text">关于Next</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -332,7 +374,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">3</span>
+          <span class="site-state-item-count">2</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -345,7 +387,7 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

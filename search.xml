@@ -1,24 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>hello-world</title>
-    <url>/2023/11/10/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
     <title>Perforce</title>
     <url>/2023/11/10/Perforce/</url>
     <content><![CDATA[<h1 id="P4"><a href="#P4" class="headerlink" title="P4"></a>P4</h1><p><img src="/../images/image.png" alt="VS插件自动check out"></p>
@@ -33,12 +15,43 @@
   <entry>
     <title>Hexo使用</title>
     <url>/2023/11/10/Hexo%E4%BD%BF%E7%94%A8/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<h1 id="建站选型"><a href="#建站选型" class="headerlink" title="建站选型"></a>建站选型</h1><p>博客分静态博客和动态博客，静态博客维护成本小，因此我这里选择的是静态博客的方式。主流的几个静态博客框架是jekyll、hexo和hugo，我们这里使用的是 <a href="https://hexo.io/">Hexo</a> 进行静态博客的生成，随后部署在Github Pages上。</p>
+<p>主要参考的链接是：<a href="https://blog.csdn.net/yaorongke/article/details/119089190">https://blog.csdn.net/yaorongke/article/details/119089190</a></p>
+<h1 id="关于Hexo"><a href="#关于Hexo" class="headerlink" title="关于Hexo"></a>关于Hexo</h1><p>文档：<a href="https://hexo.io/zh-cn/docs/index.html">documentation</a></p>
+<p>疑问：<a href="https://hexo.io/zh-cn/docs/troubleshooting.html">troubleshooting</a></p>
+<p>Github：<a href="https://github.com/hexojs/hexo/issues">GitHub</a></p>
+<h2 id="常用指令"><a href="#常用指令" class="headerlink" title="常用指令"></a>常用指令</h2><p>Windows Powershell 多个指令不能用 &amp;&amp; 了，我们可以使用分号 ;</p>
+<p>我的常用指令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean</span><br><span class="line">hexo g</span><br><span class="line">hexo s</span><br><span class="line">hexo g -d</span><br></pre></td></tr></table></figure>
+
+<p>因此本地测试我们可以直接：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">hexo clean; hexo g; hexo s</span><br></pre></td></tr></table></figure>
+<p>一步到位。</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="新建博客"><a href="#新建博客" class="headerlink" title="新建博客"></a>新建博客</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="本地起一个服务器"><a href="#本地起一个服务器" class="headerlink" title="本地起一个服务器"></a>本地起一个服务器</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
+<p>主要是用于本地自测，可以简单用写： <code>hexo s</code></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
+<p>本地生成，<code>hexo g</code> 一键部署.</p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<p>我们配好部署网站后端后，就可以直接用 <code>hexo g -d</code></p>
+<h1 id="关于Next"><a href="#关于Next" class="headerlink" title="关于Next"></a>关于Next</h1><p>我们选择的主题theme是Next主题，参考使用文档：<br><a href="https://theme-next.iissnan.com/getting-started.html">https://theme-next.iissnan.com/getting-started.html</a></p>
+<p>Github位置：<a href="https://github.com/theme-next/hexo-theme-next">https://github.com/theme-next/hexo-theme-next</a></p>
+]]></content>
       <categories>
         <category>建站</category>
       </categories>
       <tags>
         <tag>Hexo</tag>
+        <tag>Github</tag>
+        <tag>建站</tag>
       </tags>
   </entry>
 </search>
