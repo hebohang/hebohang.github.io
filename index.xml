@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HBH</title><link>https://hebohang.github.io/</link><description>Recent content on HBH</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Example Person</copyright><lastBuildDate>Wed, 15 Nov 2023 16:20:34 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Hugo</title><link>https://hebohang.github.io/p/hugo/</link><pubDate>Wed, 15 Nov 2023 16:20:34 +0800</pubDate><guid>https://hebohang.github.io/p/hugo/</guid><description>&lt;h1 id="常用命令">常用命令&lt;/h1>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HBH</title><link>https://hebohang.github.io/</link><description>Recent content on HBH</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Example Person</copyright><lastBuildDate>Wed, 15 Nov 2023 16:20:34 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Hugo</title><link>https://hebohang.github.io/p/hugo/</link><pubDate>Wed, 15 Nov 2023 16:20:34 +0800</pubDate><guid>https://hebohang.github.io/p/hugo/</guid><description>&lt;img src="https://hebohang.github.io/hbh.png" alt="Featured image of post Hugo" />&lt;h1 id="常用命令">常用命令&lt;/h1>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -66,6 +66,40 @@
 &lt;p>一般主题都会有一个 exampleSite 文件夹，拷贝到博客根目录就ok了。&lt;/p>
 &lt;/li>
 &lt;/ol>
+&lt;h2 id="ci流程">CI流程&lt;/h2>
+&lt;p>博客仓库托管于 Github，我们自然是使用 Github Action 进行自动部署的 CI（continuous integration）流程。事实上，前面的&lt;a class="link" href="https://github.com/CaiJimmy/hugo-theme-stack-starter/tree/master/.github/workflows" target="_blank" rel="noopener"
+>stack快速版本&lt;/a>就已经给了这样的文件了。&lt;/p>
+&lt;p>但是不幸的是他还有点问题，他的部署流程使用的是 &lt;code>JamesIves/github-pages-deploy-action@v4&lt;/code>，但是我没有成功。我最后改成了使用 &lt;code>peaceiris/actions-gh-pages@v3&lt;/code>：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-yml" data-lang="yml">&lt;span class="line">&lt;span class="cl">- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Deploy 🚀&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">uses&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">peaceiris/actions-gh-pages@v3&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">with&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">PERSONAL_TOKEN&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">这里填写你的 GitHub 的 token&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">EXTERNAL_REPOSITORY&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">这里填你部署的地址，我的是 hebohang/hebohang.github.io&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">PUBLISH_BRANCH&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">hugo&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">PUBLISH_DIR&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">./public&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">commit_message&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">${{ github.event.head_commit.message }}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="关于token">关于TOKEN&lt;/h3>
+&lt;p>&lt;img src="https://hebohang.github.io/haskldhjsad.png"
+loading="lazy"
+>&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/image-1.png"
+loading="lazy"
+>&lt;/p>
+&lt;p>这里需要注意，我们应该给token对应的权限以让他可以使用 GitHub Workflow（而之前hexo的部署是使用hexo指令的，就没有加权限的步骤）。&lt;/p>
 &lt;h1 id="使用多个主题">使用多个主题&lt;/h1>
 &lt;p>本地可以这样测试：&lt;code>hugo --config=config-HEngine.yaml server&lt;/code>&lt;/p>
 &lt;p>使用多个config以指定不同的theme。&lt;/p>
