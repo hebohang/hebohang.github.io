@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>建站 on HBH</title><link>https://hebohang.github.io/categories/%E5%BB%BA%E7%AB%99/</link><description>Recent content in 建站 on HBH</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Example Person</copyright><lastBuildDate>Wed, 15 Nov 2023 16:20:34 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/categories/%E5%BB%BA%E7%AB%99/index.xml" rel="self" type="application/rss+xml"/><item><title>Hugo</title><link>https://hebohang.github.io/p/hugo/</link><pubDate>Wed, 15 Nov 2023 16:20:34 +0800</pubDate><guid>https://hebohang.github.io/p/hugo/</guid><description>&lt;img src="https://hebohang.github.io/hbh.png" alt="Featured image of post Hugo" />&lt;h1 id="常用命令">常用命令&lt;/h1>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>建站 on HBH</title><link>https://hebohang.github.io/categories/%E5%BB%BA%E7%AB%99/</link><description>Recent content in 建站 on HBH</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Example Person</copyright><lastBuildDate>Wed, 15 Nov 2023 16:20:34 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/categories/%E5%BB%BA%E7%AB%99/index.xml" rel="self" type="application/rss+xml"/><item><title>Hugo</title><link>https://hebohang.github.io/p/hugo/</link><pubDate>Wed, 15 Nov 2023 16:20:34 +0800</pubDate><guid>https://hebohang.github.io/p/hugo/</guid><description>&lt;h2 id="常用命令">常用命令&lt;/h2>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -16,23 +16,23 @@
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 预览特定config&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">hugo --config&lt;span class="o">=&lt;/span>config-HEngine.yaml server
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 新建文章（指定文章路径）&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">hugo new post/xxx/xxx/xx.md
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">hugo new post/xxx/xxx/index.md
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 提交&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">git add .&lt;span class="p">;&lt;/span>git commit -m &lt;span class="s2">&amp;#34;update&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>git push
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h1 id="hugo链接">Hugo链接&lt;/h1>
+&lt;/div>&lt;h2 id="hugo链接">Hugo链接&lt;/h2>
 &lt;p>官方文档：
 &lt;a class="link" href="https://gohugo.io/documentation/" target="_blank" rel="noopener"
 >https://gohugo.io/documentation/&lt;/a>&lt;/p>
 &lt;p>官方git：
 &lt;a class="link" href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener"
 >https://github.com/gohugoio/hugo&lt;/a>&lt;/p>
-&lt;h1 id="hugostack-环境配置">Hugo+Stack 环境配置&lt;/h1>
+&lt;h2 id="hugostack-环境配置">Hugo+Stack 环境配置&lt;/h2>
 &lt;p>我们选用的是stack主题：
 &lt;a class="link" href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener"
 >https://github.com/CaiJimmy/hugo-theme-stack&lt;/a>&lt;/p>
-&lt;h2 id="快速入门版本">快速入门版本&lt;/h2>
+&lt;h3 id="快速入门版本">快速入门版本&lt;/h3>
 &lt;p>最开始，我们使用的是stack官方给的快速上手版本：https://github.com/CaiJimmy/hugo-theme-stack-starter ，这个版本直接使用 Hugo module 给串联起来，并且可以直接使用 GitHub 的 codespace 直接上手写博客。&lt;/p>
 &lt;p>但是用这种版本会有一些问题：&lt;/p>
 &lt;ul>
@@ -40,7 +40,7 @@
 &lt;li>因为没有用源码，所以要么是自己fork一份stack theme再改自己仓库对应的主题地址，要么就不能对主题进行定制化修改&lt;/li>
 &lt;/ul>
 &lt;p>基于此，最后我还是选择了源码+本地环境配置的写法。当然 codespace 仍然是可以用的。&lt;/p>
-&lt;h2 id="本地环境配置">本地环境配置&lt;/h2>
+&lt;h3 id="本地环境配置">本地环境配置&lt;/h3>
 &lt;ol>
 &lt;li>
 &lt;p>安装hugo&lt;/p>
@@ -66,7 +66,7 @@
 &lt;p>一般主题都会有一个 exampleSite 文件夹，拷贝到博客根目录就ok了。&lt;/p>
 &lt;/li>
 &lt;/ol>
-&lt;h2 id="ci流程">CI流程&lt;/h2>
+&lt;h3 id="ci流程">CI流程&lt;/h3>
 &lt;p>博客仓库托管于 Github，我们自然是使用 Github Action 进行自动部署的 CI（continuous integration）流程。事实上，前面的&lt;a class="link" href="https://github.com/CaiJimmy/hugo-theme-stack-starter/tree/master/.github/workflows" target="_blank" rel="noopener"
 >stack快速版本&lt;/a>就已经给了这样的文件了。&lt;/p>
 &lt;p>但是不幸的是他还有点问题，他的部署流程使用的是 &lt;code>JamesIves/github-pages-deploy-action@v4&lt;/code>，但是我没有成功。我最后改成了使用 &lt;code>peaceiris/actions-gh-pages@v3&lt;/code>：&lt;/p>
@@ -92,24 +92,43 @@
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">commit_message&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">${{ github.event.head_commit.message }}&lt;/span>&lt;span class="w">
 &lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="关于token">关于TOKEN&lt;/h3>
-&lt;p>&lt;img src="https://hebohang.github.io/haskldhjsad.png"
+&lt;/div>&lt;h4 id="关于token">关于TOKEN&lt;/h4>
+&lt;p>&lt;img src="https://hebohang.github.io/p/hugo/image1.png"
+width="356"
+height="201"
+srcset="https://hebohang.github.io/p/hugo/image1_hu193003f0b7640e96a5039ff455bd6638_13269_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/hugo/image1_hu193003f0b7640e96a5039ff455bd6638_13269_1024x0_resize_box_3.png 1024w"
 loading="lazy"
+class="gallery-image"
+data-flex-grow="177"
+data-flex-basis="425px"
 >&lt;/p>
-&lt;p>&lt;img src="https://hebohang.github.io/image-1.png"
+&lt;p>&lt;img src="https://hebohang.github.io/p/hugo/image2.png"
+width="785"
+height="182"
+srcset="https://hebohang.github.io/p/hugo/image2_hu381711e26b267189c5a687bc52c470cf_21346_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/hugo/image2_hu381711e26b267189c5a687bc52c470cf_21346_1024x0_resize_box_3.png 1024w"
 loading="lazy"
+class="gallery-image"
+data-flex-grow="431"
+data-flex-basis="1035px"
 >&lt;/p>
 &lt;p>这里需要注意，我们应该给token对应的权限以让他可以使用 GitHub Workflow（而之前hexo的部署是使用hexo指令的，就没有加权限的步骤）。&lt;/p>
-&lt;h1 id="使用多个主题">使用多个主题&lt;/h1>
+&lt;h2 id="使用多个主题">使用多个主题&lt;/h2>
 &lt;p>本地可以这样测试：&lt;code>hugo --config=config-HEngine.yaml server&lt;/code>&lt;/p>
 &lt;p>使用多个config以指定不同的theme。&lt;/p>
 &lt;p>&lt;a class="link" href="https://discourse.gohugo.io/t/two-themes-as-separate-hugo-directories-deployed-to-the-same-website/27899/4" target="_blank" rel="noopener"
 >https://discourse.gohugo.io/t/two-themes-as-separate-hugo-directories-deployed-to-the-same-website/27899/4&lt;/a>&lt;/p>
 &lt;p>&lt;a class="link" href="https://github.com/peaceiris/actions-gh-pages/issues/324" target="_blank" rel="noopener"
 >https://github.com/peaceiris/actions-gh-pages/issues/324&lt;/a>&lt;/p>
-&lt;h1 id="关于stack主题">关于stack主题&lt;/h1>
-&lt;h2 id="说明">说明&lt;/h2>
-&lt;p>博客中链接需要单独起一行才生效。&lt;/p></description></item><item><title>Hexo</title><link>https://hebohang.github.io/p/hexo/</link><pubDate>Sat, 11 Nov 2023 16:17:13 +0800</pubDate><guid>https://hebohang.github.io/p/hexo/</guid><description>&lt;h1 id="建站选型">建站选型&lt;/h1>
+&lt;h2 id="关于stack主题">关于stack主题&lt;/h2>
+&lt;p>文档：https://stack.jimmycai.com/config/menu&lt;/p>
+&lt;h3 id="说明">说明&lt;/h3>
+&lt;ul>
+&lt;li>博客中链接需要单独起一行才生效。&lt;/li>
+&lt;li>如果创建多级文件夹时文章文件名不是 &lt;code>index.md&lt;/code> 或者类别、标签文件名不是 &lt;code>_index.md&lt;/code> 的话，设置封面图片会出现问题。&lt;/li>
+&lt;/ul>
+&lt;h3 id="参考">参考&lt;/h3>
+&lt;p>&lt;a class="link" href="https://blog.reincarnatey.net/2023/build-hugo-blog-with-stack-mod/#%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99%E5%8D%9A%E5%AE%A2" target="_blank" rel="noopener"
+>https://blog.reincarnatey.net/2023/build-hugo-blog-with-stack-mod/#%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99%E5%8D%9A%E5%AE%A2&lt;/a>&lt;/p></description></item><item><title>Hexo</title><link>https://hebohang.github.io/p/hexo/</link><pubDate>Sat, 11 Nov 2023 16:17:13 +0800</pubDate><guid>https://hebohang.github.io/p/hexo/</guid><description>&lt;h1 id="建站选型">建站选型&lt;/h1>
 &lt;p>博客分静态博客和动态博客，静态博客维护成本小，因此我这里选择的是静态博客的方式。主流的几个静态博客框架是jekyll、hexo和hugo，我们这里使用的是 &lt;a class="link" href="https://hexo.io/" target="_blank" rel="noopener"
 >Hexo&lt;/a> 进行静态博客的生成，随后部署在Github Pages上。&lt;/p>
 &lt;p>主要参考的链接是：https://blog.csdn.net/yaorongke/article/details/119089190&lt;/p>
