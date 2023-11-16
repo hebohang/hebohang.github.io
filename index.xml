@@ -1,10 +1,187 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HBH</title><link>https://hebohang.github.io/</link><description>Recent content on HBH</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Example Person</copyright><lastBuildDate>Wed, 15 Nov 2023 16:20:34 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Hugo</title><link>https://hebohang.github.io/p/hugo/</link><pubDate>Wed, 15 Nov 2023 16:20:34 +0800</pubDate><guid>https://hebohang.github.io/p/hugo/</guid><description>&lt;h1 id="使用多个主题">使用多个主题&lt;/h1>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HBH</title><link>https://hebohang.github.io/</link><description>Recent content on HBH</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>Example Person</copyright><lastBuildDate>Wed, 15 Nov 2023 16:20:34 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Hugo</title><link>https://hebohang.github.io/p/hugo/</link><pubDate>Wed, 15 Nov 2023 16:20:34 +0800</pubDate><guid>https://hebohang.github.io/p/hugo/</guid><description>&lt;h1 id="hugo常用命令">Hugo常用命令&lt;/h1>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 本地预览&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">hugo server
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 预览特定config&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">hugo --config&lt;span class="o">=&lt;/span>xxx.yaml server
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 新建文章（指定文章路径）&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">hugo new post/xxx/xxx/xx.md
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h1 id="hugo链接">Hugo链接&lt;/h1>
+&lt;p>官方文档：
+&lt;a class="link" href="https://gohugo.io/documentation/" target="_blank" rel="noopener"
+>https://gohugo.io/documentation/&lt;/a>&lt;/p>
+&lt;p>官方git：
+&lt;a class="link" href="https://github.com/gohugoio/hugo" target="_blank" rel="noopener"
+>https://github.com/gohugoio/hugo&lt;/a>&lt;/p>
+&lt;h1 id="hugostack-环境配置">Hugo+Stack 环境配置&lt;/h1>
+&lt;p>我们选用的是stack主题：
+&lt;a class="link" href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener"
+>https://github.com/CaiJimmy/hugo-theme-stack&lt;/a>&lt;/p>
+&lt;h2 id="快速入门版本">快速入门版本&lt;/h2>
+&lt;p>最开始，我们使用的是stack官方给的快速上手版本：https://github.com/CaiJimmy/hugo-theme-stack-starter ，这个版本直接使用 Hugo module 给串联起来，并且可以直接使用 GitHub 的 codespace 直接上手写博客。&lt;/p>
+&lt;p>但是用这种版本会有一些问题：&lt;/p>
+&lt;ul>
+&lt;li>codespace启动较慢，不如本地写&lt;/li>
+&lt;li>因为没有用源码，所以要么是自己fork一份stack theme再改自己仓库对应的主题地址，要么就不能对主题进行定制化修改&lt;/li>
+&lt;/ul>
+&lt;p>基于此，最后我还是选择了源码+本地环境配置的写法。当然 codespace 仍然是可以用的。&lt;/p>
+&lt;h2 id="本地环境配置">本地环境配置&lt;/h2>
+&lt;ol>
+&lt;li>
+&lt;p>安装hugo&lt;/p>
+&lt;p>根据&lt;a class="link" href="https://gohugo.io/installation/windows/" target="_blank" rel="noopener"
+>官方建议&lt;/a>，我们选择下载扩展版本：
+根据我的本机环境，我下载的是&lt;a class="link" href="https://github.com/gohugoio/hugo/releases/tag/v0.120.4" target="_blank" rel="noopener"
+>hugo_extended_0.120.4_windows-amd64.zip&lt;/a>版本。&lt;/p>
+&lt;p>安装完成后可以用 &lt;code>hugo version&lt;/code> 查看版本，检查是否安装成功。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>安装go语言&lt;/p>
+&lt;p>hugo选择是go作为构建语言，这种编译型的语言有着天然的速度优势，因此几乎可以做到实时预览，这也是我选择hugo的主要原因。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>初始化博客环境&lt;/p>
+&lt;p>&lt;code>hugo new site blog&lt;/code>&lt;/p>
+&lt;p>这样就会新建立blog文件夹，并且包含hugo的基本环境。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>下载主题源码&lt;/p>
+&lt;p>我这里选用的stack主题，直接在&lt;a class="link" href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener"
+>stack的仓库&lt;/a>拉一份release版本的，放在我们刚刚的博客环境中的themes文件夹中（若没有则新建）。&lt;/p>
+&lt;p>一般主题都会有一个 exampleSite 文件夹，拷贝到博客根目录就ok了。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h1 id="使用多个主题">使用多个主题&lt;/h1>
 &lt;p>本地可以这样测试：&lt;code>hugo --config=config-HEngine.yaml server&lt;/code>&lt;/p>
 &lt;p>使用多个config以指定不同的theme。&lt;/p>
 &lt;p>&lt;a class="link" href="https://discourse.gohugo.io/t/two-themes-as-separate-hugo-directories-deployed-to-the-same-website/27899/4" target="_blank" rel="noopener"
 >https://discourse.gohugo.io/t/two-themes-as-separate-hugo-directories-deployed-to-the-same-website/27899/4&lt;/a>&lt;/p>
 &lt;p>&lt;a class="link" href="https://github.com/peaceiris/actions-gh-pages/issues/324" target="_blank" rel="noopener"
->https://github.com/peaceiris/actions-gh-pages/issues/324&lt;/a>&lt;/p></description></item><item><title>Chinese Test</title><link>https://hebohang.github.io/p/test-chinese/</link><pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate><guid>https://hebohang.github.io/p/test-chinese/</guid><description>&lt;img src="https://hebohang.github.io/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash.jpg" alt="Featured image of post Chinese Test" />&lt;h2 id="正文测试">正文测试&lt;/h2>
+>https://github.com/peaceiris/actions-gh-pages/issues/324&lt;/a>&lt;/p>
+&lt;h1 id="关于stack主题">关于stack主题&lt;/h1>
+&lt;h2 id="说明">说明&lt;/h2>
+&lt;p>博客中链接需要单独起一行才生效。&lt;/p></description></item><item><title>Hexo</title><link>https://hebohang.github.io/p/hexo/</link><pubDate>Sat, 11 Nov 2023 16:17:13 +0800</pubDate><guid>https://hebohang.github.io/p/hexo/</guid><description>&lt;h1 id="建站选型">建站选型&lt;/h1>
+&lt;p>博客分静态博客和动态博客，静态博客维护成本小，因此我这里选择的是静态博客的方式。主流的几个静态博客框架是jekyll、hexo和hugo，我们这里使用的是 &lt;a class="link" href="https://hexo.io/" target="_blank" rel="noopener"
+>Hexo&lt;/a> 进行静态博客的生成，随后部署在Github Pages上。&lt;/p>
+&lt;p>主要参考的链接是：https://blog.csdn.net/yaorongke/article/details/119089190&lt;/p>
+&lt;h1 id="关于hexo">关于Hexo&lt;/h1>
+&lt;p>文档：&lt;a class="link" href="https://hexo.io/zh-cn/docs/index.html" target="_blank" rel="noopener"
+>documentation&lt;/a>&lt;/p>
+&lt;p>疑问：&lt;a class="link" href="https://hexo.io/zh-cn/docs/troubleshooting.html" target="_blank" rel="noopener"
+>troubleshooting&lt;/a>&lt;/p>
+&lt;p>Github：&lt;a class="link" href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener"
+>GitHub&lt;/a>&lt;/p>
+&lt;h2 id="常用指令">常用指令&lt;/h2>
+&lt;p>Windows Powershell 多个指令不能用 &amp;amp;&amp;amp; 了，我们可以使用分号 ;&lt;/p>
+&lt;p>我的常用指令：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">hexo clean
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">hexo g
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">hexo s
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">hexo d
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">hexo g -d
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>因此本地测试我们可以直接：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">hexo clean&lt;span class="p">;&lt;/span> hexo g&lt;span class="p">;&lt;/span> hexo s
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>一步到位。&lt;/p>
+&lt;p>部署的时候可以：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">hexo clean&lt;span class="p">;&lt;/span> hexo g&lt;span class="p">;&lt;/span> hexo d
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>或者&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">hexo g -d
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="quick-start">Quick Start&lt;/h2>
+&lt;h3 id="新建博客">新建博客&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ hexo new &lt;span class="s2">&amp;#34;My New Post&amp;#34;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>More info: &lt;a class="link" href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener"
+>Writing&lt;/a>&lt;/p>
+&lt;h3 id="本地起一个服务器">本地起一个服务器&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ hexo server
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>More info: &lt;a class="link" href="https://hexo.io/docs/server.html" target="_blank" rel="noopener"
+>Server&lt;/a>&lt;/p>
+&lt;p>主要是用于本地自测，可以简单用写： &lt;code>hexo s&lt;/code>&lt;/p>
+&lt;h3 id="generate-static-files">Generate static files&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ hexo generate
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>More info: &lt;a class="link" href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener"
+>Generating&lt;/a>&lt;/p>
+&lt;p>本地生成，&lt;code>hexo g&lt;/code> 一键部署.&lt;/p>
+&lt;h3 id="deploy-to-remote-sites">Deploy to remote sites&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">$ hexo deploy
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>More info: &lt;a class="link" href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener"
+>Deployment&lt;/a>&lt;/p>
+&lt;p>我们配好部署网站后端后，就可以直接用 &lt;code>hexo g -d&lt;/code>&lt;/p>
+&lt;h1 id="关于next">关于Next&lt;/h1>
+&lt;p>我们选择的主题theme是Next主题，参考使用文档：
+&lt;a class="link" href="https://theme-next.iissnan.com/getting-started.html" target="_blank" rel="noopener"
+>https://theme-next.iissnan.com/getting-started.html&lt;/a>&lt;/p>
+&lt;p>Github位置：https://github.com/theme-next/hexo-theme-next&lt;/p></description></item><item><title>Chinese Test</title><link>https://hebohang.github.io/p/test-chinese/</link><pubDate>Wed, 09 Sep 2020 00:00:00 +0000</pubDate><guid>https://hebohang.github.io/p/test-chinese/</guid><description>&lt;img src="https://hebohang.github.io/p/test-chinese/helena-hertz-wWZzXlDpMog-unsplash.jpg" alt="Featured image of post Chinese Test" />&lt;h2 id="正文测试">正文测试&lt;/h2>
 &lt;p>而这些并不是完全重要，更加重要的问题是， 带着这些问题，我们来审视一下学生会退会。 既然如何， 对我个人而言，学生会退会不仅仅是一个重大的事件，还可能会改变我的人生。 我们不得不面对一个非常尴尬的事实，那就是， 可是，即使是这样，学生会退会的出现仍然代表了一定的意义。 学生会退会，发生了会如何，不发生又会如何。 经过上述讨论， 生活中，若学生会退会出现了，我们就不得不考虑它出现了的事实。 学生会退会，到底应该如何实现。 这样看来， 在这种困难的抉择下，本人思来想去，寝食难安。 对我个人而言，学生会退会不仅仅是一个重大的事件，还可能会改变我的人生。 就我个人来说，学生会退会对我的意义，不能不说非常重大。 莎士比亚曾经提到过，人的一生是短的，但如果卑劣地过这一生，就太长了。这似乎解答了我的疑惑。 莫扎特说过一句富有哲理的话，谁和我一样用功，谁就会和我一样成功。这启发了我， 对我个人而言，学生会退会不仅仅是一个重大的事件，还可能会改变我的人生。 学生会退会，到底应该如何实现。 一般来说， 从这个角度来看， 这种事实对本人来说意义重大，相信对这个世界也是有一定意义的。 在这种困难的抉择下，本人思来想去，寝食难安。 了解清楚学生会退会到底是一种怎么样的存在，是解决一切问题的关键。 一般来说， 生活中，若学生会退会出现了，我们就不得不考虑它出现了的事实。 问题的关键究竟为何？ 而这些并不是完全重要，更加重要的问题是。&lt;/p>
 &lt;p>奥斯特洛夫斯基曾经说过，共同的事业，共同的斗争，可以使人们产生忍受一切的力量。　带着这句话，我们还要更加慎重的审视这个问题： 一般来讲，我们都必须务必慎重的考虑考虑。 既然如此， 这种事实对本人来说意义重大，相信对这个世界也是有一定意义的。 带着这些问题，我们来审视一下学生会退会。 我认为， 我认为， 在这种困难的抉择下，本人思来想去，寝食难安。 问题的关键究竟为何？ 每个人都不得不面对这些问题。 在面对这种问题时， 要想清楚，学生会退会，到底是一种怎么样的存在。 我认为， 既然如此， 每个人都不得不面对这些问题。 在面对这种问题时， 那么， 我认为， 学生会退会因何而发生。&lt;/p>
 &lt;h2 id="引用">引用&lt;/h2>
