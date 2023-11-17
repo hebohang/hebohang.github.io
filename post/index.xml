@@ -1,4 +1,181 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on 何律师</title><link>https://hebohang.github.io/post/</link><description>Recent content in Posts on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Wed, 15 Nov 2023 16:20:34 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Hugo</title><link>https://hebohang.github.io/p/hugo/</link><pubDate>Wed, 15 Nov 2023 16:20:34 +0800</pubDate><guid>https://hebohang.github.io/p/hugo/</guid><description>&lt;h2 id="常用命令">常用命令&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on 何律师</title><link>https://hebohang.github.io/post/</link><description>Recent content in Posts on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Fri, 17 Nov 2023 15:56:23 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>UE基础知识</title><link>https://hebohang.github.io/p/ue%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</link><pubDate>Fri, 17 Nov 2023 15:56:23 +0800</pubDate><guid>https://hebohang.github.io/p/ue%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</guid><description>&lt;h2 id="编译链接">编译链接&lt;/h2>
+&lt;h3 id="源码编译">源码编译&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">git clone -b 4.27.2-release --depth&lt;span class="o">=&lt;/span>&lt;span class="m">1&lt;/span> git@github.com:EpicGames/UnrealEngine.git
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/107516361" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/107516361&lt;/a>&lt;/p>
+&lt;h3 id="ue模块类相关">UE模块、类相关&lt;/h3>
+&lt;ul>
+&lt;li>[YourModuleName]_API宏的作用?&lt;/li>
+&lt;/ul>
+&lt;ol>
+&lt;li>
+&lt;p>放函数声明前用于暴露(导出)该函数&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>放类声明前用于暴露(导出)该类的所有内容&lt;/p>
+&lt;p>特别注意：_API前面的内容&lt;strong>一定要大写&lt;/strong>！否则会编译不通过&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>
+&lt;p>MinimalAPI说明符的作用?&lt;/p>
+&lt;p>暴露(导出)该类的类型信息让其它模块可以&lt;/p>
+&lt;ol>
+&lt;li>Cast到该类型&lt;/li>
+&lt;li>继承该类型 (该类型的所有定义在.cpp文件的虚函数都需要导出)&lt;/li>
+&lt;li>使用内联函数&lt;/li>
+&lt;/ol>
+&lt;/li>
+&lt;/ul>
+&lt;h2 id="ui">UI&lt;/h2>
+&lt;p>&lt;img src="https://hebohang.github.io/p/ue%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image.png"
+width="429"
+height="284"
+srcset="https://hebohang.github.io/p/ue%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image_hu5361f5bc6b8923dc20e1a0f4afbf7867_20897_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/ue%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image_hu5361f5bc6b8923dc20e1a0f4afbf7867_20897_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="文本自动换行"
+class="gallery-image"
+data-flex-grow="151"
+data-flex-basis="362px"
+>&lt;/p>
+&lt;p>勾掉 auto wrap text，就可以控制自动换行的文本大小（有wrap控制的情况下？）。&lt;/p>
+&lt;h2 id="资产">资产&lt;/h2>
+&lt;h3 id="texture">Texture&lt;/h3>
+&lt;h4 id="texture-stream-与-lod-bias">Texture Stream 与 LOD Bias&lt;/h4>
+&lt;p>&lt;a class="link" href="https://polycount.com/discussion/200525/ue4-texture-settings-help-mip-gen-settings-lod-bias-power-of-two-mode" target="_blank" rel="noopener"
+>https://polycount.com/discussion/200525/ue4-texture-settings-help-mip-gen-settings-lod-bias-power-of-two-mode&lt;/a>&lt;/p>
+&lt;p>ue 的贴图可以勾选 Never Stream，此时会取消纹理流送；否则默认开启纹理流送。&lt;/p>
+&lt;p>关闭纹理流送，就可以保证每次都加载贴图原生大小，保证最高分辨率，但是可能有性能影响，一般ui可以开。&lt;/p>
+&lt;p>纹理流送首先加载最小的mipmap，然后逐渐增加；如果 LOD Bias 为0，则最后加载到原贴图最大版本为止；为1则为第一级。例如 2048 的贴图，LOD Bias 为1，则纹理流送到 1024 为止。&lt;/p>
+&lt;h4 id="texture-group">Texture Group&lt;/h4>
+&lt;p>纹理组，可以一起设置贴图的各种设置：默认压缩、mip生成、lod bias等等。&lt;/p>
+&lt;h2 id="c">C++&lt;/h2>
+&lt;h3 id="ue反射相关">ue反射相关&lt;/h3>
+&lt;p>入门：
+&lt;a class="link" href="https://zhuanlan.zhihu.com/p/400473355" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/400473355&lt;/a>
+&lt;a class="link" href="https://www.cnblogs.com/ghl_carmack/p/5701862.html" target="_blank" rel="noopener"
+>https://www.cnblogs.com/ghl_carmack/p/5701862.html&lt;/a>
+&lt;a class="link" href="https://ikrima.dev/ue4guide/engine-programming/uobject-reflection/uobject-reflection/" target="_blank" rel="noopener"
+>https://ikrima.dev/ue4guide/engine-programming/uobject-reflection/uobject-reflection/&lt;/a>&lt;/p>
+&lt;h4 id="class-default-object-简称cdo">Class Default Object, 简称CDO&lt;/h4>
+&lt;p>UCLASS宏为UObject提供了一个描述其基于虚幻的类型的UCLASS的引用。每个UCLASS都维护一个名为“类默认对象”的对象，简称CDO。&lt;/p>
+&lt;p>CDO本质上是一个默认的“模板”对象，由类构造函数生成，之后未修改。可以为给定的Object实例检索UCLASS和CDO，尽管它们通常应该被认为是只读的。可以使用GetClass()函数随时访问Object实例的UCLASS。&lt;/p>
+&lt;p>CDO是在引擎初始化时创建的，当引擎为每个类生成UClass对象时。每个UClass的实例都是在引擎初始化期间创建的，并被分配为该UClass的CDO。并且包含在反射系统中，如在编辑器可以操作类蓝图。Obj.cpp可以看到引擎CDO初始化创建。&lt;/p>
+&lt;p>因此一个 UClass* 是无法直接Cast转型成其他类型的，因为没有实例化；我们可以用 TSubclassOf 先转为其他类型，之后获取 CDO 得到默认对象（&lt;code>GetDefaultObject&amp;lt;xxx&amp;gt;&lt;/code>）再调用它的相关函数之类的。&lt;/p>
+&lt;h4 id="获取uobject属性值">获取UObject属性值&lt;/h4>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/61042237" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/61042237&lt;/a>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 获取属性名为PropertyName的属性的值
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">UObject&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">Object&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">...;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FName&lt;/span> &lt;span class="n">PropertyName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">...;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FProperty&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">Property&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Object&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetClass&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">FindPropertyByName&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">PropertyName&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Property&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="kt">void&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">ValuePtr&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Property&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">ContainerPtrToValuePtr&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="kt">void&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Object&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">ValuePtr&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">FString&lt;/span> &lt;span class="n">Value&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Property&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">ExportTextItem&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Value&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">ValuePtr&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="k">nullptr&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="k">nullptr&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">PPF_None&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">UE_LOG&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">LogTemp&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">Log&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">TEXT&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Property %s value is %s&amp;#34;&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">PropertyName&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">ToString&lt;/span>&lt;span class="p">(),&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">Value&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="标记宏">标记宏&lt;/h4>
+&lt;p>可以使用UENUM()、UCLASS()、USTRUCT()、UFUNCTION()、UPROPERTY()来标记不同的类型和成员变量，标记也可以包含额外的描述关键字。&lt;/p>
+&lt;p>每个描述的关键字（例如EditAnywhere或BlueprintCallable）都在ObjectMacros.h中有一个镜像，有一个简短的描述。当不知道一个关键字的意思时，可以去ObjectMacros.h中去查看&lt;/p>
+&lt;p>更方便地是直接看文档：
+&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/ufunctions-in-unreal-engine/" target="_blank" rel="noopener"
+>https://docs.unrealengine.com/5.3/zh-CN/ufunctions-in-unreal-engine/&lt;/a>&lt;/p>
+&lt;h5 id="类说明符-uclass">类说明符 UCLASS&lt;/h5>
+&lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/class-specifiers/" target="_blank" rel="noopener"
+>https://docs.unrealengine.com/5.3/zh-CN/class-specifiers/&lt;/a>&lt;/p>
+&lt;h5 id="蓝图-uparamref">蓝图 UPARAM(ref)&lt;/h5>
+&lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/exposing-gameplay-elements-to-blueprints-visual-scripting-in-unreal-engine/" target="_blank" rel="noopener"
+>https://docs.unrealengine.com/5.3/zh-CN/exposing-gameplay-elements-to-blueprints-visual-scripting-in-unreal-engine/&lt;/a>&lt;/p>
+&lt;h3 id="字符串处理fstringfnameftext互转">字符串处理（FString、FName、FText互转）&lt;/h3>
+&lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/string-handling-in-unreal-engine/" target="_blank" rel="noopener"
+>https://docs.unrealengine.com/5.3/zh-CN/string-handling-in-unreal-engine/&lt;/a>&lt;/p>
+&lt;h4 id="中文乱码">中文乱码&lt;/h4>
+&lt;p>使用 UTF8_TO_TCHAR：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">TextBlock&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">SetText&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">FText&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">FromString&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">UTF8_TO_TCHAR&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;否&amp;#34;&lt;/span>&lt;span class="p">)));&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="slate专栏">Slate专栏&lt;/h3>
+&lt;h4 id="快速入门指南">快速入门指南&lt;/h4>
+&lt;p>官方教程：
+&lt;a class="link" href="https://docs.unrealengine.com/5.0/zh-CN/slate-editor-window-quickstart-guide-for-unreal-engine/" target="_blank" rel="noopener"
+>https://docs.unrealengine.com/5.0/zh-CN/slate-editor-window-quickstart-guide-for-unreal-engine/&lt;/a>&lt;/p>
+&lt;p>但是官方教程有一点错误，详细代码可以看：
+&lt;a class="link" href="https://github.com/yegorsw/UE_SimpleSlatePlugin/tree/main" target="_blank" rel="noopener"
+>https://github.com/yegorsw/UE_SimpleSlatePlugin/tree/main&lt;/a>&lt;/p>
+&lt;h4 id="细节面板自定义">细节面板自定义&lt;/h4>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/463008792" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/463008792&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://imzlp.com/posts/26919/" target="_blank" rel="noopener"
+>https://imzlp.com/posts/26919/&lt;/a>&lt;/p>
+&lt;p>其中若是对TArray类型自定义，我是参考的ue源代码，参考链接：
+&lt;a class="link" href="https://forums.unrealengine.com/t/how-to-use-ipropertytypecustomization-to-display-tarray/414634/7" target="_blank" rel="noopener"
+>https://forums.unrealengine.com/t/how-to-use-ipropertytypecustomization-to-display-tarray/414634/7&lt;/a>&lt;/p>
+&lt;p>最后翻看ue代码：FSpriteDetailsCustomization::BuildTextureSection&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">TSharedRef&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">FDetailArrayBuilder&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">PropertyValuesBuilder&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">MakeShareable&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="k">new&lt;/span> &lt;span class="n">FDetailArrayBuilder&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">PropertyValuesHandle&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">ToSharedRef&lt;/span>&lt;span class="p">()));&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">PropertyValuesBuilder&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">OnGenerateArrayElementWidget&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">FOnGenerateArrayElementWidget&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">CreateSP&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="k">this&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">FKCustomPropertyDetails&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">GeneratePropertyValueWidget&lt;/span>&lt;span class="p">));&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">StructBuilder&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">AddCustomBuilder&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">PropertyValuesBuilder&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="关闭代码文件优化">关闭代码文件优化&lt;/h3>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/563164847" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/563164847&lt;/a>
+可以按vs的方式：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#pragma optimize(&amp;#34;&amp;#34;, off)
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#pragma optimize(&amp;#34;&amp;#34;, on)
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>Hugo</title><link>https://hebohang.github.io/p/hugo/</link><pubDate>Wed, 15 Nov 2023 16:20:34 +0800</pubDate><guid>https://hebohang.github.io/p/hugo/</guid><description>&lt;h2 id="常用命令">常用命令&lt;/h2>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
