@@ -1,4 +1,100 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>UE5 on 何律师</title><link>https://hebohang.github.io/categories/ue5/</link><description>Recent content in UE5 on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Fri, 17 Nov 2023 15:56:23 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/categories/ue5/index.xml" rel="self" type="application/rss+xml"/><item><title>UE基础知识</title><link>https://hebohang.github.io/p/ue%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</link><pubDate>Fri, 17 Nov 2023 15:56:23 +0800</pubDate><guid>https://hebohang.github.io/p/ue%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</guid><description>&lt;h2 id="编译链接">编译链接&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>UE5 on 何律师</title><link>https://hebohang.github.io/categories/ue5/</link><description>Recent content in UE5 on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Mon, 20 Nov 2023 15:28:35 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/categories/ue5/index.xml" rel="self" type="application/rss+xml"/><item><title>编辑器扩展</title><link>https://hebohang.github.io/p/%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95/</link><pubDate>Mon, 20 Nov 2023 15:28:35 +0800</pubDate><guid>https://hebohang.github.io/p/%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95/</guid><description>&lt;h2 id="contentbrowser-扩展">ContentBrowser 扩展&lt;/h2>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">UToolMenu&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">Menu&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">UToolMenus&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">Get&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">ExtendMenu&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;ContentBrowser.AssetContextMenu.AssetActionsSubMenu&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FToolMenuSection&lt;/span>&lt;span class="o">&amp;amp;&lt;/span> &lt;span class="n">Section&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Menu&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">FindOrAddSection&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;AssetContextAdvancedActions&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Section&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">AddMenuEntry&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="s">&amp;#34;HbhTest&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">LOCTEXT&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Hbh Test Title&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;Hbh Test1&amp;#34;&lt;/span>&lt;span class="p">),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">LOCTEXT&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Hbh Test TooltipText&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;Hbh Test2&amp;#34;&lt;/span>&lt;span class="p">),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">FSlateIcon&lt;/span>&lt;span class="p">(),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">FToolMenuExecuteAction&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">CreateLambda&lt;/span>&lt;span class="p">([&lt;/span>&lt;span class="k">this&lt;/span>&lt;span class="p">](&lt;/span>&lt;span class="k">const&lt;/span> &lt;span class="n">FToolMenuContext&lt;/span>&lt;span class="o">&amp;amp;&lt;/span> &lt;span class="n">InContext&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">UContentBrowserAssetContextMenuContext&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">Context&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">InContext&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">FindContext&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">UContentBrowserAssetContextMenuContext&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>&lt;span class="p">())&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">UObject&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="nl">Asset&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="n">Context&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetSelectedObjects&lt;/span>&lt;span class="p">())&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">UE_LOG&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">LogTemp&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">Log&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">TEXT&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;%s&amp;#34;&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">Asset&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetPathName&lt;/span>&lt;span class="p">());&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">})&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>对资产右键，效果：
+&lt;img src="https://hebohang.github.io/p/%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95/image.png"
+width="585"
+height="641"
+srcset="https://hebohang.github.io/p/%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95/image_hu7e5e1bda002e2e5a56217d54387a2add_113336_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95/image_hu7e5e1bda002e2e5a56217d54387a2add_113336_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="91"
+data-flex-basis="219px"
+>&lt;/p>
+&lt;h2 id="弹窗">弹窗&lt;/h2>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="k">static&lt;/span> &lt;span class="k">const&lt;/span> &lt;span class="n">FName&lt;/span> &lt;span class="nf">TabName&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Your Tab Name&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FGlobalTabmanager&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">Get&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">RegisterNomadTabSpawner&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">TabName&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">FOnSpawnTab&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">CreateRaw&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="k">this&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">OnSpawnTab&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">.&lt;/span>&lt;span class="n">SetDisplayName&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">LOCTEXT&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;xxx&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;xxx&amp;#34;&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">.&lt;/span>&lt;span class="n">SetMenuType&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">ETabSpawnerMenuType&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">Hidden&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FGlobalTabmanager&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">Get&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">UnregisterNomadTabSpawner&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">TabName&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FGlobalTabmanager&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">Get&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">TryInvokeTab&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">TabName&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">TSharedRef&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">SDockTab&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">OnSpawnTab&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="k">const&lt;/span> &lt;span class="n">FSpawnTabArgs&lt;/span>&lt;span class="o">&amp;amp;&lt;/span> &lt;span class="n">SpawnTabArgs&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nf">SNew&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">SDockTab&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">.&lt;/span>&lt;span class="n">TabRole&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">ETabRole&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">NomadTab&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">[&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">SNew&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">xxx&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>UE基础知识</title><link>https://hebohang.github.io/p/ue%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</link><pubDate>Fri, 17 Nov 2023 15:56:23 +0800</pubDate><guid>https://hebohang.github.io/p/ue%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</guid><description>&lt;h2 id="编译链接">编译链接&lt;/h2>
 &lt;h3 id="源码编译">源码编译&lt;/h3>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
