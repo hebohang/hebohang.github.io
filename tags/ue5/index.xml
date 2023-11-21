@@ -69,7 +69,22 @@ data-flex-basis="255px"
 &lt;p>官方文档：
 &lt;a class="link" href="https://docs.unrealengine.com/5.0/zh-CN/hierarchical-level-of-detail-in-unreal-engine/" target="_blank" rel="noopener"
 >https://docs.unrealengine.com/5.0/zh-CN/hierarchical-level-of-detail-in-unreal-engine/&lt;/a>&lt;/p>
-&lt;p>针对静态Mesh资产的功能，当模型&lt;/p></description></item><item><title>编辑器扩展</title><link>https://hebohang.github.io/p/%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95/</link><pubDate>Mon, 20 Nov 2023 15:28:35 +0800</pubDate><guid>https://hebohang.github.io/p/%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95/</guid><description>&lt;h2 id="contentbrowser-扩展">ContentBrowser 扩展&lt;/h2>
+&lt;p>针对静态Mesh资产的功能，当模型处于远距离时，分层细节级别（HLOD）系统可以将多个静态网格体Actor合并成单个代理网格体和材质。
+生成代理网格体是需要花时间的步骤，并且每次编辑完场景时，左上角可能有需要重新构建HLOD代理网格体的提示（有点像灯光一样，也是有重新构建灯光的步骤）。&lt;/p>
+&lt;h2 id="actor合并">Actor合并&lt;/h2>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-2.png"
+width="573"
+height="761"
+srcset="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-2_hue85f02823e92abfdb04d366bc3d050e8_351665_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-2_hue85f02823e92abfdb04d366bc3d050e8_351665_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="75"
+data-flex-basis="180px"
+>
+一共有四种功能：Merge、Simplify、Batch、Approximate，每一种功能都可以在下面的 Merge Actors Settings 里面进行设置配置。&lt;/p>
+&lt;p>官方文档：
+&lt;a class="link" href="https://docs.unrealengine.com/5.0/zh-CN/merging-actors-in-unreal-engine/" target="_blank" rel="noopener"
+>https://docs.unrealengine.com/5.0/zh-CN/merging-actors-in-unreal-engine/&lt;/a>&lt;/p></description></item><item><title>编辑器扩展</title><link>https://hebohang.github.io/p/%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95/</link><pubDate>Mon, 20 Nov 2023 15:28:35 +0800</pubDate><guid>https://hebohang.github.io/p/%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95/</guid><description>&lt;h2 id="contentbrowser-扩展">ContentBrowser 扩展&lt;/h2>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
