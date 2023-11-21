@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>建站 on 何律师</title><link>https://hebohang.github.io/categories/%E5%BB%BA%E7%AB%99/</link><description>Recent content in 建站 on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Wed, 15 Nov 2023 16:20:34 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/categories/%E5%BB%BA%E7%AB%99/index.xml" rel="self" type="application/rss+xml"/><item><title>Hugo</title><link>https://hebohang.github.io/p/hugo/</link><pubDate>Wed, 15 Nov 2023 16:20:34 +0800</pubDate><guid>https://hebohang.github.io/p/hugo/</guid><description>&lt;h2 id="常用命令">常用命令&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>建站 on 何律师</title><link>https://hebohang.github.io/categories/%E5%BB%BA%E7%AB%99/</link><description>Recent content in 建站 on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Wed, 15 Nov 2023 16:20:34 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/categories/%E5%BB%BA%E7%AB%99/index.xml" rel="self" type="application/rss+xml"/><item><title>Hugo</title><link>https://hebohang.github.io/p/hugo/</link><pubDate>Wed, 15 Nov 2023 16:20:34 +0800</pubDate><guid>https://hebohang.github.io/p/hugo/</guid><description>&lt;img src="https://hebohang.github.io/p/hugo/image-1.png" alt="Featured image of post Hugo" />&lt;h2 id="常用命令">常用命令&lt;/h2>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
@@ -257,4 +257,40 @@ data-flex-basis="1035px"
 &lt;p>我们选择的主题theme是Next主题，参考使用文档：
 &lt;a class="link" href="https://theme-next.iissnan.com/getting-started.html" target="_blank" rel="noopener"
 >https://theme-next.iissnan.com/getting-started.html&lt;/a>&lt;/p>
-&lt;p>Github位置：https://github.com/theme-next/hexo-theme-next&lt;/p></description></item></channel></rss>
+&lt;p>Github位置：https://github.com/theme-next/hexo-theme-next&lt;/p></description></item><item><title>静态博客、动态博客与选择</title><link>https://hebohang.github.io/p/%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2%E5%8A%A8%E6%80%81%E5%8D%9A%E5%AE%A2%E4%B8%8E%E9%80%89%E6%8B%A9/</link><pubDate>Sat, 21 Oct 2023 20:18:02 +0800</pubDate><guid>https://hebohang.github.io/p/%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2%E5%8A%A8%E6%80%81%E5%8D%9A%E5%AE%A2%E4%B8%8E%E9%80%89%E6%8B%A9/</guid><description>&lt;h2 id="静态博客与动态博客">静态博客与动态博客&lt;/h2>
+&lt;p>静态博客和动态博客是两种不同类型的博客系统。&lt;/p>
+&lt;h3 id="区别">区别&lt;/h3>
+&lt;p>静态博客是把所有的博客文章预先生成好的静态页面，并存储在服务器上。当用户请求访问某篇博客时，服务器会直接返回对应的静态页面，不需要动态生成。
+因此，静态博客通常比较快，安全性也较高，但是缺点是不能提供动态内容，例如评论功能，数据统计功能等。
+不过我们可以想办法做到无后端的模拟动态的行为，比如说 &lt;a class="link" href="https://valine.js.org/" target="_blank" rel="noopener"
+>Valine&lt;/a> 就是一个无后端的评论系统。&lt;/p>
+&lt;p>动态博客则是在用户请求时才动态生成博客页面。动态博客通常可以提供更多的功能，例如评论，数据统计，分类标签等。
+但是，动态博客的响应速度较慢，安全性也较低，因为每次请求都需要从数据库中动态生成博客页面。&lt;/p>
+&lt;h3 id="流行框架">流行框架&lt;/h3>
+&lt;p>静态博客的流行框架有：
+&lt;a class="link" href="https://jekyllrb.com/" target="_blank" rel="noopener"
+>Jekyll&lt;/a>、
+&lt;a class="link" href="https://hexo.io/index.html" target="_blank" rel="noopener"
+>Hexo&lt;/a> 和
+&lt;a class="link" href="https://gohugo.io/" target="_blank" rel="noopener"
+>Hugo&lt;/a>&lt;/p>
+&lt;p>动态博客的流行框架有：
+&lt;a class="link" href="https://zh.wikipedia.org/zh-cn/Typecho" target="_blank" rel="noopener"
+>Typecho&lt;/a>、
+&lt;a class="link" href="https://zh.wikipedia.org/zh-cn/WordPress" target="_blank" rel="noopener"
+>WordPress&lt;/a> 和
+&lt;a class="link" href="https://www.zblogcn.com/" target="_blank" rel="noopener"
+>zblog&lt;/a>&lt;/p>
+&lt;h2 id="选择">选择&lt;/h2>
+&lt;p>我只是打算整理好笔记，以供自己以后翻阅以及分享给其他人查阅，并不想折腾后端，因此选择了免费的方案：
+选一个静态博客框架 + Github Pages 部署。&lt;/p>
+&lt;h3 id="hexo">Hexo&lt;/h3>
+&lt;p>最初我选择的是 Hexo，他使用 nodejs 作为编译所用语言（因为静态博客最后都得编译成静态的html类型），
+选用的 Next 主题，参见：&lt;a class="link" href="https://hebohang.github.io/p/hexo/" >Hexo&lt;/a>&lt;/p>
+&lt;p>但是感觉编译起来有点难受，我是把博客源文件单独上传到一个仓库：&lt;/p>
+&lt;p>&lt;a class="link" href="https://github.com/hebohang/HebohangWebsiteHexo" target="_blank" rel="noopener"
+>https://github.com/hebohang/HebohangWebsiteHexo&lt;/a>&lt;/p>
+&lt;p>每次调用 Hexo 指令再去部署的。主要是每次编译需要花一点时间，不过已经挺快了，知道我遇见了 Hugo。&lt;/p>
+&lt;h3 id="hugo">Hugo&lt;/h3>
+&lt;p>Hugo 使用 go 作为编译所用语言，静态型编程语言就是飞快，基本上所见即所得了，
+选用的 Stack 主题，参见：&lt;a class="link" href="https://hebohang.github.io/p/hugo/" >Hugo&lt;/a>&lt;/p></description></item></channel></rss>
