@@ -1,4 +1,73 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>UE5 on 何律师</title><link>https://hebohang.github.io/tags/ue5/</link><description>Recent content in UE5 on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Mon, 20 Nov 2023 15:28:35 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/tags/ue5/index.xml" rel="self" type="application/rss+xml"/><item><title>编辑器扩展</title><link>https://hebohang.github.io/p/%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95/</link><pubDate>Mon, 20 Nov 2023 15:28:35 +0800</pubDate><guid>https://hebohang.github.io/p/%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95/</guid><description>&lt;h2 id="contentbrowser-扩展">ContentBrowser 扩展&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>UE5 on 何律师</title><link>https://hebohang.github.io/tags/ue5/</link><description>Recent content in UE5 on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Mon, 20 Nov 2023 17:27:45 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/tags/ue5/index.xml" rel="self" type="application/rss+xml"/><item><title>场景优化</title><link>https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/</link><pubDate>Mon, 20 Nov 2023 17:27:45 +0800</pubDate><guid>https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/</guid><description>&lt;h2 id="world-partition">World Partition&lt;/h2>
+&lt;p>官方文档：&lt;/p>
+&lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.0/zh-CN/world-partition-in-unreal-engine/" target="_blank" rel="noopener"
+>https://docs.unrealengine.com/5.0/zh-CN/world-partition-in-unreal-engine/&lt;/a>&lt;/p>
+&lt;p>主要是服务于大世界，提供了自动数据管理和基于距离进行加载的关卡流送系统。每个关卡分为是不是 World Partition（下称为WP）的版本，我们可以通过：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">UWorld&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">World&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">GEditor&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetEditorWorldContext&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="n">World&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">World&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">IsPartitionedWorld&lt;/span>&lt;span class="p">())&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>来判断。&lt;/p>
+&lt;h3 id="非wp关卡转换为wp关卡">非WP关卡转换为WP关卡&lt;/h3>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-1.png"
+width="430"
+height="943"
+srcset="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-1_huf27707b80705762bfe81134fd438ebdf_332657_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-1_huf27707b80705762bfe81134fd438ebdf_332657_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="45"
+data-flex-basis="109px"
+>&lt;/p>
+&lt;h3 id="landscapespline">LandscapeSpline&lt;/h3>
+&lt;p>LandscapeSpline与World Partition相关。&lt;/p>
+&lt;p>核心函数：
+LandscapeEdModeSplineTools.cpp：
+BeginTool、AddControlPoint、AddSegment&lt;/p>
+&lt;p>WorldPartition中，特殊的 ALandscapeSplineActor 的Owner是空的，他是通过 LandscapeGuid 和 LandscapeActor 附着到一个 ALandscape 上的。Outer是这个UWorld.&lt;/p>
+&lt;p>非 WP 版本，是全部塞到一个 ALandscapeProxy 里面，一个 landscap e有一个 ALandscapeProxy，ALandscapeProxy 里面挂有 ULandscapeSplinesComponent，ULandscapeSplinesComponent， 里面有Segment数组和Control Point数组；&lt;/p>
+&lt;p>WP版本则是每个landscape可以挂上多个 ALandscapeSplineActor，每个 ALandscapeSplineActor 里面挂有 ULandscapeSplinesComponent。&lt;/p>
+&lt;h3 id="wp-hlod">WP-HLOD&lt;/h3>
+&lt;p>还不太清楚 WP 版本的 HLOD 和正常的有什么区别，文档：
+&lt;a class="link" href="https://docs.unrealengine.com/5.0/zh-CN/world-partition---hierarchical-level-of-detail-in-unreal-engine/" target="_blank" rel="noopener"
+>https://docs.unrealengine.com/5.0/zh-CN/world-partition---hierarchical-level-of-detail-in-unreal-engine/&lt;/a>&lt;/p>
+&lt;h2 id="ism-与-hism">ISM 与 HISM&lt;/h2>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image.png"
+width="421"
+height="395"
+srcset="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image_hu7727bc95c29248425c71d05623ca6695_31189_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image_hu7727bc95c29248425c71d05623ca6695_31189_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="继承链"
+class="gallery-image"
+data-flex-grow="106"
+data-flex-basis="255px"
+>&lt;/p>
+&lt;p>ISM（Instanced Static Meshes）学过图形学的应该都不陌生，走的dc的api接口都有所区别。但是 ISM 需要所有的 Instance 都具有相同的 LOD，也就是说如果远处和近处都是用 ISM 一起渲染的，他们仍然要是一级LOD；
+因此又推出了 HISM（Hierarchical instanced static mesh），
+具体原理可以参考：&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/58963258" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/58963258&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/441958089" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/441958089&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/443809005" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/443809005&lt;/a>&lt;/p>
+&lt;p>参考：
+&lt;a class="link" href="https://www.intel.com/content/www/us/en/developer/articles/training/unreal-engine-4-optimization-tutorial-part-2.html" target="_blank" rel="noopener"
+>https://www.intel.com/content/www/us/en/developer/articles/training/unreal-engine-4-optimization-tutorial-part-2.html&lt;/a>&lt;/p>
+&lt;h2 id="hlod">HLOD&lt;/h2>
+&lt;p>官方文档：
+&lt;a class="link" href="https://docs.unrealengine.com/5.0/zh-CN/hierarchical-level-of-detail-in-unreal-engine/" target="_blank" rel="noopener"
+>https://docs.unrealengine.com/5.0/zh-CN/hierarchical-level-of-detail-in-unreal-engine/&lt;/a>&lt;/p>
+&lt;p>针对静态Mesh资产的功能，当模型&lt;/p></description></item><item><title>编辑器扩展</title><link>https://hebohang.github.io/p/%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95/</link><pubDate>Mon, 20 Nov 2023 15:28:35 +0800</pubDate><guid>https://hebohang.github.io/p/%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95/</guid><description>&lt;h2 id="contentbrowser-扩展">ContentBrowser 扩展&lt;/h2>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
