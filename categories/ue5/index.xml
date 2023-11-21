@@ -52,14 +52,16 @@ data-flex-grow="106"
 data-flex-basis="255px"
 >&lt;/p>
 &lt;p>ISM（Instanced Static Meshes）学过图形学的应该都不陌生，走的dc的api接口都有所区别。但是 ISM 需要所有的 Instance 都具有相同的 LOD，也就是说如果远处和近处都是用 ISM 一起渲染的，他们仍然要是一级LOD；
-因此又推出了 HISM（Hierarchical instanced static mesh），
-具体原理可以参考：&lt;/p>
+因此对于植被而言，通常覆盖范围较广，但是我们不可能远处和近处都用LOD0，因此又推出了 HISM（Hierarchical instanced static mesh），他把所有的 Instance 分簇，每一簇使用一级 LOD 层。&lt;/p>
+&lt;p>具体原理可以参考：&lt;/p>
 &lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/58963258" target="_blank" rel="noopener"
 >https://zhuanlan.zhihu.com/p/58963258&lt;/a>&lt;/p>
 &lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/441958089" target="_blank" rel="noopener"
 >https://zhuanlan.zhihu.com/p/441958089&lt;/a>&lt;/p>
 &lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/443809005" target="_blank" rel="noopener"
 >https://zhuanlan.zhihu.com/p/443809005&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/42949773" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/42949773&lt;/a>&lt;/p>
 &lt;p>参考：
 &lt;a class="link" href="https://www.intel.com/content/www/us/en/developer/articles/training/unreal-engine-4-optimization-tutorial-part-2.html" target="_blank" rel="noopener"
 >https://www.intel.com/content/www/us/en/developer/articles/training/unreal-engine-4-optimization-tutorial-part-2.html&lt;/a>&lt;/p>
@@ -284,6 +286,18 @@ data-flex-basis="362px"
 &lt;h5 id="蓝图-uparamref">蓝图 UPARAM(ref)&lt;/h5>
 &lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/exposing-gameplay-elements-to-blueprints-visual-scripting-in-unreal-engine/" target="_blank" rel="noopener"
 >https://docs.unrealengine.com/5.3/zh-CN/exposing-gameplay-elements-to-blueprints-visual-scripting-in-unreal-engine/&lt;/a>&lt;/p>
+&lt;h3 id="指针和引用">指针和引用&lt;/h3>
+&lt;p>参考：
+&lt;a class="link" href="https://zhuanlan.zhihu.com/p/604213414" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/604213414&lt;/a>&lt;/p>
+&lt;h4 id="类指针">类指针&lt;/h4>
+&lt;p>UClass* 和 TSubClassOf&lt;T>&lt;/p>
+&lt;h4 id="软引用和硬引用">软引用和硬引用&lt;/h4>
+&lt;p>硬引用在资产加载时的逻辑：当A资产持有B资产的硬引用时，A资产被加载到内存中时，B资产也会被加载到内存中。&lt;/p>
+&lt;p>软引用在资产加载时的逻辑：当A资产持有B资产的软引用是，A资产被加载到内存中时，B资产不会被加载。&lt;/p>
+&lt;p>软引用本质上存的是资产的路径。&lt;/p>
+&lt;p>软对象引用：&lt;code>TSoftObjectPtr&amp;lt;T&amp;gt; SoftObjRef;&lt;/code>&lt;/p>
+&lt;p>软类引用：&lt;code>TSoftClassPtr&amp;lt;T&amp;gt; SoftClassRef;&lt;/code>&lt;/p>
 &lt;h3 id="字符串处理">字符串处理&lt;/h3>
 &lt;h4 id="fstringfnameftext互转">FString、FName、FText互转&lt;/h4>
 &lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/string-handling-in-unreal-engine/" target="_blank" rel="noopener"
