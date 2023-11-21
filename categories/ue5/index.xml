@@ -84,7 +84,20 @@ data-flex-basis="180px"
 一共有四种功能：Merge、Simplify、Batch、Approximate，每一种功能都可以在下面的 Merge Actors Settings 里面进行设置配置。&lt;/p>
 &lt;p>官方文档：
 &lt;a class="link" href="https://docs.unrealengine.com/5.0/zh-CN/merging-actors-in-unreal-engine/" target="_blank" rel="noopener"
->https://docs.unrealengine.com/5.0/zh-CN/merging-actors-in-unreal-engine/&lt;/a>&lt;/p></description></item><item><title>编辑器扩展</title><link>https://hebohang.github.io/p/%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95/</link><pubDate>Mon, 20 Nov 2023 15:28:35 +0800</pubDate><guid>https://hebohang.github.io/p/%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95/</guid><description>&lt;h2 id="contentbrowser-扩展">ContentBrowser 扩展&lt;/h2>
+>https://docs.unrealengine.com/5.0/zh-CN/merging-actors-in-unreal-engine/&lt;/a>&lt;/p>
+&lt;h3 id="相关代码">相关代码&lt;/h3>
+&lt;p>UE 自带的这个合并功能，其中的 Batch 已经可以达到合批的功能了，其中注册到Editor的主要代码在：&lt;/p>
+&lt;p>&lt;code>void FLevelEditorContextMenuImpl::FillMergeActorsMenu(UToolMenu* Menu)&lt;/code>;&lt;/p>
+&lt;p>具体功能则是在 IMergeActorsTool 的接口 RunMergeFromSelection 中，可以参考做 Batch 的时候的调用栈：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-3.png"
+width="1549"
+height="266"
+srcset="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-3_hu10536a74363f1dc16bb821d5d7596586_110612_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-3_hu10536a74363f1dc16bb821d5d7596586_110612_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="582"
+data-flex-basis="1397px"
+>&lt;/p></description></item><item><title>编辑器扩展</title><link>https://hebohang.github.io/p/%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95/</link><pubDate>Mon, 20 Nov 2023 15:28:35 +0800</pubDate><guid>https://hebohang.github.io/p/%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95/</guid><description>&lt;h2 id="contentbrowser-扩展">ContentBrowser 扩展&lt;/h2>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
