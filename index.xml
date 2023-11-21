@@ -793,7 +793,96 @@ data-flex-basis="1035px"
 &lt;p>我们选择的主题theme是Next主题，参考使用文档：
 &lt;a class="link" href="https://theme-next.iissnan.com/getting-started.html" target="_blank" rel="noopener"
 >https://theme-next.iissnan.com/getting-started.html&lt;/a>&lt;/p>
-&lt;p>Github位置：https://github.com/theme-next/hexo-theme-next&lt;/p></description></item><item><title>归档</title><link>https://hebohang.github.io/archives/</link><pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate><guid>https://hebohang.github.io/archives/</guid><description/></item><item><title>HEngine</title><link>https://hebohang.github.io/hengine/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://hebohang.github.io/hengine/</guid><description>&lt;p>HEngine说明文档：&lt;/p>
+&lt;p>Github位置：https://github.com/theme-next/hexo-theme-next&lt;/p></description></item><item><title>Git</title><link>https://hebohang.github.io/p/git/</link><pubDate>Mon, 21 Mar 2022 00:00:00 +0000</pubDate><guid>https://hebohang.github.io/p/git/</guid><description>&lt;h2 id="想切换成-ssh-协议来-push">想切换成 ssh 协议来 push&lt;/h2>
+&lt;p>&lt;a class="link" href="https://stackoverflow.com/questions/14762034/push-to-github-without-a-password-using-ssh-key" target="_blank" rel="noopener"
+>https://stackoverflow.com/questions/14762034/push-to-github-without-a-password-using-ssh-key&lt;/a>&lt;/p>
+&lt;p>示例：
+&lt;code>git add xxx&lt;/code>
+&lt;code>git commit -m &amp;quot;xxx&amp;quot;&lt;/code>
+&lt;code>git remote set-url origin git@github.com:hebohang/glfw.git&lt;/code>
+&lt;code>git push&lt;/code>&lt;/p>
+&lt;h2 id="错误记录">错误记录&lt;/h2>
+&lt;h3 id="git-submodule-already-exists-in-the-index">git submodule: &amp;ldquo;already exists in the index&amp;rdquo;&lt;/h3>
+&lt;p>&lt;a class="link" href="https://stackoverflow.com/questions/12898278/issue-with-adding-common-code-as-git-submodule-already-exists-in-the-index" target="_blank" rel="noopener"
+>https://stackoverflow.com/questions/12898278/issue-with-adding-common-code-as-git-submodule-already-exists-in-the-index&lt;/a>&lt;/p>
+&lt;h3 id="openssl-ssl_read">OpenSSL SSL_read:&lt;/h3>
+&lt;p>git clone 的时候发生的错误。&lt;/p>
+&lt;p>这是服务器的SSL证书没有经过第三方机构的签署，所以报错。&lt;/p>
+&lt;p>解决方法：&lt;code>git config --global http.sslVerify &amp;quot;false&amp;quot;&lt;/code>&lt;/p>
+&lt;p>&lt;a class="link" href="https://www.cnblogs.com/jfen625/p/12995408.html" target="_blank" rel="noopener"
+>https://www.cnblogs.com/jfen625/p/12995408.html&lt;/a>&lt;/p>
+&lt;h2 id="文件夹大小写问题">文件夹大小写问题&lt;/h2>
+&lt;p>貌似 Windows 默认不分大小写，但是我们可以在项目的：.git-&amp;gt;config 中将 ignorecase 手动改为 false&lt;/p>
+&lt;h2 id="更新版本">更新版本&lt;/h2>
+&lt;p>Windows：git bash
+&lt;code>git update-git-for-windows&lt;/code>&lt;/p>
+&lt;h2 id="一些参数">一些参数&lt;/h2>
+&lt;h3 id="比较差异">比较差异&lt;/h3>
+&lt;p>git difftool &amp;ndash;dir-diff&lt;/p>
+&lt;h3 id="--depth1">&amp;ndash;depth=1&lt;/h3>
+&lt;p>建议不想给项目做贡献或者看历史啥的就用这个就好了。&lt;/p>
+&lt;h3 id="--recursive">&amp;ndash;recursive&lt;/h3>
+&lt;p>在有子目录的时候需要用：
+&lt;code>git clone --recursive&lt;/code>&lt;/p>
+&lt;h3 id="-b">-b&lt;/h3>
+&lt;p>clone 的时候可以指定分支，例如：&lt;/p>
+&lt;p>&lt;code>git clone -b 4.27.2-release --depth=1 git@github.com:EpicGames/UnrealEngine.git&lt;/code>&lt;/p>
+&lt;h2 id="功能记录">功能记录&lt;/h2>
+&lt;h3 id="cherry-pick">cherry pick&lt;/h3>
+&lt;p>如果只想要某个commit，不需要直接把branch全部合入过来，可以用 cherry pick：
+&lt;a class="link" href="https://www.ruanyifeng.com/blog/2020/04/git-cherry-pick.html" target="_blank" rel="noopener"
+>https://www.ruanyifeng.com/blog/2020/04/git-cherry-pick.html&lt;/a>&lt;/p>
+&lt;h3 id="reset">reset&lt;/h3>
+&lt;p>想把commit的东西给回退到本地，更改后或者pull后重新commit上去，可以用 git reset
+&lt;img src="https://img2023.cnblogs.com/blog/1752640/202302/1752640-20230222155245075-632547885.png"
+loading="lazy"
+alt="image"
+>
+&lt;a class="link" href="https://juejin.cn/post/6844904185129861128" target="_blank" rel="noopener"
+>https://juejin.cn/post/6844904185129861128&lt;/a>&lt;/p>
+&lt;h2 id="submodule">submodule&lt;/h2>
+&lt;h3 id="更新">更新&lt;/h3>
+&lt;p>&lt;code>git submodule update --init --recursive&lt;/code>&lt;/p>
+&lt;h2 id="ubuntu-git">Ubuntu Git&lt;/h2>
+&lt;p>&lt;a class="link" href="https://blog.csdn.net/Chenftli/article/details/81141010" target="_blank" rel="noopener"
+>https://blog.csdn.net/Chenftli/article/details/81141010&lt;/a>&lt;/p>
+&lt;h3 id="关于-gitgithubcom-permission-denied-publickey">关于 &lt;a class="link" href="mailto:git@github.com" >git@github.com&lt;/a>: Permission denied (publickey).&lt;/h3>
+&lt;p>&lt;a class="link" href="https://docs.github.com/cn/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent" target="_blank" rel="noopener"
+>https://docs.github.com/cn/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://docs.github.com/cn/authentication/troubleshooting-ssh/error-permission-denied-publickey" target="_blank" rel="noopener"
+>https://docs.github.com/cn/authentication/troubleshooting-ssh/error-permission-denied-publickey&lt;/a>&lt;/p>
+&lt;h2 id="github">GitHub&lt;/h2>
+&lt;h3 id="查看-history">查看 history&lt;/h3>
+&lt;p>&lt;img src="https://hebohang.github.io/p/git/image.png"
+width="1186"
+height="438"
+srcset="https://hebohang.github.io/p/git/image_hu240e16d6ca62f3e24ceeb827c6efd220_145973_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/git/image_hu240e16d6ca62f3e24ceeb827c6efd220_145973_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="270"
+data-flex-basis="649px"
+>&lt;/p>
+&lt;p>&lt;a class="link" href="https://blog.csdn.net/weixin_30615767/article/details/100091029" target="_blank" rel="noopener"
+>https://blog.csdn.net/weixin_30615767/article/details/100091029&lt;/a>&lt;/p>
+&lt;h3 id="设置默认分支">设置默认分支&lt;/h3>
+&lt;p>&lt;img src="https://hebohang.github.io/p/git/image-1.png"
+width="1842"
+height="723"
+srcset="https://hebohang.github.io/p/git/image-1_hu846725f7cb98f8b02a41fb6752da1805_96754_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/git/image-1_hu846725f7cb98f8b02a41fb6752da1805_96754_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="254"
+data-flex-basis="611px"
+>&lt;/p>
+&lt;h3 id="fork的项目升级">fork的项目升级&lt;/h3>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/291845721" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/291845721&lt;/a>&lt;/p>
+&lt;p>指明我们需要同步的仓库：&lt;/p>
+&lt;p>&lt;code>git remote add upstream https://github.com/OriginalRepo/OriginalProject.git&lt;/code>&lt;/p>
+&lt;p>拉取更新的 branches 和 commits：
+&lt;code>git fetch upstream&lt;/code>&lt;/p>
+&lt;p>合并：
+&lt;code>git merge upstream/master&lt;/code>&lt;/p></description></item><item><title>归档</title><link>https://hebohang.github.io/archives/</link><pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate><guid>https://hebohang.github.io/archives/</guid><description/></item><item><title>HEngine</title><link>https://hebohang.github.io/hengine/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://hebohang.github.io/hengine/</guid><description>&lt;p>HEngine说明文档：&lt;/p>
 &lt;p>&lt;a class="link" href="https://hebohang.gitbook.io/hengine/" target="_blank" rel="noopener"
 >https://hebohang.gitbook.io/hengine/&lt;/a>&lt;/p>
 &lt;p>HEngineBook:&lt;/p>
