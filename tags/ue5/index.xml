@@ -97,7 +97,41 @@ loading="lazy"
 class="gallery-image"
 data-flex-grow="582"
 data-flex-basis="1397px"
->&lt;/p></description></item><item><title>编辑器扩展</title><link>https://hebohang.github.io/p/%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95/</link><pubDate>Mon, 20 Nov 2023 15:28:35 +0800</pubDate><guid>https://hebohang.github.io/p/%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95/</guid><description>&lt;h2 id="contentbrowser-扩展">ContentBrowser 扩展&lt;/h2>
+>&lt;/p>
+&lt;h2 id="一键生成碰撞">一键生成碰撞&lt;/h2>
+&lt;p>打开一个 Static Mesh 的资产，在 Collision 这里，如果有 Primitives，则是简单碰撞，一般美术自己编辑的碰撞信息
+最后也会进这里面：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-4.png"
+width="858"
+height="708"
+srcset="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-4_hud96d5c410edf75146883f42bebeaa7b5_63748_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-4_hud96d5c410edf75146883f42bebeaa7b5_63748_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="121"
+data-flex-basis="290px"
+>&lt;/p>
+&lt;p>但是如果一个物体没有简单碰撞，UE 则会自动生成一个复杂碰撞（即三角面的碰撞体）：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-5.png"
+width="533"
+height="409"
+srcset="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-5_hucf81599ccb15bfaa58d631e6923284dd_180328_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-5_hucf81599ccb15bfaa58d631e6923284dd_180328_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="简单碰撞与复杂碰撞"
+class="gallery-image"
+data-flex-grow="130"
+data-flex-basis="312px"
+>&lt;/p>
+&lt;p>这样太费了，我们希望做的是遍历场景所有 Mesh，检查是否有简单碰撞，若没有则自动生成。UE 是有自动生成接口的：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-6.png"
+width="992"
+height="450"
+srcset="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-6_hu9402173d34d4f8cdd8c43d878ba32edd_383484_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-6_hu9402173d34d4f8cdd8c43d878ba32edd_383484_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="220"
+data-flex-basis="529px"
+>&lt;/p>
+&lt;p>我们希望生成的是 DOP 的或者 Convex 的。&lt;/p></description></item><item><title>编辑器扩展</title><link>https://hebohang.github.io/p/%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95/</link><pubDate>Mon, 20 Nov 2023 15:28:35 +0800</pubDate><guid>https://hebohang.github.io/p/%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95/</guid><description>&lt;h2 id="contentbrowser-扩展">ContentBrowser 扩展&lt;/h2>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
