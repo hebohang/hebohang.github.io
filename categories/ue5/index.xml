@@ -98,6 +98,11 @@ class="gallery-image"
 data-flex-grow="582"
 data-flex-basis="1397px"
 >&lt;/p>
+&lt;p>做 Batch 的核心函数位于 MeshMergeUtilities.cpp：&lt;code>FMeshMergeUtilities::MergeComponentsToInstances&lt;/code>&lt;/p>
+&lt;p>bReplaceSourceActors 可以指定是否要把之前的Actor替换为合并后的模型；其中在 FMeshInstancingSettings 可以指定是否依赖 HLOD Volume，可以指定 ISMComponentToUse
+（我们可以在这里换成 UHierarchicalInstancedStaticMeshComponent::StaticClass()），这个设置就和面板中的是对应起来的。&lt;/p>
+&lt;p>最后这个 Batch 功能就可以做到：对于选中的所有 Static Mesh 的 Actor，若能合并（材质、Mesh相同）则合并为一个 HISM，一个 HLOD Volumn 内的要单独合成一个；并且
+我们可以指定最小的应该合并的数量（FMeshInstancingSettings-InstanceReplacementThreshold），指定为5就需要有5个能合并的物体才会去合。&lt;/p>
 &lt;h2 id="一键生成碰撞">一键生成碰撞&lt;/h2>
 &lt;p>打开一个 Static Mesh 的资产，在 Collision 这里，如果有 Primitives，则是简单碰撞，一般美术自己编辑的碰撞信息
 最后也会进这里面：&lt;/p>
