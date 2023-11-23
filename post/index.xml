@@ -477,6 +477,28 @@ data-flex-basis="362px"
 &lt;p>软引用本质上存的是资产的路径。&lt;/p>
 &lt;p>软对象引用：&lt;code>TSoftObjectPtr&amp;lt;T&amp;gt; SoftObjRef;&lt;/code>&lt;/p>
 &lt;p>软类引用：&lt;code>TSoftClassPtr&amp;lt;T&amp;gt; SoftClassRef;&lt;/code>&lt;/p>
+&lt;p>因此软引用主要是用来做异步加载的，参考：&lt;/p>
+&lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/asynchronous-asset-loading-in-unreal-engine/" target="_blank" rel="noopener"
+>https://docs.unrealengine.com/5.3/zh-CN/asynchronous-asset-loading-in-unreal-engine/&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/referencing-assets-in-unreal-engine/" target="_blank" rel="noopener"
+>https://docs.unrealengine.com/5.3/zh-CN/referencing-assets-in-unreal-engine/&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/351106187" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/351106187&lt;/a>&lt;/p>
+&lt;h5 id="源码分析">源码分析&lt;/h5>
+&lt;p>看类：FSoftObjectPath&lt;/p>
+&lt;p>有成员变量：
+&lt;img src="https://hebohang.github.io/p/ue%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-2.png"
+width="936"
+height="496"
+srcset="https://hebohang.github.io/p/ue%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-2_hudde36337c149c4503c19d74b76f04565_83995_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/ue%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-2_hudde36337c149c4503c19d74b76f04565_83995_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="188"
+data-flex-basis="452px"
+>&lt;/p>
+&lt;p>看注释也知道他是指向一个 Level 中的 Object 的路径，因此持有软引用的时候加载并不会加载资产，可以用 &lt;code>IsPending()&lt;/code>
+方法来判断是否可以访问。&lt;/p>
+&lt;p>继承关系：TSoftObjectPtr 只是对 FSoftObjectPtr 的一个 Wrapper，FSoftObjectPtr 继承自 &lt;code>TPersistentObjectPtr&amp;lt;FSoftObjectPath&amp;gt;&lt;/code>&lt;/p>
 &lt;h3 id="字符串处理">字符串处理&lt;/h3>
 &lt;h4 id="fstringfnameftext互转">FString、FName、FText互转&lt;/h4>
 &lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/string-handling-in-unreal-engine/" target="_blank" rel="noopener"
