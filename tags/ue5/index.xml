@@ -135,6 +135,42 @@ data-flex-basis="1397px"
 （我们可以在这里换成 UHierarchicalInstancedStaticMeshComponent::StaticClass()），这个设置就和面板中的是对应起来的。&lt;/p>
 &lt;p>最后这个 Batch 功能就可以做到：对于选中的所有 Static Mesh 的 Actor，若能合并（材质、Mesh相同）则合并为一个 HISM，一个 HLOD Volumn 内的要单独合成一个；并且
 我们可以指定最小的应该合并的数量（FMeshInstancingSettings-InstanceReplacementThreshold），指定为5就需要有5个能合并的物体才会去合。&lt;/p>
+&lt;h4 id="源码修改">源码修改&lt;/h4>
+&lt;ol>
+&lt;li>如果是HISM，则把HISM内的Instance给重新加入到合批中&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-8.png"
+width="2124"
+height="607"
+srcset="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-8_hu17949de834874ab5c0703747e35fc0fb_212606_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-8_hu17949de834874ab5c0703747e35fc0fb_212606_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="349"
+data-flex-basis="839px"
+>&lt;/p>
+&lt;p>这里还把之前的注释掉了，因为我们之前的 HISM 的 Actor 类型就是一个 AActor，会与设置中最后合批的类型 ActorClassToUse 相同，我们不希望被跳过：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-9.png"
+width="1028"
+height="385"
+srcset="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-9_hua2c730b43e18cdcb48385cbb00bc0df5_50636_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-9_hua2c730b43e18cdcb48385cbb00bc0df5_50636_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="267"
+data-flex-basis="640px"
+>&lt;/p>
+&lt;ol start="2">
+&lt;li>UE源码这里没有指定初始值，经过测试这里的 HLODVolume 可能会沿用之前的 HLODVolume 值，导致最后合批不严格按照 HLODVolume 划分。
+我在这里补上了初始值。&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-7.png"
+width="1523"
+height="513"
+srcset="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-7_hu610f90c74c5e3cab6b9fc222645852e9_120690_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-7_hu610f90c74c5e3cab6b9fc222645852e9_120690_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="296"
+data-flex-basis="712px"
+>&lt;/p>
 &lt;h2 id="一键生成碰撞">一键生成碰撞&lt;/h2>
 &lt;p>打开一个 Static Mesh 的资产，在 Collision 这里，如果有 Primitives，则是简单碰撞，一般美术自己编辑的碰撞信息
 最后也会进这里面：&lt;/p>
