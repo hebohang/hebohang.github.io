@@ -85,6 +85,7 @@ data-flex-basis="255px"
 >&lt;/p>
 &lt;p>ISM（Instanced Static Meshes）学过图形学的应该都不陌生，走的dc的api接口都有所区别。但是 ISM 需要所有的 Instance 都具有相同的 LOD，也就是说如果远处和近处都是用 ISM 一起渲染的，他们仍然要是一级LOD；
 因此对于植被而言，通常覆盖范围较广，但是我们不可能远处和近处都用LOD0，因此又推出了 HISM（Hierarchical instanced static mesh），他把所有的 Instance 分簇，每一簇使用一级 LOD 层。&lt;/p>
+&lt;p>因此 HISM 可能每一簇是一个 dc，虽然多了 dc 以及组织结构的管理消耗，但是剔除会更加方便。&lt;/p>
 &lt;p>具体原理可以参考：&lt;/p>
 &lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/58963258" target="_blank" rel="noopener"
 >https://zhuanlan.zhihu.com/p/58963258&lt;/a>&lt;/p>
