@@ -145,6 +145,34 @@ data-flex-basis="1035px"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="参考">参考&lt;/h3>
+&lt;/div>&lt;h4 id="开启waline评论">开启waline评论&lt;/h4>
+&lt;p>主要见此链接：
+&lt;a class="link" href="https://waline.js.org/guide/get-started/" target="_blank" rel="noopener"
+>https://waline.js.org/guide/get-started/&lt;/a>&lt;/p>
+&lt;p>一直配置完 Vercel 部署这一步：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/hugo/image.png"
+width="1691"
+height="1249"
+srcset="https://hebohang.github.io/p/hugo/image_hufecf2ae8f3eed98366d4af318afb86d7_301745_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/hugo/image_hufecf2ae8f3eed98366d4af318afb86d7_301745_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="135"
+data-flex-basis="324px"
+>&lt;/p>
+&lt;p>点击 Visit，此时的网址即为服务端地址，然后直接填到 Stack 模板中：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/hugo/image-2.png"
+width="876"
+height="556"
+srcset="https://hebohang.github.io/p/hugo/image-2_hud0fd5ace4298d70cbb86e5f458c02bc4_37342_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/hugo/image-2_hud0fd5ace4298d70cbb86e5f458c02bc4_37342_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="157"
+data-flex-basis="378px"
+>&lt;/p>
+&lt;p>即可开启 waline 评论。&lt;/p>
+&lt;p>参考：
+&lt;a class="link" href="https://imayx.top/waline/" target="_blank" rel="noopener"
+>https://imayx.top/waline/&lt;/a>&lt;/p>
+&lt;h3 id="参考">参考&lt;/h3>
 &lt;p>&lt;a class="link" href="https://blog.reincarnatey.net/2023/build-hugo-blog-with-stack-mod/#%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99%E5%8D%9A%E5%AE%A2" target="_blank" rel="noopener"
 >https://blog.reincarnatey.net/2023/build-hugo-blog-with-stack-mod/#%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99%E5%8D%9A%E5%AE%A2&lt;/a>&lt;/p></description></item></channel></rss>
