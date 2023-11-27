@@ -1,4 +1,19 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>UE5 on 何律师</title><link>https://hebohang.github.io/categories/ue5/</link><description>Recent content in UE5 on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Thu, 23 Nov 2023 18:01:40 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/categories/ue5/index.xml" rel="self" type="application/rss+xml"/><item><title>杂项</title><link>https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/</link><pubDate>Thu, 23 Nov 2023 18:01:40 +0800</pubDate><guid>https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/</guid><description>&lt;h2 id="获取关卡中一个-actor-的被引用情况">获取关卡中一个 Actor 的被引用情况&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>UE5 on 何律师</title><link>https://hebohang.github.io/categories/ue5/</link><description>Recent content in UE5 on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Mon, 27 Nov 2023 19:38:35 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/categories/ue5/index.xml" rel="self" type="application/rss+xml"/><item><title>Cook</title><link>https://hebohang.github.io/p/cook/</link><pubDate>Mon, 27 Nov 2023 19:38:35 +0800</pubDate><guid>https://hebohang.github.io/p/cook/</guid><description>&lt;h2 id="cook-content">Cook Content&lt;/h2>
+&lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/cooking-content-in-unreal-engine/" target="_blank" rel="noopener"
+>https://docs.unrealengine.com/5.3/zh-CN/cooking-content-in-unreal-engine/&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/build-operations-cooking-packaging-deploying-and-running-projects-in-unreal-engine/" target="_blank" rel="noopener"
+>https://docs.unrealengine.com/5.3/zh-CN/build-operations-cooking-packaging-deploying-and-running-projects-in-unreal-engine/&lt;/a>&lt;/p>
+&lt;p>测试命令：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl"> .&lt;span class="se">\U&lt;/span>nrealEditor-Cmd.exe E:&lt;span class="se">\W&lt;/span>ork&lt;span class="se">\x&lt;/span>xx&lt;span class="se">\x&lt;/span>xx.uproject -run&lt;span class="o">=&lt;/span>cook -targetplatform&lt;span class="o">=&lt;/span>Windows -map&lt;span class="o">=&lt;/span>TestMap.umap
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这里的 .\ 一定需要；但是 -map 我测试没有起作用，还有待考察。&lt;/p>
+&lt;p>测完会放在项目目录的 &lt;code>Saved\Cooked\Windows\&lt;/code> 中。&lt;/p></description></item><item><title>杂项</title><link>https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/</link><pubDate>Thu, 23 Nov 2023 18:01:40 +0800</pubDate><guid>https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/</guid><description>&lt;h2 id="获取关卡中一个-actor-的被引用情况">获取关卡中一个 Actor 的被引用情况&lt;/h2>
 &lt;p>背景：做合批的时候剔除被引用的 Actor&lt;/p>
 &lt;p>例如：
 &lt;img src="https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/image.png"
@@ -290,6 +305,7 @@ data-flex-grow="91"
 data-flex-basis="219px"
 >&lt;/p>
 &lt;h2 id="弹窗">弹窗&lt;/h2>
+&lt;p>自定义一个弹窗：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
@@ -332,7 +348,36 @@ data-flex-basis="219px"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div></description></item><item><title>UE基础知识</title><link>https://hebohang.github.io/p/ue%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</link><pubDate>Fri, 17 Nov 2023 15:56:23 +0800</pubDate><guid>https://hebohang.github.io/p/ue%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</guid><description>&lt;h2 id="编译链接">编译链接&lt;/h2>
+&lt;/div>&lt;p>如果只是想要一个弹出窗口显示信息，可以直接使用 FMessageDialog：&lt;/p>
+&lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/en-US/API/Runtime/Core/Misc/FMessageDialog/" target="_blank" rel="noopener"
+>https://docs.unrealengine.com/5.3/en-US/API/Runtime/Core/Misc/FMessageDialog/&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/268069477" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/268069477&lt;/a>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">FMessageDialog&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">Open&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">EAppMsgType&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">Ok&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">NSLOCTEXT&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;xx&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;xxx&amp;#34;&lt;/span>&lt;span class="p">));&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">int32&lt;/span> &lt;span class="n">Count&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">32&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FString&lt;/span> &lt;span class="n">Dialog&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FString&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">Printf&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">TEXT&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;%d&amp;#34;&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="n">Count&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FMessageDialog&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">Open&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">EAppMsgType&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">Ok&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">FText&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">FromString&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Dialog&lt;/span>&lt;span class="p">));&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;img src="https://hebohang.github.io/p/%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95/image-1.png"
+width="205"
+height="146"
+srcset="https://hebohang.github.io/p/%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95/image-1_hu66070d6bf5e8d644a7dee648925409ec_7704_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/%E7%BC%96%E8%BE%91%E5%99%A8%E6%89%A9%E5%B1%95/image-1_hu66070d6bf5e8d644a7dee648925409ec_7704_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="140"
+data-flex-basis="336px"
+>&lt;/p></description></item><item><title>UE基础知识</title><link>https://hebohang.github.io/p/ue%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</link><pubDate>Fri, 17 Nov 2023 15:56:23 +0800</pubDate><guid>https://hebohang.github.io/p/ue%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</guid><description>&lt;h2 id="编译链接">编译链接&lt;/h2>
 &lt;h3 id="源码编译">源码编译&lt;/h3>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
