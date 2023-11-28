@@ -3,6 +3,7 @@
 >https://docs.unrealengine.com/5.3/zh-CN/cooking-content-in-unreal-engine/&lt;/a>&lt;/p>
 &lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/build-operations-cooking-packaging-deploying-and-running-projects-in-unreal-engine/" target="_blank" rel="noopener"
 >https://docs.unrealengine.com/5.3/zh-CN/build-operations-cooking-packaging-deploying-and-running-projects-in-unreal-engine/&lt;/a>&lt;/p>
+&lt;h3 id="命令行启动">命令行启动&lt;/h3>
 &lt;p>测试命令：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -12,8 +13,58 @@
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl"> .&lt;span class="se">\U&lt;/span>nrealEditor-Cmd.exe E:&lt;span class="se">\W&lt;/span>ork&lt;span class="se">\x&lt;/span>xx&lt;span class="se">\x&lt;/span>xx.uproject -run&lt;span class="o">=&lt;/span>cook -targetplatform&lt;span class="o">=&lt;/span>Windows -map&lt;span class="o">=&lt;/span>TestMap.umap
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>这里的 .\ 一定需要；但是 -map 我测试没有起作用，还有待考察。&lt;/p>
-&lt;p>测完会放在项目目录的 &lt;code>Saved\Cooked\Windows\&lt;/code> 中。&lt;/p></description></item><item><title>杂项</title><link>https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/</link><pubDate>Thu, 23 Nov 2023 18:01:40 +0800</pubDate><guid>https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/</guid><description>&lt;h2 id="获取关卡中一个-actor-的被引用情况">获取关卡中一个 Actor 的被引用情况&lt;/h2>
+&lt;/div>&lt;p>这里的 .\ 一定需要，目录在项目路径的 Engine\Binaries\Win64 中；但是 -map 我测试没有起作用，还有待考察。&lt;/p>
+&lt;p>测完会放在项目目录的 &lt;code>Saved\Cooked\Windows\&lt;/code> 中。&lt;/p>
+&lt;h3 id="编辑器与ide下启动">编辑器与IDE下启动&lt;/h3>
+&lt;p>编辑器下，我们可以点击cook：
+&lt;img src="https://hebohang.github.io/p/cook/image.png"
+width="1189"
+height="413"
+srcset="https://hebohang.github.io/p/cook/image_hub0fbeb53c2542ef1941cb0d8f5ef4e95_258829_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/cook/image_hub0fbeb53c2542ef1941cb0d8f5ef4e95_258829_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="287"
+data-flex-basis="690px"
+>&lt;/p>
+&lt;p>此时 Output Log 会有对应 Commandlet（这里的 xxx 是你的项目路径）：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">E:&lt;span class="se">\W&lt;/span>ork&lt;span class="se">\x&lt;/span>xx&lt;span class="se">\E&lt;/span>ngine&lt;span class="se">\B&lt;/span>inaries&lt;span class="se">\W&lt;/span>in64&lt;span class="se">\U&lt;/span>nrealEditor-Cmd.exe E:&lt;span class="se">\W&lt;/span>ork&lt;span class="se">\x&lt;/span>xxxxxx&lt;span class="se">\C&lt;/span>7.uproject -run&lt;span class="o">=&lt;/span>Cook -TargetPlatform&lt;span class="o">=&lt;/span>Windows -unversioned -fileopenlog -abslog&lt;span class="o">=&lt;/span>E:&lt;span class="se">\W&lt;/span>ork&lt;span class="se">\x&lt;/span>xx&lt;span class="se">\E&lt;/span>ngine&lt;span class="se">\P&lt;/span>rograms&lt;span class="se">\A&lt;/span>utomationTool&lt;span class="se">\S&lt;/span>aved&lt;span class="se">\C&lt;/span>ook-2023.11.28-15.04.02.txt -stdout -CrashForUAT -unattended -NoLogTimes -UTF8Output
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>我们可以把对应参数填入 UE5 项目参数中进行调试：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/cook/image-2.png"
+width="1257"
+height="277"
+srcset="https://hebohang.github.io/p/cook/image-2_hua590954d428503b166d7bc2b367f775b_38334_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/cook/image-2_hua590954d428503b166d7bc2b367f775b_38334_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="453"
+data-flex-basis="1089px"
+>&lt;/p>
+&lt;p>此时对于贴图的 Cook 的调用栈为：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/cook/image-1.png"
+width="1071"
+height="469"
+srcset="https://hebohang.github.io/p/cook/image-1_hu36842ff2b1e53e3997611bb0124a5e50_61319_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/cook/image-1_hu36842ff2b1e53e3997611bb0124a5e50_61319_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="228"
+data-flex-basis="548px"
+>&lt;/p>
+&lt;p>可能的分支：
+&lt;img src="https://hebohang.github.io/p/cook/image-3.png"
+width="1014"
+height="197"
+srcset="https://hebohang.github.io/p/cook/image-3_hu1d1c666e8f997630a13109ef9f281f63_25307_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/cook/image-3_hu1d1c666e8f997630a13109ef9f281f63_25307_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="514"
+data-flex-basis="1235px"
+>&lt;/p></description></item><item><title>杂项</title><link>https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/</link><pubDate>Thu, 23 Nov 2023 18:01:40 +0800</pubDate><guid>https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/</guid><description>&lt;h2 id="获取关卡中一个-actor-的被引用情况">获取关卡中一个 Actor 的被引用情况&lt;/h2>
 &lt;p>背景：做合批的时候剔除被引用的 Actor&lt;/p>
 &lt;p>例如：
 &lt;img src="https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/image.png"

@@ -1,8 +1,67 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>何律师</title><link>https://hebohang.github.io/</link><description>Recent content on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Mon, 27 Nov 2023 19:38:35 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Cook</title><link>https://hebohang.github.io/p/cook/</link><pubDate>Mon, 27 Nov 2023 19:38:35 +0800</pubDate><guid>https://hebohang.github.io/p/cook/</guid><description>&lt;h2 id="cook-content">Cook Content&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>何律师</title><link>https://hebohang.github.io/</link><description>Recent content on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Tue, 28 Nov 2023 15:48:26 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>VS2022</title><link>https://hebohang.github.io/p/vs2022/</link><pubDate>Tue, 28 Nov 2023 15:48:26 +0800</pubDate><guid>https://hebohang.github.io/p/vs2022/</guid><description>&lt;h2 id="条件断点">条件断点&lt;/h2>
+&lt;h3 id="判断字符串是否相等">判断字符串是否相等&lt;/h3>
+&lt;p>我们不能用普通的 operator ==，是因为我们在 Debug Conditions 里面不允许有副作用（Side Effects），因此
+只能用有限的几个函数：
+&lt;code>strlen, wcslen, strnlen, wcsnlen, strcmp, wcscmp, _stricmp, _wcsicmp, strncmp, wcsncmp, _strnicmp, _wcsnicmp, strchr, wcschr, strstr, wcsstr&lt;/code>&lt;/p>
+&lt;p>错误情况（有 side effects）：
+&lt;img src="https://hebohang.github.io/p/vs2022/image-2.png"
+width="473"
+height="259"
+srcset="https://hebohang.github.io/p/vs2022/image-2_hu6deedacfb283c2a30046c747879c11cd_14799_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/vs2022/image-2_hu6deedacfb283c2a30046c747879c11cd_14799_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="182"
+data-flex-basis="438px"
+>&lt;/p>
+&lt;h4 id="c">C++&lt;/h4>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">s&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">size&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="o">&amp;gt;&lt;/span> &lt;span class="mi">0&lt;/span> &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> &lt;span class="n">strcmp&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">s&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="s">&amp;#34;abc&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="mi">0&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>例子：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/vs2022/image.png"
+width="1037"
+height="360"
+srcset="https://hebohang.github.io/p/vs2022/image_hu572193248622b013ac9d16579c92211b_30769_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/vs2022/image_hu572193248622b013ac9d16579c92211b_30769_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="288"
+data-flex-basis="691px"
+>&lt;/p>
+&lt;p>参考：
+&lt;a class="link" href="https://blog.csdn.net/sinat_41657218/article/details/124686114" target="_blank" rel="noopener"
+>https://blog.csdn.net/sinat_41657218/article/details/124686114&lt;/a>&lt;/p>
+&lt;h4 id="ue5">UE5&lt;/h4>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">wcscmp&lt;/span>&lt;span class="p">((&lt;/span>&lt;span class="kt">wchar_t&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="n">MyString&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Data&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">AllocatorInstance&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Data&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="sa">L&lt;/span>&lt;span class="s">&amp;#34;MyText&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="mi">0&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>例子：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/vs2022/image-1.png"
+width="1115"
+height="221"
+srcset="https://hebohang.github.io/p/vs2022/image-1_hu108bb9d2514b2b603af77b3afbac53d9_30427_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/vs2022/image-1_hu108bb9d2514b2b603af77b3afbac53d9_30427_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="504"
+data-flex-basis="1210px"
+>&lt;/p>
+&lt;p>参考：
+&lt;a class="link" href="https://forums.unrealengine.com/t/how-to-compare-a-fstring-in-c-condition-breakpoints/358380" target="_blank" rel="noopener"
+>https://forums.unrealengine.com/t/how-to-compare-a-fstring-in-c-condition-breakpoints/358380&lt;/a>&lt;/p></description></item><item><title>Cook</title><link>https://hebohang.github.io/p/cook/</link><pubDate>Mon, 27 Nov 2023 19:38:35 +0800</pubDate><guid>https://hebohang.github.io/p/cook/</guid><description>&lt;h2 id="cook-content">Cook Content&lt;/h2>
 &lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/cooking-content-in-unreal-engine/" target="_blank" rel="noopener"
 >https://docs.unrealengine.com/5.3/zh-CN/cooking-content-in-unreal-engine/&lt;/a>&lt;/p>
 &lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/build-operations-cooking-packaging-deploying-and-running-projects-in-unreal-engine/" target="_blank" rel="noopener"
 >https://docs.unrealengine.com/5.3/zh-CN/build-operations-cooking-packaging-deploying-and-running-projects-in-unreal-engine/&lt;/a>&lt;/p>
+&lt;h3 id="命令行启动">命令行启动&lt;/h3>
 &lt;p>测试命令：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -12,8 +71,58 @@
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl"> .&lt;span class="se">\U&lt;/span>nrealEditor-Cmd.exe E:&lt;span class="se">\W&lt;/span>ork&lt;span class="se">\x&lt;/span>xx&lt;span class="se">\x&lt;/span>xx.uproject -run&lt;span class="o">=&lt;/span>cook -targetplatform&lt;span class="o">=&lt;/span>Windows -map&lt;span class="o">=&lt;/span>TestMap.umap
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>这里的 .\ 一定需要；但是 -map 我测试没有起作用，还有待考察。&lt;/p>
-&lt;p>测完会放在项目目录的 &lt;code>Saved\Cooked\Windows\&lt;/code> 中。&lt;/p></description></item><item><title>杂项</title><link>https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/</link><pubDate>Thu, 23 Nov 2023 18:01:40 +0800</pubDate><guid>https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/</guid><description>&lt;h2 id="获取关卡中一个-actor-的被引用情况">获取关卡中一个 Actor 的被引用情况&lt;/h2>
+&lt;/div>&lt;p>这里的 .\ 一定需要，目录在项目路径的 Engine\Binaries\Win64 中；但是 -map 我测试没有起作用，还有待考察。&lt;/p>
+&lt;p>测完会放在项目目录的 &lt;code>Saved\Cooked\Windows\&lt;/code> 中。&lt;/p>
+&lt;h3 id="编辑器与ide下启动">编辑器与IDE下启动&lt;/h3>
+&lt;p>编辑器下，我们可以点击cook：
+&lt;img src="https://hebohang.github.io/p/cook/image.png"
+width="1189"
+height="413"
+srcset="https://hebohang.github.io/p/cook/image_hub0fbeb53c2542ef1941cb0d8f5ef4e95_258829_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/cook/image_hub0fbeb53c2542ef1941cb0d8f5ef4e95_258829_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="287"
+data-flex-basis="690px"
+>&lt;/p>
+&lt;p>此时 Output Log 会有对应 Commandlet（这里的 xxx 是你的项目路径）：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">E:&lt;span class="se">\W&lt;/span>ork&lt;span class="se">\x&lt;/span>xx&lt;span class="se">\E&lt;/span>ngine&lt;span class="se">\B&lt;/span>inaries&lt;span class="se">\W&lt;/span>in64&lt;span class="se">\U&lt;/span>nrealEditor-Cmd.exe E:&lt;span class="se">\W&lt;/span>ork&lt;span class="se">\x&lt;/span>xxxxxx&lt;span class="se">\C&lt;/span>7.uproject -run&lt;span class="o">=&lt;/span>Cook -TargetPlatform&lt;span class="o">=&lt;/span>Windows -unversioned -fileopenlog -abslog&lt;span class="o">=&lt;/span>E:&lt;span class="se">\W&lt;/span>ork&lt;span class="se">\x&lt;/span>xx&lt;span class="se">\E&lt;/span>ngine&lt;span class="se">\P&lt;/span>rograms&lt;span class="se">\A&lt;/span>utomationTool&lt;span class="se">\S&lt;/span>aved&lt;span class="se">\C&lt;/span>ook-2023.11.28-15.04.02.txt -stdout -CrashForUAT -unattended -NoLogTimes -UTF8Output
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>我们可以把对应参数填入 UE5 项目参数中进行调试：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/cook/image-2.png"
+width="1257"
+height="277"
+srcset="https://hebohang.github.io/p/cook/image-2_hua590954d428503b166d7bc2b367f775b_38334_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/cook/image-2_hua590954d428503b166d7bc2b367f775b_38334_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="453"
+data-flex-basis="1089px"
+>&lt;/p>
+&lt;p>此时对于贴图的 Cook 的调用栈为：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/cook/image-1.png"
+width="1071"
+height="469"
+srcset="https://hebohang.github.io/p/cook/image-1_hu36842ff2b1e53e3997611bb0124a5e50_61319_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/cook/image-1_hu36842ff2b1e53e3997611bb0124a5e50_61319_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="228"
+data-flex-basis="548px"
+>&lt;/p>
+&lt;p>可能的分支：
+&lt;img src="https://hebohang.github.io/p/cook/image-3.png"
+width="1014"
+height="197"
+srcset="https://hebohang.github.io/p/cook/image-3_hu1d1c666e8f997630a13109ef9f281f63_25307_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/cook/image-3_hu1d1c666e8f997630a13109ef9f281f63_25307_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="514"
+data-flex-basis="1235px"
+>&lt;/p></description></item><item><title>杂项</title><link>https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/</link><pubDate>Thu, 23 Nov 2023 18:01:40 +0800</pubDate><guid>https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/</guid><description>&lt;h2 id="获取关卡中一个-actor-的被引用情况">获取关卡中一个 Actor 的被引用情况&lt;/h2>
 &lt;p>背景：做合批的时候剔除被引用的 Actor&lt;/p>
 &lt;p>例如：
 &lt;img src="https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/image.png"
