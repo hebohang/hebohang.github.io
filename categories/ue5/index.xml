@@ -64,13 +64,13 @@ loading="lazy"
 class="gallery-image"
 data-flex-grow="514"
 data-flex-basis="1235px"
->&lt;/p></description></item><item><title>杂项</title><link>https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/</link><pubDate>Thu, 23 Nov 2023 18:01:40 +0800</pubDate><guid>https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/</guid><description>&lt;h2 id="获取关卡中一个-actor-的被引用情况">获取关卡中一个 Actor 的被引用情况&lt;/h2>
+>&lt;/p></description></item><item><title>一些小方法</title><link>https://hebohang.github.io/p/%E4%B8%80%E4%BA%9B%E5%B0%8F%E6%96%B9%E6%B3%95/</link><pubDate>Thu, 23 Nov 2023 18:01:40 +0800</pubDate><guid>https://hebohang.github.io/p/%E4%B8%80%E4%BA%9B%E5%B0%8F%E6%96%B9%E6%B3%95/</guid><description>&lt;h2 id="获取关卡中一个-actor-的被引用情况">获取关卡中一个 Actor 的被引用情况&lt;/h2>
 &lt;p>背景：做合批的时候剔除被引用的 Actor&lt;/p>
 &lt;p>例如：
-&lt;img src="https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/image.png"
+&lt;img src="https://hebohang.github.io/p/%E4%B8%80%E4%BA%9B%E5%B0%8F%E6%96%B9%E6%B3%95/image.png"
 width="542"
 height="373"
-srcset="https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/image_huc82dad0cea40d677e1f0129b347d4133_35757_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/image_huc82dad0cea40d677e1f0129b347d4133_35757_1024x0_resize_box_3.png 1024w"
+srcset="https://hebohang.github.io/p/%E4%B8%80%E4%BA%9B%E5%B0%8F%E6%96%B9%E6%B3%95/image_huc82dad0cea40d677e1f0129b347d4133_35757_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/%E4%B8%80%E4%BA%9B%E5%B0%8F%E6%96%B9%E6%B3%95/image_huc82dad0cea40d677e1f0129b347d4133_35757_1024x0_resize_box_3.png 1024w"
 loading="lazy"
 class="gallery-image"
 data-flex-grow="145"
@@ -86,10 +86,10 @@ data-flex-basis="348px"
 &lt;code>FBlueprintEditorUtils::GetActorReferenceMap&lt;/code>
 &lt;code>AssetToolsModule.Get().FindSoftReferencesToObjects&lt;/code>&lt;/p>
 &lt;p>这里特别留意到 ALODActor，之前使用 IsReferenced 接口的时候也发现了被其引用的情况：&lt;/p>
-&lt;p>&lt;img src="https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/image-1.png"
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E4%B8%80%E4%BA%9B%E5%B0%8F%E6%96%B9%E6%B3%95/image-1.png"
 width="1610"
 height="471"
-srcset="https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/image-1_hu1d10aab68d1329ce355400e54096af53_133999_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/image-1_hu1d10aab68d1329ce355400e54096af53_133999_1024x0_resize_box_3.png 1024w"
+srcset="https://hebohang.github.io/p/%E4%B8%80%E4%BA%9B%E5%B0%8F%E6%96%B9%E6%B3%95/image-1_hu1d10aab68d1329ce355400e54096af53_133999_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/%E4%B8%80%E4%BA%9B%E5%B0%8F%E6%96%B9%E6%B3%95/image-1_hu1d10aab68d1329ce355400e54096af53_133999_1024x0_resize_box_3.png 1024w"
 loading="lazy"
 class="gallery-image"
 data-flex-grow="341"
