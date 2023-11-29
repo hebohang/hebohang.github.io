@@ -173,6 +173,17 @@ data-flex-basis="378px"
 &lt;p>参考：
 &lt;a class="link" href="https://imayx.top/waline/" target="_blank" rel="noopener"
 >https://imayx.top/waline/&lt;/a>&lt;/p>
+&lt;h4 id="sub-category">Sub Category&lt;/h4>
+&lt;p>我一直想要这个功能，目前看到最漂亮的是 Jekyll 的主题 &lt;a class="link" href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener"
+>chirpy&lt;/a>，演示Demo：
+&lt;a class="link" href="https://chirpy.cotes.page/" target="_blank" rel="noopener"
+>https://chirpy.cotes.page/&lt;/a>&lt;/p>
+&lt;p>但是 Hugo 似乎支持的不好，看到一个一样想法的相关讨论：
+&lt;a class="link" href="https://discourse.gohugo.io/t/categories-sections-with-hierarchy/3058" target="_blank" rel="noopener"
+>https://discourse.gohugo.io/t/categories-sections-with-hierarchy/3058&lt;/a>&lt;/p>
+&lt;p>之后再试试。&lt;/p>
 &lt;h3 id="参考">参考&lt;/h3>
 &lt;p>&lt;a class="link" href="https://blog.reincarnatey.net/2023/build-hugo-blog-with-stack-mod/#%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99%E5%8D%9A%E5%AE%A2" target="_blank" rel="noopener"
->https://blog.reincarnatey.net/2023/build-hugo-blog-with-stack-mod/#%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99%E5%8D%9A%E5%AE%A2&lt;/a>&lt;/p></description></item></channel></rss>
+>https://blog.reincarnatey.net/2023/build-hugo-blog-with-stack-mod/#%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99%E5%8D%9A%E5%AE%A2&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://digitaldrummerj.me/series/blogging-with-hugo/" target="_blank" rel="noopener"
+>https://digitaldrummerj.me/series/blogging-with-hugo/&lt;/a>&lt;/p></description></item></channel></rss>

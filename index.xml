@@ -1121,9 +1121,20 @@ data-flex-basis="378px"
 &lt;p>参考：
 &lt;a class="link" href="https://imayx.top/waline/" target="_blank" rel="noopener"
 >https://imayx.top/waline/&lt;/a>&lt;/p>
+&lt;h4 id="sub-category">Sub Category&lt;/h4>
+&lt;p>我一直想要这个功能，目前看到最漂亮的是 Jekyll 的主题 &lt;a class="link" href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener"
+>chirpy&lt;/a>，演示Demo：
+&lt;a class="link" href="https://chirpy.cotes.page/" target="_blank" rel="noopener"
+>https://chirpy.cotes.page/&lt;/a>&lt;/p>
+&lt;p>但是 Hugo 似乎支持的不好，看到一个一样想法的相关讨论：
+&lt;a class="link" href="https://discourse.gohugo.io/t/categories-sections-with-hierarchy/3058" target="_blank" rel="noopener"
+>https://discourse.gohugo.io/t/categories-sections-with-hierarchy/3058&lt;/a>&lt;/p>
+&lt;p>之后再试试。&lt;/p>
 &lt;h3 id="参考">参考&lt;/h3>
 &lt;p>&lt;a class="link" href="https://blog.reincarnatey.net/2023/build-hugo-blog-with-stack-mod/#%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99%E5%8D%9A%E5%AE%A2" target="_blank" rel="noopener"
->https://blog.reincarnatey.net/2023/build-hugo-blog-with-stack-mod/#%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99%E5%8D%9A%E5%AE%A2&lt;/a>&lt;/p></description></item><item><title>Hexo</title><link>https://hebohang.github.io/p/hexo/</link><pubDate>Sat, 11 Nov 2023 16:17:13 +0800</pubDate><guid>https://hebohang.github.io/p/hexo/</guid><description>&lt;h1 id="建站选型">建站选型&lt;/h1>
+>https://blog.reincarnatey.net/2023/build-hugo-blog-with-stack-mod/#%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99%E5%8D%9A%E5%AE%A2&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://digitaldrummerj.me/series/blogging-with-hugo/" target="_blank" rel="noopener"
+>https://digitaldrummerj.me/series/blogging-with-hugo/&lt;/a>&lt;/p></description></item><item><title>Hexo</title><link>https://hebohang.github.io/p/hexo/</link><pubDate>Sat, 11 Nov 2023 16:17:13 +0800</pubDate><guid>https://hebohang.github.io/p/hexo/</guid><description>&lt;h1 id="建站选型">建站选型&lt;/h1>
 &lt;p>博客分静态博客和动态博客，静态博客维护成本小，因此我这里选择的是静态博客的方式。主流的几个静态博客框架是jekyll、hexo和hugo，我们这里使用的是 &lt;a class="link" href="https://hexo.io/" target="_blank" rel="noopener"
 >Hexo&lt;/a> 进行静态博客的生成，随后部署在Github Pages上。&lt;/p>
 &lt;p>主要参考的链接是：https://blog.csdn.net/yaorongke/article/details/119089190&lt;/p>
