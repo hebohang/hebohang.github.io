@@ -1269,7 +1269,14 @@ data-flex-basis="378px"
 &lt;p>每次调用 Hexo 指令再去部署的。主要是每次编译需要花一点时间，不过已经挺快了，知道我遇见了 Hugo。&lt;/p>
 &lt;h3 id="hugo">Hugo&lt;/h3>
 &lt;p>Hugo 使用 go 作为编译所用语言，静态型编程语言就是飞快，基本上所见即所得了，
-选用的 Stack 主题，参见：&lt;a class="link" href="https://hebohang.github.io/p/hugo/" >Hugo&lt;/a>&lt;/p></description></item><item><title>Git</title><link>https://hebohang.github.io/p/git/</link><pubDate>Mon, 21 Mar 2022 00:00:00 +0000</pubDate><guid>https://hebohang.github.io/p/git/</guid><description>&lt;h2 id="想切换成-ssh-协议来-push">想切换成 ssh 协议来 push&lt;/h2>
+选用的 Stack 主题，参见：&lt;a class="link" href="https://hebohang.github.io/p/hugo/" >Hugo&lt;/a>&lt;/p>
+&lt;h3 id="jekyll">Jekyll&lt;/h3>
+&lt;p>Jekyll 我暂时没有尝试过，听说构建时间比较慢，但是似乎有加速方法？&lt;/p>
+&lt;p>但是看到一个主题 &lt;a class="link" href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener"
+>chirpy&lt;/a>，演示Demo：
+&lt;a class="link" href="https://chirpy.cotes.page/" target="_blank" rel="noopener"
+>https://chirpy.cotes.page/&lt;/a>&lt;/p>
+&lt;p>尤其是这个 Categories 的设计让我觉得很不错。&lt;/p></description></item><item><title>Git</title><link>https://hebohang.github.io/p/git/</link><pubDate>Mon, 21 Mar 2022 00:00:00 +0000</pubDate><guid>https://hebohang.github.io/p/git/</guid><description>&lt;h2 id="想切换成-ssh-协议来-push">想切换成 ssh 协议来 push&lt;/h2>
 &lt;p>&lt;a class="link" href="https://stackoverflow.com/questions/14762034/push-to-github-without-a-password-using-ssh-key" target="_blank" rel="noopener"
 >https://stackoverflow.com/questions/14762034/push-to-github-without-a-password-using-ssh-key&lt;/a>&lt;/p>
 &lt;p>示例：
