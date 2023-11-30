@@ -240,6 +240,7 @@ class="gallery-image"
 data-flex-grow="135"
 data-flex-basis="325px"
 >&lt;/p>
+&lt;p>但是这里我在 single.html 中加了总有点不对，去掉也能作用，只是没有按照想要的格式，按照默认的格式去作用的。&lt;/p>
 &lt;p>参考：
 &lt;a class="link" href="https://blog.yfei.page/cn/2021/03/lastmod-hugo/" target="_blank" rel="noopener"
 >https://blog.yfei.page/cn/2021/03/lastmod-hugo/&lt;/a>&lt;/p>
