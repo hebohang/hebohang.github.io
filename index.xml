@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>何律师</title><link>https://hebohang.github.io/</link><description>Recent content on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Wed, 29 Nov 2023 11:11:23 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>贴图设置属性</title><link>https://hebohang.github.io/p/%E8%B4%B4%E5%9B%BE%E8%AE%BE%E7%BD%AE%E5%B1%9E%E6%80%A7/</link><pubDate>Wed, 29 Nov 2023 11:11:23 +0800</pubDate><guid>https://hebohang.github.io/p/%E8%B4%B4%E5%9B%BE%E8%AE%BE%E7%BD%AE%E5%B1%9E%E6%80%A7/</guid><description>&lt;h2 id="官方文档">官方文档&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>何律师</title><link>https://hebohang.github.io/</link><description>Recent content on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><atom:link href="https://hebohang.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>贴图设置属性</title><link>https://hebohang.github.io/p/%E8%B4%B4%E5%9B%BE%E8%AE%BE%E7%BD%AE%E5%B1%9E%E6%80%A7/</link><pubDate>Wed, 29 Nov 2023 11:11:23 +0800</pubDate><guid>https://hebohang.github.io/p/%E8%B4%B4%E5%9B%BE%E8%AE%BE%E7%BD%AE%E5%B1%9E%E6%80%A7/</guid><description>&lt;h2 id="官方文档">官方文档&lt;/h2>
 &lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/textures-in-unreal-engine/" target="_blank" rel="noopener"
 >https://docs.unrealengine.com/5.3/zh-CN/textures-in-unreal-engine/&lt;/a>&lt;/p>
 &lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/texture-format-support-and-settings-in-unreal-engine/" target="_blank" rel="noopener"
@@ -1130,6 +1130,70 @@ data-flex-basis="378px"
 &lt;a class="link" href="https://discourse.gohugo.io/t/categories-sections-with-hierarchy/3058" target="_blank" rel="noopener"
 >https://discourse.gohugo.io/t/categories-sections-with-hierarchy/3058&lt;/a>&lt;/p>
 &lt;p>之后再试试。&lt;/p>
+&lt;h4 id="归档三栏">归档三栏&lt;/h4>
+&lt;p>在 &lt;code>/assets/scss/custom.scss&lt;/code> 中加入以下代码：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-scss" data-lang="scss">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 归档页面三栏
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">@media&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="na">min-width&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="mi">1024&lt;/span>&lt;span class="kt">px&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nc">.article-list--compact&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">display&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="ni">grid&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">grid-template-columns&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="kt">fr&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="kt">fr&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="kt">fr&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">background&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="ni">none&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">box-shadow&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="ni">none&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">gap&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="kt">rem&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="nt">article&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">background&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="nf">var&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">--&lt;/span>&lt;span class="n">card-background&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">border&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="ni">none&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">box-shadow&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="nf">var&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">--&lt;/span>&lt;span class="n">shadow-l2&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">margin-bottom&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="mi">8&lt;/span>&lt;span class="kt">px&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="na">border-radius&lt;/span>&lt;span class="o">:&lt;/span> &lt;span class="mi">16&lt;/span>&lt;span class="kt">px&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>参考：
+&lt;a class="link" href="https://www.xalaok.top/post/stack-modify/#%E5%8F%8C%E6%A0%8F" target="_blank" rel="noopener"
+>https://www.xalaok.top/post/stack-modify/#%E5%8F%8C%E6%A0%8F&lt;/a>&lt;/p>
+&lt;h4 id="最后更新时间">最后更新时间&lt;/h4>
+&lt;p>&lt;code>hugo-theme-stack\layouts\_default\single.html&lt;/code>&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/hugo/image-4.png"
+width="1043"
+height="770"
+srcset="https://hebohang.github.io/p/hugo/image-4_hucbed027d93ad2f6fb1b3e4610ed85601_88932_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/hugo/image-4_hucbed027d93ad2f6fb1b3e4610ed85601_88932_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="135"
+data-flex-basis="325px"
+>&lt;/p>
+&lt;p>参考：
+&lt;a class="link" href="https://blog.yfei.page/cn/2021/03/lastmod-hugo/" target="_blank" rel="noopener"
+>https://blog.yfei.page/cn/2021/03/lastmod-hugo/&lt;/a>&lt;/p>
+&lt;h4 id="参考链接">参考链接&lt;/h4>
+&lt;p>&lt;a class="link" href="https://yelleis.top/p/61fdb627/#%E6%98%BE%E7%A4%BA%E5%88%86%E7%B1%BB%E6%A0%87%E7%AD%BE%E6%96%87%E7%AB%A0%E6%95%B0%E7%9B%AE" target="_blank" rel="noopener"
+>https://yelleis.top/p/61fdb627/#%E6%98%BE%E7%A4%BA%E5%88%86%E7%B1%BB%E6%A0%87%E7%AD%BE%E6%96%87%E7%AB%A0%E6%95%B0%E7%9B%AE&lt;/a>&lt;/p>
 &lt;h3 id="参考">参考&lt;/h3>
 &lt;p>&lt;a class="link" href="https://blog.reincarnatey.net/2023/build-hugo-blog-with-stack-mod/#%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99%E5%8D%9A%E5%AE%A2" target="_blank" rel="noopener"
 >https://blog.reincarnatey.net/2023/build-hugo-blog-with-stack-mod/#%E5%A6%82%E4%BD%95%E7%BC%96%E5%86%99%E5%8D%9A%E5%AE%A2&lt;/a>&lt;/p>
