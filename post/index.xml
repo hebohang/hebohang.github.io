@@ -504,6 +504,51 @@ class="gallery-image"
 data-flex-grow="296"
 data-flex-basis="712px"
 >&lt;/p>
+&lt;ol start="3">
+&lt;li>组织方式修改：原来ue的功能会把所有不同的mesh都合成一个actor，一种mesh挂一个 ISM 或者 HISM，我们应该是希望一种mesh一个actor&lt;/li>
+&lt;/ol>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-11.png"
+width="556"
+height="373"
+srcset="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-11_hua7e9d0420f77ea2db5278ad8ff66bf9c_63360_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-11_hua7e9d0420f77ea2db5278ad8ff66bf9c_63360_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+alt="UE默认的方式"
+class="gallery-image"
+data-flex-grow="149"
+data-flex-basis="357px"
+>&lt;/p>
+&lt;p>调试一下是这样的：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-13.png"
+width="1160"
+height="162"
+srcset="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-13_hu8045325249ffc2905b63d13623a0e0d5_24598_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-13_hu8045325249ffc2905b63d13623a0e0d5_24598_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="716"
+data-flex-basis="1718px"
+>&lt;/p>
+&lt;p>核心代码在 FMeshMergeUtilities::MergeComponentsToInstances 的：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-12.png"
+width="1081"
+height="248"
+srcset="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-12_hu92db6f480daabf38e816e2f03d591c76_64539_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-12_hu92db6f480daabf38e816e2f03d591c76_64539_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="435"
+data-flex-basis="1046px"
+>&lt;/p>
+&lt;p>我们这里把 MergedActor 从类 FActorEntry 转移到 FComponentEntry 中了，就完成了我们想要的效果。&lt;/p>
+&lt;h3 id="补充说明">补充说明&lt;/h3>
+&lt;p>可能会改到相关材质资产，比如增加flag bUsedWithInstancedStaticMeshes:&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-10.png"
+width="1716"
+height="76"
+srcset="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-10_hubea60e5220c962cf8d4ce59ae65fa31a_11855_480x0_resize_box_3.png 480w, https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-10_hubea60e5220c962cf8d4ce59ae65fa31a_11855_1024x0_resize_box_3.png 1024w"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="2257"
+data-flex-basis="5418px"
+>&lt;/p>
 &lt;h2 id="一键生成碰撞">一键生成碰撞&lt;/h2>
 &lt;p>打开一个 Static Mesh 的资产，在 Collision 这里，如果有 Primitives，则是简单碰撞，一般美术自己编辑的碰撞信息
 最后也会进这里面：&lt;/p>
