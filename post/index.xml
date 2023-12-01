@@ -1,4 +1,56 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on 何律师</title><link>https://hebohang.github.io/post/</link><description>Recent content in Posts on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Wed, 29 Nov 2023 11:11:23 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>贴图设置属性</title><link>https://hebohang.github.io/p/%E8%B4%B4%E5%9B%BE%E8%AE%BE%E7%BD%AE%E5%B1%9E%E6%80%A7/</link><pubDate>Wed, 29 Nov 2023 11:11:23 +0800</pubDate><guid>https://hebohang.github.io/p/%E8%B4%B4%E5%9B%BE%E8%AE%BE%E7%BD%AE%E5%B1%9E%E6%80%A7/</guid><description>&lt;h2 id="官方文档">官方文档&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on 何律师</title><link>https://hebohang.github.io/post/</link><description>Recent content in Posts on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Fri, 01 Dec 2023 15:15:26 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>ReferenceViewer</title><link>https://hebohang.github.io/p/referenceviewer/</link><pubDate>Fri, 01 Dec 2023 15:15:26 +0800</pubDate><guid>https://hebohang.github.io/p/referenceviewer/</guid><description>&lt;h2 id="使用">使用&lt;/h2>
+&lt;p>&lt;img src="https://hebohang.github.io/p/referenceviewer/image.png"
+width="435"
+height="125"
+loading="lazy"
+alt="对资产右键可查看引用关系"
+class="gallery-image"
+data-flex-grow="348"
+data-flex-basis="835px"
+>&lt;/p>
+&lt;h2 id="源码">源码&lt;/h2>
+&lt;p>窗口的源码位于：
+&lt;code>Engine\Plugins\Editor\AssetManagerEditor\Source\AssetManagerEditor\Private\ReferenceViewer\SReferenceViewer.cpp&lt;/code>&lt;/p>
+&lt;p>例如对于关卡 Content/Arts/Maps/Login/Login.umap 做引用分析：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/referenceviewer/image-1.png"
+width="1124"
+height="163"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="689"
+data-flex-basis="1654px"
+>&lt;/p>
+&lt;p>会根据路径得到一个 FAssetIdentifier，接着在 SReferenceViewer::SetGraphRootIdentifiers 设到slate窗口类的成员变量 UEdGraph_ReferenceViewer* GraphObj 中的
+CurrentGraphRootIdentifiers 里面去：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/referenceviewer/image-2.png"
+width="1274"
+height="230"
+loading="lazy"
+alt="对应Slate窗口的调用栈"
+class="gallery-image"
+data-flex-grow="553"
+data-flex-basis="1329px"
+>&lt;/p>
+&lt;p>接着就会在 UEdGraph_ReferenceViewer 进行递归构造引用与被引用节点，通过 AssetRegistry 来获取：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/referenceviewer/image-3.png"
+width="1309"
+height="456"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="287"
+data-flex-basis="688px"
+>&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/referenceviewer/image-4.png"
+width="1267"
+height="515"
+loading="lazy"
+alt="Graph处理调用栈"
+class="gallery-image"
+data-flex-grow="246"
+data-flex-basis="590px"
+>&lt;/p></description></item><item><title>杂项</title><link>https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/</link><pubDate>Fri, 01 Dec 2023 15:01:20 +0800</pubDate><guid>https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/</guid><description>&lt;p>&lt;a class="link" href="https://hebohang.github.io/p/%E4%B8%80%E4%BA%9B%E5%B0%8F%E6%96%B9%E6%B3%95/" >一些小方法&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://hebohang.github.io/p/%E8%B4%B4%E5%9B%BE%E8%AE%BE%E7%BD%AE%E5%B1%9E%E6%80%A7/" >贴图设置属性&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://hebohang.github.io/p/referenceviewer/" >ReferenceViewer&lt;/a>&lt;/p></description></item><item><title>贴图设置属性</title><link>https://hebohang.github.io/p/%E8%B4%B4%E5%9B%BE%E8%AE%BE%E7%BD%AE%E5%B1%9E%E6%80%A7/</link><pubDate>Wed, 29 Nov 2023 11:11:23 +0800</pubDate><guid>https://hebohang.github.io/p/%E8%B4%B4%E5%9B%BE%E8%AE%BE%E7%BD%AE%E5%B1%9E%E6%80%A7/</guid><description>&lt;h2 id="官方文档">官方文档&lt;/h2>
 &lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/textures-in-unreal-engine/" target="_blank" rel="noopener"
 >https://docs.unrealengine.com/5.3/zh-CN/textures-in-unreal-engine/&lt;/a>&lt;/p>
 &lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/texture-format-support-and-settings-in-unreal-engine/" target="_blank" rel="noopener"
@@ -1162,6 +1214,9 @@ data-flex-basis="378px"
 &lt;p>但是 Hugo 似乎支持的不好，看到一个一样想法的相关讨论：
 &lt;a class="link" href="https://discourse.gohugo.io/t/categories-sections-with-hierarchy/3058" target="_blank" rel="noopener"
 >https://discourse.gohugo.io/t/categories-sections-with-hierarchy/3058&lt;/a>&lt;/p>
+&lt;p>但是 Hugo 也看到一个移植过来的主题实现了这个功能：
+&lt;a class="link" href="https://github.com/kakawait/hugo-tranquilpeak-theme" target="_blank" rel="noopener"
+>https://github.com/kakawait/hugo-tranquilpeak-theme&lt;/a>&lt;/p>
 &lt;p>之后再试试。&lt;/p>
 &lt;h4 id="归档三栏">归档三栏&lt;/h4>
 &lt;p>在 &lt;code>/assets/scss/custom.scss&lt;/code> 中加入以下代码：&lt;/p>

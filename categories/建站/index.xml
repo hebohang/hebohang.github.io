@@ -177,6 +177,9 @@ data-flex-basis="378px"
 &lt;p>但是 Hugo 似乎支持的不好，看到一个一样想法的相关讨论：
 &lt;a class="link" href="https://discourse.gohugo.io/t/categories-sections-with-hierarchy/3058" target="_blank" rel="noopener"
 >https://discourse.gohugo.io/t/categories-sections-with-hierarchy/3058&lt;/a>&lt;/p>
+&lt;p>但是 Hugo 也看到一个移植过来的主题实现了这个功能：
+&lt;a class="link" href="https://github.com/kakawait/hugo-tranquilpeak-theme" target="_blank" rel="noopener"
+>https://github.com/kakawait/hugo-tranquilpeak-theme&lt;/a>&lt;/p>
 &lt;p>之后再试试。&lt;/p>
 &lt;h4 id="归档三栏">归档三栏&lt;/h4>
 &lt;p>在 &lt;code>/assets/scss/custom.scss&lt;/code> 中加入以下代码：&lt;/p>
