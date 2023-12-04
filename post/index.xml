@@ -319,7 +319,44 @@ loading="lazy"
 class="gallery-image"
 data-flex-grow="281"
 data-flex-basis="674px"
->&lt;/p></description></item><item><title>版本控制</title><link>https://hebohang.github.io/p/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/</link><pubDate>Wed, 22 Nov 2023 20:22:04 +0800</pubDate><guid>https://hebohang.github.io/p/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/</guid><description>&lt;h2 id="选择">选择&lt;/h2>
+>&lt;/p>
+&lt;h2 id="获取资产的引用关系">获取资产的引用关系&lt;/h2>
+&lt;p>例如获取当前关卡的引用关系：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="k">auto&lt;/span> &lt;span class="n">World&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">GEditor&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetEditorWorldContext&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="n">World&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FName&lt;/span> &lt;span class="n">Name&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">World&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetPackage&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetFName&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FAssetRegistryModule&lt;/span>&lt;span class="o">&amp;amp;&lt;/span> &lt;span class="n">AssetRegistryModule&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FModuleManager&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">GetModuleChecked&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">FAssetRegistryModule&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;AssetRegistry&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">TArray&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">FName&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">DependentAssets&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">AssetRegistryModule&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Get&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="n">GetDependencies&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Name&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">DependentAssets&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">UE&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">AssetRegistry&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">EDependencyCategory&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">All&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">int32&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">&amp;lt;&lt;/span> &lt;span class="n">DependentAssets&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Num&lt;/span>&lt;span class="p">();&lt;/span> &lt;span class="o">++&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">TArray&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">FAssetData&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">OutAssetData&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">AssetRegistryModule&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Get&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="n">GetAssetsByPackageName&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">DependentAssets&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="p">],&lt;/span> &lt;span class="n">OutAssetData&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="n">OutAssetData&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">IsEmpty&lt;/span>&lt;span class="p">())&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">UObject&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">AssetInPackage&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">OutAssetData&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">].&lt;/span>&lt;span class="n">GetAsset&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>版本控制</title><link>https://hebohang.github.io/p/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/</link><pubDate>Wed, 22 Nov 2023 20:22:04 +0800</pubDate><guid>https://hebohang.github.io/p/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/</guid><description>&lt;h2 id="选择">选择&lt;/h2>
 &lt;p>UE的官方源码是用git管理的：
 &lt;a class="link" href="https://github.com/EpicGames/UnrealEngine" target="_blank" rel="noopener"
 >https://github.com/EpicGames/UnrealEngine&lt;/a>&lt;/p>
