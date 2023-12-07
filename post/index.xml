@@ -503,6 +503,18 @@ BeginTool、AddControlPoint、AddSegment&lt;/p>
 &lt;p>还不太清楚 WP 版本的 HLOD 和正常的有什么区别，文档：
 &lt;a class="link" href="https://docs.unrealengine.com/5.0/zh-CN/world-partition---hierarchical-level-of-detail-in-unreal-engine/" target="_blank" rel="noopener"
 >https://docs.unrealengine.com/5.0/zh-CN/world-partition---hierarchical-level-of-detail-in-unreal-engine/&lt;/a>&lt;/p>
+&lt;h3 id="ofpa-one-file-per-actor">OFPA (One File Per Actor)&lt;/h3>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/502063482" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/502063482&lt;/a>&lt;/p>
+&lt;p>World Partition下默认开启，非 WP 关卡可以在这里打开：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-14.png"
+width="1646"
+height="899"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="183"
+data-flex-basis="439px"
+>&lt;/p>
 &lt;h2 id="ism-与-hism">ISM 与 HISM&lt;/h2>
 &lt;p>&lt;img src="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image.png"
 width="421"
