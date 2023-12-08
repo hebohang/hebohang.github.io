@@ -136,6 +136,16 @@ data-flex-basis="1235px"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
+&lt;/div>&lt;p>但是我这里发现，我没有在启用编辑器下，也就是 WITH_EDITOR 是 0 的情况下，我测试的贴图的 GetSurfaceWidth 和 GetSurfaceHeight 一直为0，查了很久也不清楚是为什么。&lt;/p>
+&lt;p>最后改为了：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">CookedLODBias&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">DeviceProfile&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetTextureLODSettings&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">CalculateLODBias&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Texture&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">Source&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">GetSizeX&lt;/span>&lt;span class="p">(),&lt;/span> &lt;span class="n">Texture&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">Source&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">GetSizeY&lt;/span>&lt;span class="p">(),&lt;/span> &lt;span class="n">Texture&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">MaxTextureSize&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">Texture&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">LODGroup&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">Texture&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">LODBias&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">Texture&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">MipGenSettings&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">Texture&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">IsCurrentlyVirtualTextured&lt;/span>&lt;span class="p">());&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
 &lt;/div></description></item><item><title>VS2022</title><link>https://hebohang.github.io/p/vs2022/</link><pubDate>Tue, 28 Nov 2023 15:48:26 +0800</pubDate><guid>https://hebohang.github.io/p/vs2022/</guid><description>&lt;h2 id="条件断点">条件断点&lt;/h2>
 &lt;h3 id="判断字符串是否相等">判断字符串是否相等&lt;/h3>
 &lt;p>我们不能用普通的 operator ==，是因为我们在 Debug Conditions 里面不允许有副作用（Side Effects），因此
