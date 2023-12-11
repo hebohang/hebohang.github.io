@@ -1,6 +1,69 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>UE5 on 何律师</title><link>https://hebohang.github.io/tags/ue5/</link><description>Recent content in UE5 on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Fri, 01 Dec 2023 15:01:20 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/tags/ue5/index.xml" rel="self" type="application/rss+xml"/><item><title>杂项</title><link>https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/</link><pubDate>Fri, 01 Dec 2023 15:01:20 +0800</pubDate><guid>https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/</guid><description>&lt;p>&lt;a class="link" href="https://hebohang.github.io/p/%E4%B8%80%E4%BA%9B%E5%B0%8F%E6%96%B9%E6%B3%95/" >一些小方法&lt;/a>&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>UE5 on 何律师</title><link>https://hebohang.github.io/tags/ue5/</link><description>Recent content in UE5 on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Fri, 01 Dec 2023 15:01:20 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/tags/ue5/index.xml" rel="self" type="application/rss+xml"/><item><title>杂项</title><link>https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/</link><pubDate>Fri, 01 Dec 2023 15:01:20 +0800</pubDate><guid>https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/</guid><description>&lt;h2 id="一些小方法">一些小方法&lt;/h2>
+&lt;p>&lt;a class="link" href="https://hebohang.github.io/p/%E4%B8%80%E4%BA%9B%E5%B0%8F%E6%96%B9%E6%B3%95/" >一些小方法&lt;/a>&lt;/p>
+&lt;h2 id="贴图设置属性">贴图设置属性&lt;/h2>
 &lt;p>&lt;a class="link" href="https://hebohang.github.io/p/%E8%B4%B4%E5%9B%BE%E8%AE%BE%E7%BD%AE%E5%B1%9E%E6%80%A7/" >贴图设置属性&lt;/a>&lt;/p>
-&lt;p>&lt;a class="link" href="https://hebohang.github.io/p/referenceviewer/" >ReferenceViewer&lt;/a>&lt;/p></description></item><item><title>Cook</title><link>https://hebohang.github.io/p/cook/</link><pubDate>Mon, 27 Nov 2023 19:38:35 +0800</pubDate><guid>https://hebohang.github.io/p/cook/</guid><description>&lt;h2 id="cook-流程">Cook 流程&lt;/h2>
+&lt;h2 id="referenceviewer">ReferenceViewer&lt;/h2>
+&lt;p>&lt;a class="link" href="https://hebohang.github.io/p/referenceviewer/" >ReferenceViewer&lt;/a>&lt;/p>
+&lt;h2 id="保存资产">保存资产&lt;/h2>
+&lt;p>&lt;a class="link" href="https://georgy.dev/posts/save-uobject-to-package/" target="_blank" rel="noopener"
+>https://georgy.dev/posts/save-uobject-to-package/&lt;/a>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="kt">bool&lt;/span> &lt;span class="nf">SaveToAsset&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">UObject&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">ObjectToSave&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">UPackage&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">Package&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">ObjectToSave&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetPackage&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">const&lt;/span> &lt;span class="n">FString&lt;/span> &lt;span class="n">PackageName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Package&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetName&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">const&lt;/span> &lt;span class="n">FString&lt;/span> &lt;span class="n">PackageFileName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FPackageName&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">LongPackageNameToFilename&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">PackageName&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">FPackageName&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">GetAssetPackageExtension&lt;/span>&lt;span class="p">());&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">FSavePackageArgs&lt;/span> &lt;span class="n">SaveArgs&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// This is specified just for example
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">SaveArgs&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">TopLevelFlags&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">RF_Public&lt;/span> &lt;span class="o">|&lt;/span> &lt;span class="n">RF_Standalone&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">SaveArgs&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">SaveFlags&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">SAVE_NoError&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">const&lt;/span> &lt;span class="kt">bool&lt;/span> &lt;span class="n">bSucceeded&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">UPackage&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">SavePackage&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Package&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="k">nullptr&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">PackageFileName&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">SaveArgs&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="n">bSucceeded&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">UE_LOG&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">LogTemp&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">Error&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">TEXT&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Package &amp;#39;%s&amp;#39; wasn&amp;#39;t saved!&amp;#34;&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">PackageName&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nb">false&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">UE_LOG&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">LogTemp&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">Warning&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">TEXT&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Package &amp;#39;%s&amp;#39; was successfully saved&amp;#34;&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">PackageName&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nb">true&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>Cook</title><link>https://hebohang.github.io/p/cook/</link><pubDate>Mon, 27 Nov 2023 19:38:35 +0800</pubDate><guid>https://hebohang.github.io/p/cook/</guid><description>&lt;h2 id="cook-流程">Cook 流程&lt;/h2>
 &lt;p>会执行到 UCookCommandlet 的 main 中：
 &lt;code>Source\Editor\UnrealEd\Private\Commandlets\CookCommandlet.cpp&lt;/code>&lt;/p>
 &lt;p>参考：
@@ -610,10 +673,8 @@ data-flex-basis="452px"
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;h4 id="本地化">本地化&lt;/h4>
-&lt;p>参考：&lt;/p>
-&lt;p>&lt;a class="link" href="https://blog.csdn.net/u011718663/article/details/117785611" target="_blank" rel="noopener"
->https://blog.csdn.net/u011718663/article/details/117785611&lt;/a>&lt;/p>
 &lt;p>本地化主要是根据&lt;code>LOCTEXT&lt;/code>或者&lt;code>NSLOCTEXT&lt;/code>将这两个里面的&lt;code>LOCTEXT(“key”, “value”)&lt;/code>, 找到这个key，然后根据不同语言，将我们的Value替换掉&lt;/p>
+&lt;p>添加namespace域，一方面为了过滤，一方面避免了key冲突。&lt;/p>
 &lt;p>&lt;strong>LOCTEXT用法&lt;/strong>&lt;/p>
 &lt;p>前后必须要加LOCTEXT_NAMESPACE 和LOCTEXT_NAMESPACE定义一个作用域，
 代表下面的字符串都在这里作用域里头，引擎好通过这个域去搜索所有的LOCTEXT&lt;/p>
@@ -652,6 +713,11 @@ class="gallery-image"
 data-flex-grow="178"
 data-flex-basis="428px"
 >&lt;/p>
+&lt;h5 id="参考">参考：&lt;/h5>
+&lt;p>&lt;a class="link" href="https://blog.csdn.net/u011718663/article/details/117785611" target="_blank" rel="noopener"
+>https://blog.csdn.net/u011718663/article/details/117785611&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://forums.unrealengine.com/t/define-loctext-namespace-something/438086" target="_blank" rel="noopener"
+>https://forums.unrealengine.com/t/define-loctext-namespace-something/438086&lt;/a>&lt;/p>
 &lt;h3 id="复制-duplicate">复制 Duplicate&lt;/h3>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
