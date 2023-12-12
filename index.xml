@@ -1,4 +1,108 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>何律师</title><link>https://hebohang.github.io/</link><description>Recent content on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Fri, 01 Dec 2023 15:15:26 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>ReferenceViewer</title><link>https://hebohang.github.io/p/referenceviewer/</link><pubDate>Fri, 01 Dec 2023 15:15:26 +0800</pubDate><guid>https://hebohang.github.io/p/referenceviewer/</guid><description>&lt;h2 id="使用">使用&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>何律师</title><link>https://hebohang.github.io/</link><description>Recent content on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Mon, 11 Dec 2023 15:44:01 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Commandlet</title><link>https://hebohang.github.io/p/commandlet/</link><pubDate>Mon, 11 Dec 2023 15:44:01 +0800</pubDate><guid>https://hebohang.github.io/p/commandlet/</guid><description>&lt;h2 id="案例">案例&lt;/h2>
+&lt;p>头文件：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#pragma once
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#include&lt;/span> &lt;span class="cpf">&amp;#34;CoreMinimal.h&amp;#34;&lt;/span>&lt;span class="cp">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#include&lt;/span> &lt;span class="cpf">&amp;#34;Commandlets/Commandlet.h&amp;#34;&lt;/span>&lt;span class="cp">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#include&lt;/span> &lt;span class="cpf">&amp;#34;Commandlets/ResavePackagesCommandlet.h&amp;#34;&lt;/span>&lt;span class="cp">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#include&lt;/span> &lt;span class="cpf">&amp;#34;XXXCommandlet.generated.h&amp;#34;&lt;/span>&lt;span class="cp">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">DECLARE_LOG_CATEGORY_EXTERN&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">LogXXXCommandlet&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">All&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">All&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">UCLASS&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">class&lt;/span> &lt;span class="nc">UXXXCommandlet&lt;/span> &lt;span class="o">:&lt;/span> &lt;span class="k">public&lt;/span> &lt;span class="n">UResavePackagesCommandlet&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">GENERATED_BODY&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">public&lt;/span>&lt;span class="o">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">UXXXCommandlet&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">virtual&lt;/span> &lt;span class="n">int32&lt;/span> &lt;span class="nf">Main&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="k">const&lt;/span> &lt;span class="n">FString&lt;/span>&lt;span class="o">&amp;amp;&lt;/span> &lt;span class="n">InCommandline&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="k">override&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">};&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>源文件：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#include&lt;/span> &lt;span class="cpf">&amp;#34;XXXCommandlet.h&amp;#34;&lt;/span>&lt;span class="cp">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">DEFINE_LOG_CATEGORY&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">LogXXXCommandlet&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">UXXXCommandlet&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">UXXXCommandlet&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">int32&lt;/span> &lt;span class="n">UXXXCommandlet&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">Main&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="k">const&lt;/span> &lt;span class="n">FString&lt;/span>&lt;span class="o">&amp;amp;&lt;/span> &lt;span class="n">InCommandline&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// do some thing
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">return&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>启动/调试时在vs中增加参数：&lt;code>-skipcompile -run=XXX&lt;/code>&lt;/p>
+&lt;p>这里的 XXX 换成你想要的名字，UResavePackagesCommandlet 也可以换成 UCommandlet&lt;/p>
+&lt;p>本地测试：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">.&lt;span class="se">\U&lt;/span>nrealEditor.exe E:&lt;span class="se">\W&lt;/span>ork&lt;span class="se">\x&lt;/span>xx.uproject -skipcompile -run&lt;span class="o">=&lt;/span>XXX
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="skipcompile参数作用">skipcompile参数作用&lt;/h3>
+&lt;p>字面意思就是跳过编译，源码对应位置：
+&lt;img src="https://hebohang.github.io/p/commandlet/image.png"
+width="1173"
+height="200"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="586"
+data-flex-basis="1407px"
+>&lt;/p>
+&lt;h2 id="参考">参考&lt;/h2>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/512610557" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/512610557&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/377903983" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/377903983&lt;/a>&lt;/p></description></item><item><title>ReferenceViewer</title><link>https://hebohang.github.io/p/referenceviewer/</link><pubDate>Fri, 01 Dec 2023 15:15:26 +0800</pubDate><guid>https://hebohang.github.io/p/referenceviewer/</guid><description>&lt;h2 id="使用">使用&lt;/h2>
 &lt;p>&lt;img src="https://hebohang.github.io/p/referenceviewer/image.png"
 width="435"
 height="125"
@@ -54,6 +158,8 @@ data-flex-basis="590px"
 &lt;p>&lt;a class="link" href="https://hebohang.github.io/p/%E8%B4%B4%E5%9B%BE%E8%AE%BE%E7%BD%AE%E5%B1%9E%E6%80%A7/" >贴图设置属性&lt;/a>&lt;/p>
 &lt;h2 id="referenceviewer">ReferenceViewer&lt;/h2>
 &lt;p>&lt;a class="link" href="https://hebohang.github.io/p/referenceviewer/" >ReferenceViewer&lt;/a>&lt;/p>
+&lt;h2 id="commandlet">Commandlet&lt;/h2>
+&lt;p>&lt;a class="link" href="https://hebohang.github.io/p/commandlet/" >Commandlet&lt;/a>&lt;/p>
 &lt;h2 id="保存资产">保存资产&lt;/h2>
 &lt;p>&lt;a class="link" href="https://georgy.dev/posts/save-uobject-to-package/" target="_blank" rel="noopener"
 >https://georgy.dev/posts/save-uobject-to-package/&lt;/a>&lt;/p>
@@ -113,7 +219,89 @@ data-flex-basis="590px"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div></description></item><item><title>贴图设置属性</title><link>https://hebohang.github.io/p/%E8%B4%B4%E5%9B%BE%E8%AE%BE%E7%BD%AE%E5%B1%9E%E6%80%A7/</link><pubDate>Wed, 29 Nov 2023 11:11:23 +0800</pubDate><guid>https://hebohang.github.io/p/%E8%B4%B4%E5%9B%BE%E8%AE%BE%E7%BD%AE%E5%B1%9E%E6%80%A7/</guid><description>&lt;h2 id="官方文档">官方文档&lt;/h2>
+&lt;/div>&lt;h2 id="http-请求">HTTP 请求&lt;/h2>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="kt">bool&lt;/span> &lt;span class="n">bHttpRequest&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nb">false&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FString&lt;/span> &lt;span class="n">RequestContent&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">TSharedRef&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">TJsonWriter&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">TCHAR&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">TPrettyJsonPrintPolicy&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">TCHAR&lt;/span>&lt;span class="o">&amp;gt;&amp;gt;&amp;gt;&lt;/span> &lt;span class="n">JsonWriter&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">TJsonWriterFactory&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">TCHAR&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">TPrettyJsonPrintPolicy&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">TCHAR&lt;/span>&lt;span class="o">&amp;gt;&amp;gt;::&lt;/span>&lt;span class="n">Create&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">RequestContent&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">JsonWriter&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">WriteObjectStart&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">JsonWriter&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">WriteValue&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;xxx&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;xxx&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">JsonWriter&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">WriteObjectEnd&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">JsonWriter&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">Close&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FHttpModule&lt;/span>&lt;span class="o">&amp;amp;&lt;/span> &lt;span class="n">HttpModule&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FModuleManager&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">LoadModuleChecked&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">FHttpModule&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;HTTP&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">TSharedRef&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">IHttpRequest&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">ESPMode&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">ThreadSafe&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">Request&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">HttpModule&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Get&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="n">CreateRequest&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Request&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">SetVerb&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">TEXT&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;POST&amp;#34;&lt;/span>&lt;span class="p">));&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Request&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">SetHeader&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Content-Type&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;application/json;charset=UTF-8&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Request&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">SetURL&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;xxxxxx&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Request&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">SetContentAsString&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">RequestContent&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Request&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">OnProcessRequestComplete&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="n">BindLambda&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">[&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">bHttpRequest&lt;/span>&lt;span class="p">](&lt;/span>&lt;span class="n">FHttpRequestPtr&lt;/span> &lt;span class="n">HttpRequest&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">FHttpResponsePtr&lt;/span> &lt;span class="n">HttpResponse&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">bool&lt;/span> &lt;span class="n">bSucceeded&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">bHttpRequest&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nb">true&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">bSucceeded&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// do some thing
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">else&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// do some thing
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">});&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Request&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">ProcessRequest&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">while&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="n">bHttpRequest&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">FHttpManager&lt;/span>&lt;span class="o">&amp;amp;&lt;/span> &lt;span class="n">HttpManager&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FHttpModule&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">Get&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="n">GetHttpManager&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">HttpManager&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Tick&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mf">0.0f&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">FPlatformProcess&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">Sleep&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mf">0.0f&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>注意到，我们这里有一个 flag 标志位 bHttpRequest，是为了确保完成http请求再进行后续的操作（不放在回调里），此时需要使用 HttpManager.Tick&lt;/p>
+&lt;p>参考：
+&lt;a class="link" href="https://blog.csdn.net/qq_51654332/article/details/131489044" target="_blank" rel="noopener"
+>https://blog.csdn.net/qq_51654332/article/details/131489044&lt;/a>&lt;/p></description></item><item><title>贴图设置属性</title><link>https://hebohang.github.io/p/%E8%B4%B4%E5%9B%BE%E8%AE%BE%E7%BD%AE%E5%B1%9E%E6%80%A7/</link><pubDate>Wed, 29 Nov 2023 11:11:23 +0800</pubDate><guid>https://hebohang.github.io/p/%E8%B4%B4%E5%9B%BE%E8%AE%BE%E7%BD%AE%E5%B1%9E%E6%80%A7/</guid><description>&lt;h2 id="官方文档">官方文档&lt;/h2>
 &lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/textures-in-unreal-engine/" target="_blank" rel="noopener"
 >https://docs.unrealengine.com/5.3/zh-CN/textures-in-unreal-engine/&lt;/a>&lt;/p>
 &lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/texture-format-support-and-settings-in-unreal-engine/" target="_blank" rel="noopener"
