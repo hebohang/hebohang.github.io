@@ -1,4 +1,11 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>何律师</title><link>https://hebohang.github.io/</link><description>Recent content on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Mon, 11 Dec 2023 15:44:01 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Commandlet</title><link>https://hebohang.github.io/p/commandlet/</link><pubDate>Mon, 11 Dec 2023 15:44:01 +0800</pubDate><guid>https://hebohang.github.io/p/commandlet/</guid><description>&lt;h2 id="案例">案例&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>何律师</title><link>https://hebohang.github.io/</link><description>Recent content on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Fri, 15 Dec 2023 11:40:29 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>电脑空间优化</title><link>https://hebohang.github.io/p/%E7%94%B5%E8%84%91%E7%A9%BA%E9%97%B4%E4%BC%98%E5%8C%96/</link><pubDate>Fri, 15 Dec 2023 11:40:29 +0800</pubDate><guid>https://hebohang.github.io/p/%E7%94%B5%E8%84%91%E7%A9%BA%E9%97%B4%E4%BC%98%E5%8C%96/</guid><description>&lt;h2 id="分析工具">分析工具&lt;/h2>
+&lt;p>SpaceSniffer.exe&lt;/p>
+&lt;h2 id="优化c盘">优化C盘&lt;/h2>
+&lt;p>C盘空间占用太大，可以优化：&lt;/p>
+&lt;p>关闭睡眠与休眠功能：
+&lt;code>powercfg -h off&lt;/code>&lt;/p>
+&lt;p>&lt;a class="link" href="https://answers.microsoft.com/zh-hans/windows/forum/windows_7-performance/answers-%E5%88%86%E4%BA%ABwindows/21af6481-a388-4bb9-896f-7d4885cea3bb" target="_blank" rel="noopener"
+>https://answers.microsoft.com/zh-hans/windows/forum/windows_7-performance/answers-%E5%88%86%E4%BA%ABwindows/21af6481-a388-4bb9-896f-7d4885cea3bb&lt;/a>&lt;/p></description></item><item><title>Commandlet</title><link>https://hebohang.github.io/p/commandlet/</link><pubDate>Mon, 11 Dec 2023 15:44:01 +0800</pubDate><guid>https://hebohang.github.io/p/commandlet/</guid><description>&lt;h2 id="案例">案例&lt;/h2>
 &lt;p>头文件：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -1067,7 +1074,39 @@ loading="lazy"
 class="gallery-image"
 data-flex-grow="140"
 data-flex-basis="336px"
->&lt;/p></description></item><item><title>UE基础知识</title><link>https://hebohang.github.io/p/ue%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</link><pubDate>Fri, 17 Nov 2023 15:56:23 +0800</pubDate><guid>https://hebohang.github.io/p/ue%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</guid><description>&lt;h2 id="编译链接">编译链接&lt;/h2>
+>&lt;/p>
+&lt;h2 id="进度条">进度条&lt;/h2>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#include&lt;/span> &lt;span class="cpf">&amp;#34;Misc/ScopedSlowTask.h&amp;#34;&lt;/span>&lt;span class="cp">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FScopedSlowTask&lt;/span> &lt;span class="nf">SlowTask&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">files&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Num&lt;/span>&lt;span class="p">(),&lt;/span> &lt;span class="n">LOCTEXT&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;GeneratingDataText&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;Generating Data&amp;#34;&lt;/span>&lt;span class="p">));&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">SlowTask&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">MakeDialog&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="k">auto&lt;/span>&lt;span class="o">&amp;amp;&lt;/span> &lt;span class="nl">file&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="n">files&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">SlowTask&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">EnterProgressFrame&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">//Implementation can be before or after
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>参考：&lt;/p>
+&lt;p>&lt;a class="link" href="https://forums.unrealengine.com/t/how-can-i-use-unreal-engine-editors-progress-bar-not-umg/359876" target="_blank" rel="noopener"
+>https://forums.unrealengine.com/t/how-can-i-use-unreal-engine-editors-progress-bar-not-umg/359876&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/en-US/API/Runtime/Core/Misc/FScopedSlowTask/" target="_blank" rel="noopener"
+>https://docs.unrealengine.com/5.3/en-US/API/Runtime/Core/Misc/FScopedSlowTask/&lt;/a>&lt;/p></description></item><item><title>UE基础知识</title><link>https://hebohang.github.io/p/ue%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</link><pubDate>Fri, 17 Nov 2023 15:56:23 +0800</pubDate><guid>https://hebohang.github.io/p/ue%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/</guid><description>&lt;h2 id="编译链接">编译链接&lt;/h2>
 &lt;h3 id="源码编译">源码编译&lt;/h3>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
