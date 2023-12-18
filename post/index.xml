@@ -730,7 +730,44 @@ class="gallery-image"
 data-flex-grow="135"
 data-flex-basis="326px"
 >&lt;/p>
-&lt;p>如果还没生效重启一下就可以了。&lt;/p></description></item><item><title>场景优化</title><link>https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/</link><pubDate>Mon, 20 Nov 2023 17:27:45 +0800</pubDate><guid>https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/</guid><description>&lt;h2 id="world-partition">World Partition&lt;/h2>
+&lt;p>如果还没生效重启一下就可以了。&lt;/p>
+&lt;h2 id="命令行">命令行&lt;/h2>
+&lt;h3 id="背景">背景&lt;/h3>
+&lt;p>美术反馈有一个文件，mark for add会报错 Cannot check out &amp;ldquo;exclusive open&amp;rdquo; file(s)，重命名为其他名字就可以add上。&lt;/p>
+&lt;p>怀疑是其他人也对同样名字的文件mark for add，但是没有提交，导致被锁住了，p4v里头又看不到是谁，所以就借助命令行查看了。&lt;/p>
+&lt;h3 id="初始化p4">初始化p4&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 设置服务端地址&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">p4 &lt;span class="nb">set&lt;/span> &lt;span class="nv">P4PORT&lt;/span>&lt;span class="o">=&lt;/span>perforce.example.com:1666
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 设置 Perforce 用户名&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">p4 &lt;span class="nb">set&lt;/span> &lt;span class="nv">P4USER&lt;/span>&lt;span class="o">=&lt;/span>&amp;lt;your-username&amp;gt;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 登录到 Perforce 帐户&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">p4 login
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1"># 输入密码后，设置工作目录&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">p4 &lt;span class="nb">set&lt;/span> &lt;span class="nv">P4CLIENT&lt;/span>&lt;span class="o">=&lt;/span>&amp;lt;your-client-workspace&amp;gt;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>接着对那个文件使用 opened -a ：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">p4 opened -a &lt;span class="o">[&lt;/span>filepath&lt;span class="o">]&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div></description></item><item><title>场景优化</title><link>https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/</link><pubDate>Mon, 20 Nov 2023 17:27:45 +0800</pubDate><guid>https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/</guid><description>&lt;h2 id="world-partition">World Partition&lt;/h2>
 &lt;p>官方文档：&lt;/p>
 &lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.0/zh-CN/world-partition-in-unreal-engine/" target="_blank" rel="noopener"
 >https://docs.unrealengine.com/5.0/zh-CN/world-partition-in-unreal-engine/&lt;/a>&lt;/p>
