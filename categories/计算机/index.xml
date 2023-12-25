@@ -1,4 +1,13 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>计算机 on 何律师</title><link>https://hebohang.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/</link><description>Recent content in 计算机 on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Fri, 15 Dec 2023 11:40:29 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/index.xml" rel="self" type="application/rss+xml"/><item><title>电脑空间优化</title><link>https://hebohang.github.io/p/%E7%94%B5%E8%84%91%E7%A9%BA%E9%97%B4%E4%BC%98%E5%8C%96/</link><pubDate>Fri, 15 Dec 2023 11:40:29 +0800</pubDate><guid>https://hebohang.github.io/p/%E7%94%B5%E8%84%91%E7%A9%BA%E9%97%B4%E4%BC%98%E5%8C%96/</guid><description>&lt;h2 id="分析工具">分析工具&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>计算机 on 何律师</title><link>https://hebohang.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/</link><description>Recent content in 计算机 on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Mon, 25 Dec 2023 15:54:56 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/index.xml" rel="self" type="application/rss+xml"/><item><title>Bat</title><link>https://hebohang.github.io/p/bat/</link><pubDate>Mon, 25 Dec 2023 15:54:56 +0800</pubDate><guid>https://hebohang.github.io/p/bat/</guid><description>&lt;h2 id="schtasks">schtasks&lt;/h2>
+&lt;p>可以启用一个定时任务，可以在 Task Scheduler（任务计划程序）中查看或更改权限等：
+&lt;img src="https://hebohang.github.io/p/bat/image.png"
+width="234"
+height="87"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="268"
+data-flex-basis="645px"
+>&lt;/p></description></item><item><title>电脑空间优化</title><link>https://hebohang.github.io/p/%E7%94%B5%E8%84%91%E7%A9%BA%E9%97%B4%E4%BC%98%E5%8C%96/</link><pubDate>Fri, 15 Dec 2023 11:40:29 +0800</pubDate><guid>https://hebohang.github.io/p/%E7%94%B5%E8%84%91%E7%A9%BA%E9%97%B4%E4%BC%98%E5%8C%96/</guid><description>&lt;h2 id="分析工具">分析工具&lt;/h2>
 &lt;p>SpaceSniffer.exe&lt;/p>
 &lt;h2 id="优化c盘">优化C盘&lt;/h2>
 &lt;p>C盘空间占用太大，可以优化：&lt;/p>
