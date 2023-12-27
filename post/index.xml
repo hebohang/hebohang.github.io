@@ -348,6 +348,11 @@ data-flex-grow="367"
 data-flex-basis="882px"
 >&lt;/p>
 &lt;p>点击continue继续就好了。&lt;/p>
+&lt;h2 id="修改cpp不打包测试">修改cpp不打包测试&lt;/h2>
+&lt;p>编辑器运行和打包后运行环境不太一样，走的engine loop的地方也有差别（编辑器下似乎是 UUnrealEdEngine::Tick，打包后是 UGameEngine::Tick），
+因此有时候测试需要打包后测，但是若是只改动部分cpp就要重新打个包会很漫长。&lt;/p>
+&lt;p>我们可以把配置改为 Development，然后编译项目（只需编译游戏项目就可以了），编译后在 Binaries\Win64 下，我们把编译后的游戏 exe 拷贝覆盖之前
+打的游戏包（这里只替换exe就行）。但是注意，直接运行 Development 是不可以的，因为相对路径不太一样。&lt;/p>
 &lt;h2 id="问题合集">问题合集&lt;/h2>
 &lt;h3 id="1-fatal-error-c1083-cannot-open-compiler-generated-file">1. fatal error C1083: Cannot open compiler generated file&lt;/h3>
 &lt;p>主要是打包的时候出现的：&lt;/p>
