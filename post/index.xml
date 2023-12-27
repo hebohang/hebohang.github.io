@@ -317,7 +317,49 @@ data-flex-basis="590px"
 &lt;/div>&lt;p>注意到，我们这里有一个 flag 标志位 bHttpRequest，是为了确保完成http请求再进行后续的操作（不放在回调里），此时需要使用 HttpManager.Tick&lt;/p>
 &lt;p>参考：
 &lt;a class="link" href="https://blog.csdn.net/qq_51654332/article/details/131489044" target="_blank" rel="noopener"
->https://blog.csdn.net/qq_51654332/article/details/131489044&lt;/a>&lt;/p></description></item><item><title>贴图设置属性</title><link>https://hebohang.github.io/p/%E8%B4%B4%E5%9B%BE%E8%AE%BE%E7%BD%AE%E5%B1%9E%E6%80%A7/</link><pubDate>Wed, 29 Nov 2023 11:11:23 +0800</pubDate><guid>https://hebohang.github.io/p/%E8%B4%B4%E5%9B%BE%E8%AE%BE%E7%BD%AE%E5%B1%9E%E6%80%A7/</guid><description>&lt;h2 id="官方文档">官方文档&lt;/h2>
+>https://blog.csdn.net/qq_51654332/article/details/131489044&lt;/a>&lt;/p>
+&lt;h2 id="启动时debug">启动时debug&lt;/h2>
+&lt;p>当我们打了一个游戏包，希望断点调试，可以先启动游戏，然后attach到这个进程：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/image-3.png"
+width="339"
+height="203"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="166"
+data-flex-basis="400px"
+>&lt;/p>
+&lt;p>但是这样做游戏刚开始进行就无法调试到，我们可以增加参数 -WaitForDebugger：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/image-1.png"
+width="406"
+height="269"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="150"
+data-flex-basis="362px"
+>&lt;/p>
+&lt;p>（可以alt加鼠标左键拖动exe包，生成一个快捷方式，然后给快捷方式添加启动参数）&lt;/p>
+&lt;p>此时会无事发生，点击刚刚的attach按钮会看到这个进程，接着会挂在这里(Engine\Source\Runtime\Launch\Private\Launch.cpp)：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/image-2.png"
+width="1103"
+height="300"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="367"
+data-flex-basis="882px"
+>&lt;/p>
+&lt;p>点击continue继续就好了。&lt;/p>
+&lt;h2 id="问题合集">问题合集&lt;/h2>
+&lt;h3 id="1-fatal-error-c1083-cannot-open-compiler-generated-file">1. fatal error C1083: Cannot open compiler generated file&lt;/h3>
+&lt;p>主要是打包的时候出现的：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">fatal error C1083: Cannot open compiler generated file: &lt;span class="s1">&amp;#39;xxxx&amp;#39;&lt;/span>: Permission denied
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>最后发现是这个 xxxx 文件是只读的，右键属性把只读勾掉就行。&lt;/p></description></item><item><title>贴图设置属性</title><link>https://hebohang.github.io/p/%E8%B4%B4%E5%9B%BE%E8%AE%BE%E7%BD%AE%E5%B1%9E%E6%80%A7/</link><pubDate>Wed, 29 Nov 2023 11:11:23 +0800</pubDate><guid>https://hebohang.github.io/p/%E8%B4%B4%E5%9B%BE%E8%AE%BE%E7%BD%AE%E5%B1%9E%E6%80%A7/</guid><description>&lt;h2 id="官方文档">官方文档&lt;/h2>
 &lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/textures-in-unreal-engine/" target="_blank" rel="noopener"
 >https://docs.unrealengine.com/5.3/zh-CN/textures-in-unreal-engine/&lt;/a>&lt;/p>
 &lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/texture-format-support-and-settings-in-unreal-engine/" target="_blank" rel="noopener"
