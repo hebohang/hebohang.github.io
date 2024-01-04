@@ -704,6 +704,22 @@ data-flex-basis="336px"
 &lt;/ol>
 &lt;/li>
 &lt;/ul>
+&lt;h2 id="编辑器">编辑器&lt;/h2>
+&lt;h3 id="content-browser">Content Browser&lt;/h3>
+&lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.0/zh-CN/content-browser-interface-in-unreal-engine/" target="_blank" rel="noopener"
+>https://docs.unrealengine.com/5.0/zh-CN/content-browser-interface-in-unreal-engine/&lt;/a>&lt;/p>
+&lt;p>可以对一个文件夹右键 add to favorites 功能，可以显示 favorites：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/ue%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-3.png"
+width="438"
+height="526"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="83"
+data-flex-basis="199px"
+>&lt;/p>
+&lt;h3 id="关卡">关卡&lt;/h3>
+&lt;h4 id="新建">新建&lt;/h4>
+&lt;p>File -&amp;gt; New Level，头两个是 World Partition 的关卡。&lt;/p>
 &lt;h2 id="ui">UI&lt;/h2>
 &lt;p>&lt;img src="https://hebohang.github.io/p/ue%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image.png"
 width="429"
