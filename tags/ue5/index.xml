@@ -184,7 +184,7 @@ data-flex-basis="882px"
 &lt;p>我们可以把配置改为 Development，然后编译项目（只需编译游戏项目就可以了），编译后在 Binaries\Win64 下，我们把编译后的游戏 exe 拷贝覆盖之前
 打的游戏包（这里只替换exe就行）。但是注意，直接运行 Development 是不可以的，因为相对路径不太一样。&lt;/p>
 &lt;h2 id="问题合集">问题合集&lt;/h2>
-&lt;h3 id="1-fatal-error-c1083-cannot-open-compiler-generated-file">1. fatal error C1083: Cannot open compiler generated file&lt;/h3>
+&lt;h3 id="fatal-error-c1083-cannot-open-compiler-generated-file">fatal error C1083: Cannot open compiler generated file&lt;/h3>
 &lt;p>主要是打包的时候出现的：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -194,7 +194,16 @@ data-flex-basis="882px"
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">fatal error C1083: Cannot open compiler generated file: &lt;span class="s1">&amp;#39;xxxx&amp;#39;&lt;/span>: Permission denied
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>最后发现是这个 xxxx 文件是只读的，右键属性把只读勾掉就行。&lt;/p></description></item><item><title>Cook</title><link>https://hebohang.github.io/p/cook/</link><pubDate>Mon, 27 Nov 2023 19:38:35 +0800</pubDate><guid>https://hebohang.github.io/p/cook/</guid><description>&lt;h2 id="cook-流程">Cook 流程&lt;/h2>
+&lt;/div>&lt;p>最后发现是这个 xxxx 文件是只读的，右键属性把只读勾掉就行。&lt;/p>
+&lt;h3 id="asset-cannot-be-saved-as-it-has-only-been-partially-loaded">Asset cannot be saved as it has only been partially loaded&lt;/h3>
+&lt;p>根据&lt;a class="link" href="https://answers.unrealengine.com/questions/56362/cant-save-asset-as-unreal-only-partially-loaded-it.html" target="_blank" rel="noopener"
+>UE4AnserHub&lt;/a>的今年6月最新的回答，已经解决。&lt;/p>
+&lt;p>方法：修改文件命名即可。&lt;/p>
+&lt;h3 id="合集">合集&lt;/h3>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/80809567" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/80809567&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/en-US/map-check-errors-in-unreal-engine/" target="_blank" rel="noopener"
+>https://docs.unrealengine.com/5.3/en-US/map-check-errors-in-unreal-engine/&lt;/a>&lt;/p></description></item><item><title>Cook</title><link>https://hebohang.github.io/p/cook/</link><pubDate>Mon, 27 Nov 2023 19:38:35 +0800</pubDate><guid>https://hebohang.github.io/p/cook/</guid><description>&lt;h2 id="cook-流程">Cook 流程&lt;/h2>
 &lt;p>会执行到 UCookCommandlet 的 main 中：
 &lt;code>Source\Editor\UnrealEd\Private\Commandlets\CookCommandlet.cpp&lt;/code>&lt;/p>
 &lt;p>参考：
