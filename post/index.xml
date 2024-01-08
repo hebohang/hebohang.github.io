@@ -369,6 +369,8 @@ data-flex-basis="882px"
 &lt;p>根据&lt;a class="link" href="https://answers.unrealengine.com/questions/56362/cant-save-asset-as-unreal-only-partially-loaded-it.html" target="_blank" rel="noopener"
 >UE4AnserHub&lt;/a>的今年6月最新的回答，已经解决。&lt;/p>
 &lt;p>方法：修改文件命名即可。&lt;/p>
+&lt;h3 id="缺失-xinput1_3dll">缺失 XInput1_3.dll&lt;/h3>
+&lt;p>运行 Engine\Extras\Redist\en-us\UEPrereqSetup_x64.exe 下载安装依赖项。&lt;/p>
 &lt;h3 id="合集">合集&lt;/h3>
 &lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/80809567" target="_blank" rel="noopener"
 >https://zhuanlan.zhihu.com/p/80809567&lt;/a>&lt;/p>
@@ -892,6 +894,16 @@ class="gallery-image"
 data-flex-grow="183"
 data-flex-basis="439px"
 >&lt;/p>
+&lt;h3 id="grid-cell">Grid Cell&lt;/h3>
+&lt;p>Runtime Grid 运行时网格，相当于对整个世界划分为一个个格子，每个格子就是 cell，通过 cell size 来控制。&lt;/p>
+&lt;p>可以对每个关卡中的物体的detail面板中编辑 World Partition 属性，写上对应属于的Grid的名字。&lt;/p>
+&lt;p>参考：&lt;/p>
+&lt;p>&lt;a class="link" href="https://www.bilibili.com/video/BV1ik4y1A77p/?spm_id_from=333.337.top_right_bar_window_history.content.click&amp;amp;vd_source=bd08f0c74da1940eb8682f61aa471b24" target="_blank" rel="noopener"
+>https://www.bilibili.com/video/BV1ik4y1A77p/?spm_id_from=333.337.top_right_bar_window_history.content.click&amp;vd_source=bd08f0c74da1940eb8682f61aa471b24&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/537589944" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/537589944&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/502053365" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/502053365&lt;/a>&lt;/p>
 &lt;h2 id="ism-与-hism">ISM 与 HISM&lt;/h2>
 &lt;p>&lt;img src="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image.png"
 width="421"
