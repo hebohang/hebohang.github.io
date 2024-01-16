@@ -19,7 +19,7 @@
 </span></span><span class=line><span class=cl><span class=n>TArray</span><span class=o>&lt;</span><span class=n>FAssetData</span><span class=o>&gt;</span> <span class=n>TextureAssets</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=n>AssetRegistry</span><span class=p>.</span><span class=n>GetAssets</span><span class=p>(</span><span class=n>Filter</span><span class=p>,</span> <span class=n>TextureAssets</span><span class=p>);</span>
 </span></span></code></pre></td></tr></table></div></div><p>这里注意，我们在 5.1 之后使用的是 ClassPaths 而不是 ClassNames：
-<img src=/p/%E4%B8%80%E4%BA%9B%E5%B0%8F%E6%96%B9%E6%B3%95/image-2.png width=433 height=154 loading=lazy class=gallery-image data-flex-grow=281 data-flex-basis=674px></p><h2 id=获取资产的引用关系>获取资产的引用关系</h2><p>例如获取当前关卡的引用关系：</p><p>获取当前关卡引用了谁：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+<img src=/p/%E4%B8%80%E4%BA%9B%E5%B0%8F%E6%96%B9%E6%B3%95/image-2.png width=433 height=154 loading=lazy class=gallery-image data-flex-grow=281 data-flex-basis=674px></p><h2 id=获取资产的引用关系>获取资产的引用关系</h2><p>例如获取当前关卡的引用关系：</p><p>获取是谁引用了当前关卡：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -47,7 +47,7 @@
 </span></span><span class=line><span class=cl>        <span class=n>UObject</span><span class=o>*</span> <span class=n>AssetInPackage</span> <span class=o>=</span> <span class=n>OutAssetData</span><span class=p>[</span><span class=mi>0</span><span class=p>].</span><span class=n>GetAsset</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>    <span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
-</span></span></code></pre></td></tr></table></div></div><p>获取是谁引用了当前关卡：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span></span></code></pre></td></tr></table></div></div><p>获取当前关卡引用了谁：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -75,6 +75,14 @@
 </span></span><span class=line><span class=cl>        <span class=n>UObject</span><span class=o>*</span> <span class=n>AssetInPackage</span> <span class=o>=</span> <span class=n>OutAssetData</span><span class=p>[</span><span class=mi>0</span><span class=p>].</span><span class=n>GetAsset</span><span class=p>();</span>
 </span></span><span class=line><span class=cl>    <span class=p>}</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>这里特别要注意，commandlet 下获取引用关系可能会有问题，需要手动全部加载一次：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=n>UE_LOG</span><span class=p>(</span><span class=n>LogTemp</span><span class=p>,</span> <span class=n>Display</span><span class=p>,</span> <span class=n>TEXT</span><span class=p>(</span><span class=s>&#34;KAutoAssetCheckCommandlet Start Load All Assets!&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=n>FAssetRegistryModule</span><span class=o>&amp;</span> <span class=n>AssetRegistryModule</span> <span class=o>=</span> <span class=n>FModuleManager</span><span class=o>::</span><span class=n>GetModuleChecked</span><span class=o>&lt;</span><span class=n>FAssetRegistryModule</span><span class=o>&gt;</span><span class=p>(</span><span class=s>&#34;AssetRegistry&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>AssetRegistryModule</span><span class=p>.</span><span class=n>Get</span><span class=p>().</span><span class=n>SearchAllAssets</span><span class=p>(</span><span class=cm>/*bSynchronousSearch =*/</span><span class=nb>true</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>UE_LOG</span><span class=p>(</span><span class=n>LogTemp</span><span class=p>,</span> <span class=n>Display</span><span class=p>,</span> <span class=n>TEXT</span><span class=p>(</span><span class=s>&#34;KAutoAssetCheckCommandlet Finish Load All Assets!&#34;</span><span class=p>))</span>
 </span></span></code></pre></td></tr></table></div></div><p>关于 AssetRegistry，可以参考：
 <a class=link href=https://zhuanlan.zhihu.com/p/76964514 target=_blank rel=noopener>https://zhuanlan.zhihu.com/p/76964514</a></p></section><footer class=article-footer><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg><span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><script src=//unpkg.com/@waline/client@v2/dist/waline.js></script><link href=//unpkg.com/@waline/client@v2/dist/waline.css rel=stylesheet><div id=waline class=waline-container></div><style>.waline-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding);--waline-font-size:var(--article-font-size)}.waline-container .wl-count{color:var(--card-text-color-main)}</style><script>Waline.init({dark:'html[data-scheme="dark"]',el:"#waline",emoji:["https://unpkg.com/@waline/emojis@1.0.1/weibo","https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/qq"],locale:{admin:"Admin",placeholder:null},requiredMeta:["name","email","url"],serverURL:"https://hebohang-website-hugo-waline-vercel.vercel.app/"})</script><footer class=site-footer><section class=copyright>&copy;
 2020 -
