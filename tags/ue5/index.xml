@@ -322,7 +322,76 @@ alt="UE的版本控制插件"
 class="gallery-image"
 data-flex-grow="268"
 data-flex-basis="644px"
->&lt;/p></description></item><item><title>场景优化</title><link>https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/</link><pubDate>Mon, 20 Nov 2023 17:27:45 +0800</pubDate><guid>https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/</guid><description>&lt;h2 id="world-partition">World Partition&lt;/h2>
+>&lt;/p>
+&lt;h2 id="问题perforce">问题（Perforce）&lt;/h2>
+&lt;h3 id="submit-content-时会导致有的文件状态被改为问号notindepot">Submit Content 时会导致有的文件状态被改为问号（NotInDepot）&lt;/h3>
+&lt;p>ue有几次缓存，首先会调用 p4 fstat 命令获取各个文件夹内资产的状态，先记录在中间变量 Records 中（位于文件 PerforceSourceControlOperations.cpp）：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/image-2.png"
+width="1238"
+height="296"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="418"
+data-flex-basis="1003px"
+>&lt;/p>
+&lt;p>接着在 ParseUpdateStatusResults 函数中对这个 Records 做处理，根据各个文件的状态，缓存到 OutStates 中（&lt;code>TArray&amp;lt;FPerforceSourceControlState&amp;gt;&lt;/code>类型）：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/image-3.png"
+width="445"
+height="65"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="684"
+data-flex-basis="1643px"
+>&lt;/p>
+&lt;p>对于之前在p4服务器被delete的文件（HeadAction 是 delete），会把状态标记为 NotInDepot：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/image-4.png"
+width="666"
+height="91"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="731"
+data-flex-basis="1756px"
+>&lt;/p>
+&lt;p>这样做的原因是，不允许再次存在相同文件的 move/delete 操作，很合理&amp;hellip;&lt;/p>
+&lt;p>在处理执行的类文件 PerforceSourceControlProvider.cpp 中，有 GetStateInternal 函数获取文件状态，此时会做一级缓存，存到 StateCache，这是一个文件路径名到 FPerforceSourceControlState 的一个映射，
+可以对每次查询状态进行加速，很合理：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">TMap&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">FString&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">TSharedRef&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="k">class&lt;/span> &lt;span class="nc">FPerforceSourceControlState&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">ESPMode&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">ThreadSafe&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">StateCache&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>我们会在 GetStateInternal 函数中进行处理：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/image-6.png"
+width="998"
+height="247"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="404"
+data-flex-basis="969px"
+>&lt;/p>
+&lt;p>更新的时候，我们会通过 GetStateInternal 函数得到 StateCache 中对应文件的状态，然后通过 OutStates 中已经拉取的状态去更新：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/image-8.png"
+width="1082"
+height="536"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="201"
+data-flex-basis="484px"
+>&lt;/p>
+&lt;p>至此，看下来都没很合理。但是！我们项目组对一个小写文件改为大写文件，之前的小写文件删除上传p4. p4服务器是Linux环境，文件系统中Linux区分大小写，而Windows不分大小写。
+p4此时就有这条delete的记录，在上述操作中就会缓存到ue里的 OutStates&lt;/p>
+&lt;p>然后，我们在ue里查询这个大写文件的状态时，由于 StateCache 这个 TMap 默认是不区分大小写的，这就导致谁后进 map 就会把前面的状态覆盖。&lt;/p>
+&lt;p>例如本地的这个大写文件状态是 checkout，然后提交查询状态时，map 中的状态又被小写文件的记录覆盖了，从而变成了 NotInDepot &amp;hellip;&lt;/p>
+&lt;p>修复方法：把 StateCache 变成一个大小写敏感的 map，修改方法可以参考：&lt;/p>
+&lt;p>&lt;a class="link" href="https://hashnode.com/post/case-sensitive-tmaplessfstring-int32greater-in-unreal-engine-4-in-c-ckvc1jse20qf645s14e3d6ntd" target="_blank" rel="noopener"
+>https://hashnode.com/post/case-sensitive-tmaplessfstring-int32greater-in-unreal-engine-4-in-c-ckvc1jse20qf645s14e3d6ntd&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://docs.unrealengine.com/4.27/zh-CN/ProgrammingAndScripting/ProgrammingWithCPP/UnrealArchitecture/TMap/" target="_blank" rel="noopener"
+>https://docs.unrealengine.com/4.27/zh-CN/ProgrammingAndScripting/ProgrammingWithCPP/UnrealArchitecture/TMap/&lt;/a>&lt;/p>
+&lt;p>事实上也可以参考这个文件：Engine\Source\Runtime\Core\Private\Containers\ContainersTest.cpp&lt;/p>
+&lt;p>其中有类 FCaseSensitiveLookupKeyFuncs ，参考他的写法即可&lt;/p></description></item><item><title>场景优化</title><link>https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/</link><pubDate>Mon, 20 Nov 2023 17:27:45 +0800</pubDate><guid>https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/</guid><description>&lt;h2 id="world-partition">World Partition&lt;/h2>
 &lt;p>官方文档：&lt;/p>
 &lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.0/zh-CN/world-partition-in-unreal-engine/" target="_blank" rel="noopener"
 >https://docs.unrealengine.com/5.0/zh-CN/world-partition-in-unreal-engine/&lt;/a>&lt;/p>
