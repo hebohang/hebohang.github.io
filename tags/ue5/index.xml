@@ -1008,6 +1008,10 @@ data-flex-basis="428px"
 >https://blog.csdn.net/u011718663/article/details/117785611&lt;/a>&lt;/p>
 &lt;p>&lt;a class="link" href="https://forums.unrealengine.com/t/define-loctext-namespace-something/438086" target="_blank" rel="noopener"
 >https://forums.unrealengine.com/t/define-loctext-namespace-something/438086&lt;/a>&lt;/p>
+&lt;h3 id="路径">路径&lt;/h3>
+&lt;p>资产路径 /Game /Engine 等打头的，可以用 &lt;code>FPackageName::TryConvertLongPackageNameToFilename&lt;/code> 转换路径。&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/152201635" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/152201635&lt;/a>&lt;/p>
 &lt;h3 id="复制-duplicate">复制 Duplicate&lt;/h3>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">

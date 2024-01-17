@@ -1,4 +1,67 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>何律师</title><link>https://hebohang.github.io/</link><description>Recent content on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Mon, 25 Dec 2023 15:54:56 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Bat</title><link>https://hebohang.github.io/p/bat/</link><pubDate>Mon, 25 Dec 2023 15:54:56 +0800</pubDate><guid>https://hebohang.github.io/p/bat/</guid><description>&lt;h2 id="schtasks">schtasks&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>何律师</title><link>https://hebohang.github.io/</link><description>Recent content on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Wed, 17 Jan 2024 19:17:46 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>UE-VS2022</title><link>https://hebohang.github.io/p/ue-vs2022/</link><pubDate>Wed, 17 Jan 2024 19:17:46 +0800</pubDate><guid>https://hebohang.github.io/p/ue-vs2022/</guid><description>&lt;h2 id="调试">调试&lt;/h2>
+&lt;h3 id="条件断点">条件断点&lt;/h3>
+&lt;h4 id="fstring">FString&lt;/h4>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">wcsstr&lt;/span>&lt;span class="p">((&lt;/span>&lt;span class="kt">wchar_t&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="n">MyString&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Data&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">AllocatorInstance&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Data&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="sa">L&lt;/span>&lt;span class="s">&amp;#34;MyText&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="mi">0&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="fname">FName&lt;/h4>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">strstr&lt;/span>&lt;span class="p">(((&lt;/span>&lt;span class="n">FNameEntry&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="n">GNameBlocksDebug&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">MyFName&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">DisplayIndex&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Value&lt;/span> &lt;span class="o">&amp;gt;&amp;gt;&lt;/span> &lt;span class="n">FNameDebugVisualizer&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">OfsetBits&lt;/span>&lt;span class="p">][&lt;/span>&lt;span class="n">FNameDebugVisualizer&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">EntryStride&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">MyFName&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">DisplayIndex&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Value&lt;/span> &lt;span class="o">&amp;amp;&lt;/span> &lt;span class="n">FNameDebugVisualizer&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">OfsetMask&lt;/span>&lt;span class="p">)]).&lt;/span>&lt;span class="n">AnsiName&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="s">&amp;#34;Search substring&amp;#34;&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="unrealvs">UnrealVS&lt;/h3>
+&lt;p>这是 UE 制作的插件，有很好的功能。&lt;/p>
+&lt;p>在 Engine\Extras\UnrealVS\VS2022\UnrealVS.vsix 中，双击安装即可。&lt;/p>
+&lt;p>之后对上面状态栏右键，可以扩展出 UnrealVS 处：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/ue-vs2022/image-2.png"
+width="414"
+height="641"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="64"
+data-flex-basis="155px"
+>&lt;/p>
+&lt;p>然后就能很方便地加启动参数了：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/ue-vs2022/image-3.png"
+width="1607"
+height="899"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="178"
+data-flex-basis="429px"
+>&lt;/p>
+&lt;h3 id="dmp文件">dmp文件&lt;/h3>
+&lt;p>直接拖入VS中:&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/ue-vs2022/image.png"
+width="1600"
+height="748"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="213"
+data-flex-basis="513px"
+>&lt;/p>
+&lt;p>这里要注意，我们需要加载 pdb 文件才能调试，可以在设置符号路径处设置，我们这里可以填服务器路径（例如我们项目就是会把 pdb 都上传到一个地址，只需要填 \xxx.xxx.xxx\xxx 之类的地址就行），
+服务器路径这个选项要打开：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/ue-vs2022/image-1.png"
+width="744"
+height="487"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="152"
+data-flex-basis="366px"
+>&lt;/p>
+&lt;h2 id="参考">参考&lt;/h2>
+&lt;p>&lt;a class="link" href="https://www.bilibili.com/video/BV1iQ4y1j73A/?spm_id_from=333.1007.top_right_bar_window_custom_collection.content.click&amp;amp;vd_source=bd08f0c74da1940eb8682f61aa471b24" target="_blank" rel="noopener"
+>[UFSH2023]总有一个你不知道的虚幻引擎调试技巧 | 陈拓 Epic Games&lt;/a>&lt;/p></description></item><item><title>Bat</title><link>https://hebohang.github.io/p/bat/</link><pubDate>Mon, 25 Dec 2023 15:54:56 +0800</pubDate><guid>https://hebohang.github.io/p/bat/</guid><description>&lt;h2 id="schtasks">schtasks&lt;/h2>
 &lt;p>可以启用一个定时任务，可以在 Task Scheduler（任务计划程序）中查看或更改权限等：
 &lt;img src="https://hebohang.github.io/p/bat/image.png"
 width="234"
@@ -1618,6 +1681,10 @@ data-flex-basis="428px"
 >https://blog.csdn.net/u011718663/article/details/117785611&lt;/a>&lt;/p>
 &lt;p>&lt;a class="link" href="https://forums.unrealengine.com/t/define-loctext-namespace-something/438086" target="_blank" rel="noopener"
 >https://forums.unrealengine.com/t/define-loctext-namespace-something/438086&lt;/a>&lt;/p>
+&lt;h3 id="路径">路径&lt;/h3>
+&lt;p>资产路径 /Game /Engine 等打头的，可以用 &lt;code>FPackageName::TryConvertLongPackageNameToFilename&lt;/code> 转换路径。&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/152201635" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/152201635&lt;/a>&lt;/p>
 &lt;h3 id="复制-duplicate">复制 Duplicate&lt;/h3>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
