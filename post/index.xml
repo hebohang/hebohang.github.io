@@ -76,6 +76,12 @@ data-flex-basis="645px"
 &lt;/span>&lt;span class="lnt">11
 &lt;/span>&lt;span class="lnt">12
 &lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#include&lt;/span> &lt;span class="cpf">&amp;#34;XXXCommandlet.h&amp;#34;&lt;/span>&lt;span class="cp">
@@ -88,6 +94,12 @@ data-flex-basis="645px"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">int32&lt;/span> &lt;span class="n">UXXXCommandlet&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">Main&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="k">const&lt;/span> &lt;span class="n">FString&lt;/span>&lt;span class="o">&amp;amp;&lt;/span> &lt;span class="n">InCommandline&lt;/span>&lt;span class="p">)&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 可以解析参数
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="n">TArray&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">FString&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">Tokens&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">TArray&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">FString&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">InSwitches&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">TMap&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">FString&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">FString&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">ParamsMap&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">ParseCommandLine&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">InCommandline&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">Tokens&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">InSwitches&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">ParamsMap&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// do some thing
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">return&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>

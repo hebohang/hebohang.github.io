@@ -51,6 +51,12 @@
 </span><span class=lnt>11
 </span><span class=lnt>12
 </span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&#34;XXXCommandlet.h&#34;</span><span class=cp>
 </span></span></span><span class=line><span class=cl><span class=cp></span>
 </span></span><span class=line><span class=cl><span class=n>DEFINE_LOG_CATEGORY</span><span class=p>(</span><span class=n>LogXXXCommandlet</span><span class=p>);</span>
@@ -61,6 +67,12 @@
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=n>int32</span> <span class=n>UXXXCommandlet</span><span class=o>::</span><span class=n>Main</span><span class=p>(</span><span class=k>const</span> <span class=n>FString</span><span class=o>&amp;</span> <span class=n>InCommandline</span><span class=p>)</span>
 </span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 可以解析参数
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=n>TArray</span><span class=o>&lt;</span><span class=n>FString</span><span class=o>&gt;</span> <span class=n>Tokens</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>TArray</span><span class=o>&lt;</span><span class=n>FString</span><span class=o>&gt;</span> <span class=n>InSwitches</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>TMap</span><span class=o>&lt;</span><span class=n>FString</span><span class=p>,</span> <span class=n>FString</span><span class=o>&gt;</span> <span class=n>ParamsMap</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>ParseCommandLine</span><span class=p>(</span><span class=o>*</span><span class=n>InCommandline</span><span class=p>,</span> <span class=n>Tokens</span><span class=p>,</span> <span class=n>InSwitches</span><span class=p>,</span> <span class=n>ParamsMap</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>	<span class=c1>// do some thing
 </span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
