@@ -1072,8 +1072,70 @@ data-flex-basis="428px"
 &lt;p>&lt;a class="link" href="https://forums.unrealengine.com/t/define-loctext-namespace-something/438086" target="_blank" rel="noopener"
 >https://forums.unrealengine.com/t/define-loctext-namespace-something/438086&lt;/a>&lt;/p>
 &lt;h3 id="路径">路径&lt;/h3>
-&lt;p>资产路径 /Game /Engine 等打头的，可以用 &lt;code>FPackageName::TryConvertLongPackageNameToFilename&lt;/code> 转换路径。&lt;/p>
-&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/152201635" target="_blank" rel="noopener"
+&lt;p>各种资源的路径格式：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="nl">ObjectPath&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="o">/&lt;/span>&lt;span class="n">Engine&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">EngineDamageTypes&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">DmgTypeBP_Environmental&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">DmgTypeBP_Environmental&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nl">PackageName&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="o">/&lt;/span>&lt;span class="n">Engine&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">EngineDamageTypes&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">DmgTypeBP_Environmental&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nl">ObjectName&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">DmgTypeBP_Environmental&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nl">Filename&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">..&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="p">..&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="p">..&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">Engine&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">Content&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">EngineDamageTypes&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">DmgTypeBP_Environmental&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nl">PackagePath&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="o">/&lt;/span>&lt;span class="n">Engine&lt;/span>&lt;span class="o">/&lt;/span>&lt;span class="n">EngineDamageTypes&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nl">ShortName&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">DmgTypeBP_Environmental&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nl">AssetName&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">DmgTypeBP_Environmental&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nl">AssetPackageExtension&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">.&lt;/span>&lt;span class="n">uasset&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="nl">MapPackageExtension&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="p">.&lt;/span>&lt;span class="n">umap&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>路径转换函数：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">FString&lt;/span> &lt;span class="n">ObjectPath&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">TEXT&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/Engine/EngineDamageTypes/DmgTypeBP_Environmental.DmgTypeBP_Environmental&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FString&lt;/span> &lt;span class="n">PackageName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FPackageName&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">ObjectPathToPackageName&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">ObjectPath&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FString&lt;/span> &lt;span class="n">ObjectName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FPackageName&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">ObjectPathToObjectName&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">ObjectPath&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FString&lt;/span> &lt;span class="n">Filename&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FPackageName&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">LongPackageNameToFilename&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">PackageName&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FString&lt;/span> &lt;span class="n">PackageName2&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FPackageName&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">FilenameToLongPackageName&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Filename&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FString&lt;/span> &lt;span class="n">PackagePath&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FPackageName&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">GetLongPackagePath&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">PackageName&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FString&lt;/span> &lt;span class="n">ShortName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FPackageName&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">GetLongPackageAssetName&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">PackageName&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FString&lt;/span> &lt;span class="n">AssetName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FPackageName&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">GetShortName&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">PackageName&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FString&lt;/span> &lt;span class="n">AssetPackageExtension&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FPackageName&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">GetAssetPackageExtension&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FString&lt;/span> &lt;span class="n">MapPackageExtension&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FPackageName&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">GetMapPackageExtension&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>想得到 ObjectPath，我一直没发现好办法，但是从 PackageName 到 ObjectPath 可以先得到 FAssetData 过度：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">TArray&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">FAssetData&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">AssetDataArray&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">AssetRegistryModule&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Get&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="n">GetAssetsByPackageName&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">AssetPackageName&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">AssetDataArray&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/152201635" target="_blank" rel="noopener"
 >https://zhuanlan.zhihu.com/p/152201635&lt;/a>&lt;/p>
 &lt;h3 id="复制-duplicate">复制 Duplicate&lt;/h3>
 &lt;div class="highlight">&lt;div class="chroma">

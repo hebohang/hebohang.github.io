@@ -53,7 +53,49 @@
 </span></span></span></code></pre></td></tr></table></div></div><p><strong>NSLOCTEXT用法</strong></p><p>不用加LOCTEXT_NAMESPACE 和LOCTEXT_NAMESPACE。但是三个参数，第一个也是作用域</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=p>.</span><span class=n>Text</span><span class=p>(</span><span class=n>LOCTEXT</span><span class=p>(</span><span class=s>&#34;SlateMain&#34;</span><span class=p>,</span> <span class=s>&#34;SMainSlate_ButtonSlateAnimation_Text3333&#34;</span><span class=p>,</span> <span class=s>&#34;测试Slate动画&#34;</span><span class=p>))</span>
 </span></span></code></pre></td></tr></table></div></div><p>UE5在编辑器的 Tools->Localization Dashboard 中配置：
-<img src=/p/ue%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-1.png width=662 height=371 loading=lazy class=gallery-image data-flex-grow=178 data-flex-basis=428px></p><h5 id=参考>参考：</h5><p><a class=link href=https://blog.csdn.net/u011718663/article/details/117785611 target=_blank rel=noopener>https://blog.csdn.net/u011718663/article/details/117785611</a></p><p><a class=link href=https://forums.unrealengine.com/t/define-loctext-namespace-something/438086 target=_blank rel=noopener>https://forums.unrealengine.com/t/define-loctext-namespace-something/438086</a></p><h3 id=路径>路径</h3><p>资产路径 /Game /Engine 等打头的，可以用 <code>FPackageName::TryConvertLongPackageNameToFilename</code> 转换路径。</p><p><a class=link href=https://zhuanlan.zhihu.com/p/152201635 target=_blank rel=noopener>https://zhuanlan.zhihu.com/p/152201635</a></p><h3 id=复制-duplicate>复制 Duplicate</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+<img src=/p/ue%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/image-1.png width=662 height=371 loading=lazy class=gallery-image data-flex-grow=178 data-flex-basis=428px></p><h5 id=参考>参考：</h5><p><a class=link href=https://blog.csdn.net/u011718663/article/details/117785611 target=_blank rel=noopener>https://blog.csdn.net/u011718663/article/details/117785611</a></p><p><a class=link href=https://forums.unrealengine.com/t/define-loctext-namespace-something/438086 target=_blank rel=noopener>https://forums.unrealengine.com/t/define-loctext-namespace-something/438086</a></p><h3 id=路径>路径</h3><p>各种资源的路径格式：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=nl>ObjectPath</span><span class=p>:</span> <span class=o>/</span><span class=n>Engine</span><span class=o>/</span><span class=n>EngineDamageTypes</span><span class=o>/</span><span class=n>DmgTypeBP_Environmental</span><span class=p>.</span><span class=n>DmgTypeBP_Environmental</span>
+</span></span><span class=line><span class=cl><span class=nl>PackageName</span><span class=p>:</span> <span class=o>/</span><span class=n>Engine</span><span class=o>/</span><span class=n>EngineDamageTypes</span><span class=o>/</span><span class=n>DmgTypeBP_Environmental</span>
+</span></span><span class=line><span class=cl><span class=nl>ObjectName</span><span class=p>:</span> <span class=n>DmgTypeBP_Environmental</span>
+</span></span><span class=line><span class=cl><span class=nl>Filename</span><span class=p>:</span> <span class=p>..</span><span class=o>/</span><span class=p>..</span><span class=o>/</span><span class=p>..</span><span class=o>/</span><span class=n>Engine</span><span class=o>/</span><span class=n>Content</span><span class=o>/</span><span class=n>EngineDamageTypes</span><span class=o>/</span><span class=n>DmgTypeBP_Environmental</span>
+</span></span><span class=line><span class=cl><span class=nl>PackagePath</span><span class=p>:</span> <span class=o>/</span><span class=n>Engine</span><span class=o>/</span><span class=n>EngineDamageTypes</span>
+</span></span><span class=line><span class=cl><span class=nl>ShortName</span><span class=p>:</span> <span class=n>DmgTypeBP_Environmental</span>
+</span></span><span class=line><span class=cl><span class=nl>AssetName</span><span class=p>:</span> <span class=n>DmgTypeBP_Environmental</span>
+</span></span><span class=line><span class=cl><span class=nl>AssetPackageExtension</span><span class=p>:</span> <span class=p>.</span><span class=n>uasset</span>
+</span></span><span class=line><span class=cl><span class=nl>MapPackageExtension</span><span class=p>:</span> <span class=p>.</span><span class=n>umap</span>
+</span></span></code></pre></td></tr></table></div></div><p>路径转换函数：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=n>FString</span> <span class=n>ObjectPath</span> <span class=o>=</span> <span class=n>TEXT</span><span class=p>(</span><span class=s>&#34;/Engine/EngineDamageTypes/DmgTypeBP_Environmental.DmgTypeBP_Environmental&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>FString</span> <span class=n>PackageName</span> <span class=o>=</span> <span class=n>FPackageName</span><span class=o>::</span><span class=n>ObjectPathToPackageName</span><span class=p>(</span><span class=n>ObjectPath</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>FString</span> <span class=n>ObjectName</span> <span class=o>=</span> <span class=n>FPackageName</span><span class=o>::</span><span class=n>ObjectPathToObjectName</span><span class=p>(</span><span class=n>ObjectPath</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>FString</span> <span class=n>Filename</span> <span class=o>=</span> <span class=n>FPackageName</span><span class=o>::</span><span class=n>LongPackageNameToFilename</span><span class=p>(</span><span class=n>PackageName</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>FString</span> <span class=n>PackageName2</span> <span class=o>=</span> <span class=n>FPackageName</span><span class=o>::</span><span class=n>FilenameToLongPackageName</span><span class=p>(</span><span class=n>Filename</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>FString</span> <span class=n>PackagePath</span> <span class=o>=</span> <span class=n>FPackageName</span><span class=o>::</span><span class=n>GetLongPackagePath</span><span class=p>(</span><span class=n>PackageName</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>FString</span> <span class=n>ShortName</span> <span class=o>=</span> <span class=n>FPackageName</span><span class=o>::</span><span class=n>GetLongPackageAssetName</span><span class=p>(</span><span class=n>PackageName</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>FString</span> <span class=n>AssetName</span> <span class=o>=</span> <span class=n>FPackageName</span><span class=o>::</span><span class=n>GetShortName</span><span class=p>(</span><span class=n>PackageName</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>FString</span> <span class=n>AssetPackageExtension</span> <span class=o>=</span> <span class=n>FPackageName</span><span class=o>::</span><span class=n>GetAssetPackageExtension</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=n>FString</span> <span class=n>MapPackageExtension</span> <span class=o>=</span> <span class=n>FPackageName</span><span class=o>::</span><span class=n>GetMapPackageExtension</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><p>想得到 ObjectPath，我一直没发现好办法，但是从 PackageName 到 ObjectPath 可以先得到 FAssetData 过度：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=n>TArray</span><span class=o>&lt;</span><span class=n>FAssetData</span><span class=o>&gt;</span> <span class=n>AssetDataArray</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>AssetRegistryModule</span><span class=p>.</span><span class=n>Get</span><span class=p>().</span><span class=n>GetAssetsByPackageName</span><span class=p>(</span><span class=o>*</span><span class=n>AssetPackageName</span><span class=p>,</span> <span class=n>AssetDataArray</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p><a class=link href=https://zhuanlan.zhihu.com/p/152201635 target=_blank rel=noopener>https://zhuanlan.zhihu.com/p/152201635</a></p><h3 id=复制-duplicate>复制 Duplicate</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
