@@ -1015,6 +1015,17 @@ data-flex-basis="452px"
 &lt;h4 id="fstringfnameftext互转">FString、FName、FText互转&lt;/h4>
 &lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/string-handling-in-unreal-engine/" target="_blank" rel="noopener"
 >https://docs.unrealengine.com/5.3/zh-CN/string-handling-in-unreal-engine/&lt;/a>&lt;/p>
+&lt;h5 id="enum-转-fstring">Enum 转 FString&lt;/h5>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">UEnum&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">GetValueAsString&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">YourEnum&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">EnumValue&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>&lt;a class="link" href="https://forums.unrealengine.com/t/conversion-of-enum-to-string/337869/26" target="_blank" rel="noopener"
+>https://forums.unrealengine.com/t/conversion-of-enum-to-string/337869/26&lt;/a>&lt;/p>
 &lt;h4 id="中文乱码">中文乱码&lt;/h4>
 &lt;p>使用 UTF8_TO_TCHAR：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
