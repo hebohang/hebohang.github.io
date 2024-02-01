@@ -454,6 +454,34 @@ data-flex-basis="439px"
 >https://zhuanlan.zhihu.com/p/537589944&lt;/a>&lt;/p>
 &lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/502053365" target="_blank" rel="noopener"
 >https://zhuanlan.zhihu.com/p/502053365&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/675514420" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/675514420&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/610772419" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/610772419&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/541239006" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/541239006&lt;/a>&lt;/p>
+&lt;h2 id="debug">Debug&lt;/h2>
+&lt;h3 id="demp大世界场景信息">Demp大世界场景信息&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">wp.Editor.DumpStreamingGenerationLog
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>5.3版本可以使用这个命令，输出一次WP的信息（也可以运行一次游戏或者cook的时候），输出结果会在 Saved\Logs\WorldPartition 里。&lt;/p>
+&lt;h3 id="grid调试">Grid调试&lt;/h3>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-15.png"
+width="1717"
+height="774"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="221"
+data-flex-basis="532px"
+>&lt;/p>
+&lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/world-partition-in-unreal-engine/" target="_blank" rel="noopener"
+>https://docs.unrealengine.com/5.3/zh-CN/world-partition-in-unreal-engine/&lt;/a>&lt;/p>
 &lt;h2 id="ism-与-hism">ISM 与 HISM&lt;/h2>
 &lt;p>&lt;img src="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image.png"
 width="421"
