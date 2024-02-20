@@ -1,4 +1,436 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>UE5 on 何律师</title><link>https://hebohang.github.io/categories/ue5/</link><description>Recent content in UE5 on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Wed, 17 Jan 2024 19:17:46 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/categories/ue5/index.xml" rel="self" type="application/rss+xml"/><item><title>UE-VS2022</title><link>https://hebohang.github.io/p/ue-vs2022/</link><pubDate>Wed, 17 Jan 2024 19:17:46 +0800</pubDate><guid>https://hebohang.github.io/p/ue-vs2022/</guid><description>&lt;h2 id="调试">调试&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>UE5 on 何律师</title><link>https://hebohang.github.io/categories/ue5/</link><description>Recent content in UE5 on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Thu, 08 Feb 2024 14:39:49 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/categories/ue5/index.xml" rel="self" type="application/rss+xml"/><item><title>WorldPartition解析</title><link>https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/</link><pubDate>Thu, 08 Feb 2024 14:39:49 +0800</pubDate><guid>https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/</guid><description>&lt;h2 id="概览">概览&lt;/h2>
+&lt;p>在 UE5 推出了服务于大世界的 World Partition 系统，总的来说主要分几大块：&lt;/p>
+&lt;ol>
+&lt;li>Grid、Level（Grid Level，非 ULevel）、Cell 的划分&lt;/li>
+&lt;li>OFPA&lt;/li>
+&lt;li>Level Instance&lt;/li>
+&lt;li>Data Layer&lt;/li>
+&lt;li>HLOD&lt;/li>
+&lt;/ol>
+&lt;p>还有一些也与之相关，例如之前研究过的 LandscapeSpline 也在 WP 版本有特殊的实现方式。&lt;/p>
+&lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/world-partition-in-unreal-engine/" target="_blank" rel="noopener"
+>https://docs.unrealengine.com/5.3/zh-CN/world-partition-in-unreal-engine/&lt;/a>&lt;/p>
+&lt;p>以下代码均为 5.3 版本对应代码。&lt;/p>
+&lt;h2 id="gridlevelcell">Grid、Level、Cell&lt;/h2>
+&lt;h3 id="wp-与-uworldulevel-的串连">WP 与 UWorld、ULevel 的串连&lt;/h3>
+&lt;p>我们知道，UE中，一个 UWorld 由各个 ULevel 组织而成，每个 ULevel 则拥有一个对应的设置信息记录 AWorldSettings：
+&lt;a class="link" href="https://zhuanlan.zhihu.com/p/22924838" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/22924838&lt;/a>&lt;/p>
+&lt;p>AWorldSettings 对应编辑器中的 World Settings 面板，也是保存 UWorldPartition 的容器：
+&lt;img src="https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/image.png"
+width="709"
+height="365"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="194"
+data-flex-basis="466px"
+>&lt;/p>
+&lt;p>这里使用的是 UE5 新增的 TObjectPtr，方便序列化反序列化，可参考：
+&lt;a class="link" href="https://zhuanlan.zhihu.com/p/504115127" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/504115127&lt;/a>&lt;/p>
+&lt;p>我们在编辑器新打开一个 World Partition 地图的时候（File-&amp;gt;New Level-&amp;gt;Open World），会调用 &lt;code>FEditorFileUtils::LoadMap(*MapPackageFilename, /*bLoadAsTemplate=*/true);&lt;/code>
+去加载一个大世界模板地图，接着加载 AWorldSettings 的时候就会把对应 WorldPartition 随之加载进来。&lt;/p>
+&lt;p>当然，既然是 UObject 我们也可以直接 &lt;code>NewObject&amp;lt;UWorldPartition&amp;gt;(WorldSettings);&lt;/code>&lt;/p>
+&lt;p>在 UWorld、ULevel 中则均有 GetWorldPartition 方法，实现均是拿到对应 WorldSettings（UWorld 则是拿对应 PersistentLevel 的 WorldSettings）的 WorldPartition：
+&lt;img src="https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/image-1.png"
+width="922"
+height="367"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="251"
+data-flex-basis="602px"
+>&lt;/p>
+&lt;p>对于 UWorld 我们也有 IsPartitionedWorld 方法来判断是否是 WP 版本：
+&lt;code>bool IsPartitionedWorld() const { return GetWorldPartition() != nullptr; }&lt;/code>&lt;/p>
+&lt;p>因此我们可以这样写：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">Actor&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetWorld&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> &lt;span class="n">Actor&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetWorld&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">IsPartitionedWorld&lt;/span>&lt;span class="p">())&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="uworldpartition">UWorldPartition&lt;/h3>
+&lt;p>既然 WP 是保存在 AWorldSettings 中，编辑器下我们就可以调整对应设置：
+&lt;img src="https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/image-2.png"
+width="720"
+height="939"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="76"
+data-flex-basis="184px"
+>&lt;/p>
+&lt;p>引擎为其定制了此面板，可参考：Engine\Source\Editor\WorldPartitionEditor\Private\WorldPartition\Customizations\WorldPartitionDetailsCustomization.h&lt;/p>
+&lt;p>有几处设置需要细讲，我们先回到 UWorldPartition 这个类，他本身继承自 UObject、FActorDescContainerCollection、IWorldPartitionCookPackageGenerator，
+也就是说他本身就存放有所有的 ActorDesc，在 UActorDescContainer 的 ActorsByName 中：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="k">using&lt;/span> &lt;span class="n">FNameActorDescMap&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">TMap&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">FName&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">TUniquePtr&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">FWorldPartitionActorDesc&lt;/span>&lt;span class="o">&amp;gt;*&amp;gt;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FNameActorDescMap&lt;/span> &lt;span class="n">ActorsByName&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这里的 ActorDesc 即 FWorldPartitionActorDesc 类型十分重要，他保存有 Guid、ActorPackage、ActorPath 等离线信息（即保存在资产中的信息）以及
+AActor的指针 ActorPtr、引用计数等运行时信息（即运行游戏才有的信息）。为后续划分所属 Cell（GenerateStreaming）等功能服务。&lt;/p>
+&lt;p>我们可以用 &lt;code>wp.Editor.DumpActorDescs hbh_test.csv&lt;/code> 指令把他们都 dump 出来，参数是文件路径。&lt;/p>
+&lt;p>接着回到编辑器面板，对应 UWorldPartition 的：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/image-3.png"
+width="1377"
+height="376"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="366"
+data-flex-basis="878px"
+>&lt;/p>
+&lt;p>我们的 RuntimeHash 除非特殊需要自己定制，否则都是走默认的 UWorldPartitionRuntimeSpatialHash，在World Settings中可以修改，
+那么接下来的 Preview Grids 以及 Grids 与 Debug Color 等设置则都属于 UWorldPartitionRuntimeSpatialHash：
+&lt;img src="https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/image-4.png"
+width="674"
+height="276"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="244"
+data-flex-basis="586px"
+>&lt;/p>
+&lt;p>可以看到他们都被 WITH_EDITORONLY_DATA 包裹，真正运行游戏时，最重要的 Cell Size、Loading Range 等信息会被重新安置给 StreamingGrids：
+&lt;img src="https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/image-5.png"
+width="698"
+height="190"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="367"
+data-flex-basis="881px"
+>&lt;/p>
+&lt;p>而这一过程则是在最重要的 GenerateStreaming 函数中完成的：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/image-6.png"
+width="1698"
+height="407"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="417"
+data-flex-basis="1001px"
+>&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/image-7.png"
+width="1104"
+height="236"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="467"
+data-flex-basis="1122px"
+>&lt;/p>
+&lt;h3 id="初始化generatestreaming">初始化：GenerateStreaming&lt;/h3>
+&lt;p>这是 WP 最重要的函数之一，在 UWorldPartition::OnBeginPlay 中我们会调用此函数，来完成对所有 Actor 的划分，决定归属于哪一级 Level 的哪一个 Cell 中，以及
+哪些 Actor 会打到一个 Cluster 里面（根据引用关系来）。这样划分好后，我们加载的时候，就只需要根据 Loading Range 来判断覆盖了哪些 Cell，然后去 SpatialHash 中拿到
+加载对应 Cell 中的 Actor 所在的 Cluster. 例如 A 引用了 B，而此时 A 所处的 Cell 被覆盖，而 B 所处的 Cell 未被覆盖，那么加载 A 时，由于有引用关系，我们也会把 B 给加载出来，
+对于 B 所处 Cell 的其他 Actor 则不予理会。&lt;/p>
+&lt;p>我们会调用到 UWorldPartition::GenerateContainerStreaming 中，此时分为三步：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>Dump state log&lt;/p>
+&lt;p>这一步我们会把WP相关信息都dump出来，和指令 &lt;code>wp.Editor.DumpStreamingGenerationLog&lt;/code> 是一样的效果，我们放在后面的 Debug 一节重点讲。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Preparation Phase&lt;/p>
+&lt;p>这一步我们会创建所有的 Container，这里的 Container 即 UActorDescContainer，我们会递归完善所有的 ActorDesc 信息、ActorDescView 信息、Cluster 信息，
+打进 Cluster 的相关算法都在 GenerateObjectsClusters 函数中：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/image-10.png"
+width="1853"
+height="183"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="1012"
+data-flex-basis="2430px"
+>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>Generate streaming&lt;/p>
+&lt;p>这一步首先我们会创建 Streaming 所需的 Policy，然后根据 Policy 去完成 Actor 的划分（归属于哪一级 Level 的哪一个 Cell）。Policy 在代码中写死的为 UWorldPartitionStreamingPolicy。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h4 id="actor-的划分--归属于哪一级-level-的哪一个-cell">Actor 的划分 —— 归属于哪一级 Level 的哪一个 Cell&lt;/h4>
+&lt;p>我们重点来看最后这步：根据 Policy 去完成 Actor 的划分。我们最终会调用到 UWorldPartitionRuntimeSpatialHash 的 GenerateStreaming 函数（如果是默认的 UWorldPartitionRuntimeSpatialHash 的话）：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/image-12.png"
+width="1623"
+height="154"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="1053"
+data-flex-basis="2529px"
+>&lt;/p>
+&lt;p>在进入 UWorldPartitionRuntimeSpatialHash 的 GenerateStreaming 函数之前，我们首先需要看上图圈出来的 GetStreamingGenerationContext 函数，这一步我们会创建出一个 FStreamingGenerationContext，
+在里面我们会把 Preparation Phase 创立的 Cluster 给写到 ActorSetInstances 中，具体可看 FStreamingGenerationContext 的构造函数。&lt;/p>
+&lt;p>接着进入 UWorldPartitionRuntimeSpatialHash 的 GenerateStreaming 函数，这里我们会根据 Policy 以及刚刚创立的 StreamingGenerationContext 完成最终 Actor 的划分。大体上又分几个步骤：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>提取面板设置的 Grid 信息&lt;/p>
+&lt;p>首先是 UWorldPartition 一节所述，会先提取面板设置的 Grid 信息&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>把 ActorSetInstance 写到中间变量 GridActorSetInstances 中&lt;/p>
+&lt;p>这一步即包含我们的 Cluster 信息。&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/image-11.png"
+width="1394"
+height="266"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="524"
+data-flex-basis="1257px"
+>&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>根据 WP 面板设置，完成 Actor 的划分&lt;/p>
+&lt;p>重点看 RuntimeSpatialHashGridHelper.cpp 中的 GetPartitionedActors 函数，关键点是这几个配置：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/image-13.png"
+width="485"
+height="118"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="411"
+data-flex-basis="986px"
+>&lt;/p>
+&lt;p>前两个一般勾选 Disable ，&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>这里保存 Cell 的时候也是仅考虑上面有 Actor 的情形，我们也可以手动调用这个函数来完成一些事情，例如调查有几个 Cell 的小工具：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">UWorldPartition&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">WorldPartition&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">WorldSettings&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetWorldPartition&lt;/span>&lt;span class="p">())&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">UWorldPartition&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">FGenerateStreamingParams&lt;/span> &lt;span class="n">Params&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">UWorldPartition&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">FGenerateStreamingContext&lt;/span> &lt;span class="n">Context&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">WorldPartition&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GenerateStreaming&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Params&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">Context&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">UWorldPartitionRuntimeHash&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">RuntimeHash&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">WorldPartition&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">RuntimeHash&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="k">nullptr&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="n">RuntimeHash&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="k">continue&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">UWorldPartitionRuntimeSpatialHash&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">RuntimeSpatialHash&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Cast&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">UWorldPartitionRuntimeSpatialHash&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">RuntimeHash&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="k">nullptr&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="n">RuntimeSpatialHash&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="k">continue&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">int32&lt;/span> &lt;span class="n">CellNum&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">int32&lt;/span> &lt;span class="n">TotalActorsCount&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">RuntimeSpatialHash&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">ForEachStreamingCells&lt;/span>&lt;span class="p">([&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="p">](&lt;/span>&lt;span class="k">const&lt;/span> &lt;span class="n">UWorldPartitionRuntimeCell&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">RuntimeCell&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">CellNum&lt;/span>&lt;span class="o">++&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">TotalActorsCount&lt;/span> &lt;span class="o">+=&lt;/span> &lt;span class="n">RuntimeCell&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetActorCount&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nb">true&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">});&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这里的 ForEachStreamingCells 方法返回 false 的时候会直接阻断，只有返回 true 的时候才会继续遍历下一个 Cell。&lt;/p>
+&lt;h3 id="运行时level-streaming-的加载">运行时：Level Streaming 的加载&lt;/h3>
+&lt;p>我们的加载主要是通过 UWorldPartitionLevelStreamingDynamic 完成，他本身就继承自 ULevelStreamingDynamic：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/image-14.png"
+width="722"
+height="53"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="1362"
+data-flex-basis="3269px"
+>&lt;/p>
+&lt;p>我们在运行时会更新 World 中的各个 Subsystem，调用 UpdateStreamingState：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/image-16.png"
+width="1215"
+height="388"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="313"
+data-flex-basis="751px"
+>&lt;/p>
+&lt;p>其中和 WP 相关的主要是 UWorldPartitionSubsystem，在他的 UpdateStreamingState 函数中，我们会根据 StreamingPolicy 拿到当前需要加载的 Cell，
+再通过 UWorldPartitionStreamingPolicy::SetCellStateToActivated 函数去 Load 这些 Cell：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/image-17.png"
+width="908"
+height="227"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="400"
+data-flex-basis="960px"
+>&lt;/p>
+&lt;p>这里每个 Cell 会对应一个 UWorldPartitionLevelStreamingDynamic，&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/image-18.png"
+width="708"
+height="61"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="1160"
+data-flex-basis="2785px"
+>&lt;/p>
+&lt;p>因而加载的时候也是最终调用到 UWorldPartitionLevelStreamingDynamic::Activate&lt;/p>
+&lt;h2 id="debug">Debug&lt;/h2>
+&lt;h3 id="demp大世界场景信息">Demp大世界场景信息&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">wp.Editor.DumpStreamingGenerationLog
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>5.3版本可以使用这个命令，输出一次WP的信息（也可以运行一次游戏或者cook的时候），输出结果会在 Saved\Logs\WorldPartition 里。&lt;/p>
+&lt;h3 id="grid调试">Grid调试&lt;/h3>
+&lt;p>&lt;img src="https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/image-15.png"
+width="1717"
+height="774"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="221"
+data-flex-basis="532px"
+>&lt;/p>
+&lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/world-partition-in-unreal-engine/" target="_blank" rel="noopener"
+>https://docs.unrealengine.com/5.3/zh-CN/world-partition-in-unreal-engine/&lt;/a>&lt;/p>
+&lt;h3 id="获取ofpa的actor的信息">获取OFPA的Actor的信息&lt;/h3>
+&lt;p>右键可以获取对应的本地路径：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/image-8.png"
+width="716"
+height="166"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="431"
+data-flex-basis="1035px"
+>&lt;/p>
+&lt;p>想获取guid，我测试下来可以这样做：&lt;/p>
+&lt;ol>
+&lt;li>视口点击想确定的actor&lt;/li>
+&lt;li>切换到python命令行&lt;img src="https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/image-9.png"
+width="685"
+height="56"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="1223"
+data-flex-basis="2935px"
+>&lt;/li>
+&lt;li>运行指令 &lt;code>print(unreal.get_editor_subsystem(unreal.EditorActorSubsystem).get_selected_level_actors()[0].get_editor_property(&amp;quot;actor_guid&amp;quot;).to_string())&lt;/code>&lt;/li>
+&lt;/ol></description></item><item><title>WorldPartition</title><link>https://hebohang.github.io/p/worldpartition/</link><pubDate>Mon, 05 Feb 2024 18:14:13 +0800</pubDate><guid>https://hebohang.github.io/p/worldpartition/</guid><description>&lt;h2 id="world-partition">World Partition&lt;/h2>
+&lt;p>官方文档：&lt;/p>
+&lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.0/zh-CN/world-partition-in-unreal-engine/" target="_blank" rel="noopener"
+>https://docs.unrealengine.com/5.0/zh-CN/world-partition-in-unreal-engine/&lt;/a>&lt;/p>
+&lt;p>主要是服务于大世界，提供了自动数据管理和基于距离进行加载的关卡流送系统。每个关卡分为是不是 World Partition（下称为WP）的版本，我们可以通过：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">UWorld&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">World&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">GEditor&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetEditorWorldContext&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="n">World&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">World&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">IsPartitionedWorld&lt;/span>&lt;span class="p">())&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>来判断。&lt;/p>
+&lt;h3 id="非wp关卡转换为wp关卡">非WP关卡转换为WP关卡&lt;/h3>
+&lt;p>&lt;img src="https://hebohang.github.io/p/worldpartition/image-1.png"
+width="430"
+height="943"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="45"
+data-flex-basis="109px"
+>&lt;/p>
+&lt;h3 id="landscapespline">LandscapeSpline&lt;/h3>
+&lt;p>LandscapeSpline与World Partition相关。&lt;/p>
+&lt;p>核心函数：
+LandscapeEdModeSplineTools.cpp：
+BeginTool、AddControlPoint、AddSegment&lt;/p>
+&lt;p>WorldPartition中，特殊的 ALandscapeSplineActor 的Owner是空的，他是通过 LandscapeGuid 和 LandscapeActor 附着到一个 ALandscape 上的。Outer是这个UWorld.&lt;/p>
+&lt;p>非 WP 版本，是全部塞到一个 ALandscapeProxy 里面，一个 landscap e有一个 ALandscapeProxy，ALandscapeProxy 里面挂有 ULandscapeSplinesComponent，ULandscapeSplinesComponent， 里面有Segment数组和Control Point数组；&lt;/p>
+&lt;p>WP版本则是每个landscape可以挂上多个 ALandscapeSplineActor，每个 ALandscapeSplineActor 里面挂有 ULandscapeSplinesComponent。&lt;/p>
+&lt;h3 id="wp-hlod">WP-HLOD&lt;/h3>
+&lt;p>还不太清楚 WP 版本的 HLOD 和正常的有什么区别，文档：
+&lt;a class="link" href="https://docs.unrealengine.com/5.0/zh-CN/world-partition---hierarchical-level-of-detail-in-unreal-engine/" target="_blank" rel="noopener"
+>https://docs.unrealengine.com/5.0/zh-CN/world-partition---hierarchical-level-of-detail-in-unreal-engine/&lt;/a>&lt;/p>
+&lt;h3 id="ofpa-one-file-per-actor">OFPA (One File Per Actor)&lt;/h3>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/502063482" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/502063482&lt;/a>&lt;/p>
+&lt;p>World Partition下默认开启，非 WP 关卡可以在这里打开：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/worldpartition/image-14.png"
+width="1646"
+height="899"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="183"
+data-flex-basis="439px"
+>&lt;/p>
+&lt;p>蛋疼的事：无法对一个 OFPA 的 Actor 在编辑器下（连接了版本管理）直接更新。&lt;/p>
+&lt;h3 id="grid-cell">Grid Cell&lt;/h3>
+&lt;p>Runtime Grid 运行时网格，相当于对整个世界划分为一个个格子，每个格子就是 cell，通过 cell size 来控制。&lt;/p>
+&lt;p>可以对每个关卡中的物体的detail面板中编辑 World Partition 属性，写上对应属于的Grid的名字。&lt;/p>
+&lt;p>参考：&lt;/p>
+&lt;p>&lt;a class="link" href="https://www.bilibili.com/video/BV1ik4y1A77p/?spm_id_from=333.337.top_right_bar_window_history.content.click&amp;amp;vd_source=bd08f0c74da1940eb8682f61aa471b24" target="_blank" rel="noopener"
+>https://www.bilibili.com/video/BV1ik4y1A77p/?spm_id_from=333.337.top_right_bar_window_history.content.click&amp;vd_source=bd08f0c74da1940eb8682f61aa471b24&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/537589944" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/537589944&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/502053365" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/502053365&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/675514420" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/675514420&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/610772419" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/610772419&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/541239006" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/541239006&lt;/a>&lt;/p>
+&lt;h3 id="level-instance">Level Instance&lt;/h3>
+&lt;p>每个 Level Instance 也有对应的 WorldSettings（对应 WorldSettings 面板，我们可以打开一个 Level Instance 序列化下来的 Level 来编辑），里头又有对应的 World Partition。&lt;/p>
+&lt;p>参考：&lt;/p>
+&lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/level-instancing-in-unreal-engine/" target="_blank" rel="noopener"
+>https://docs.unrealengine.com/5.3/zh-CN/level-instancing-in-unreal-engine/&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/502068030" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/502068030&lt;/a>&lt;/p>
+&lt;h2 id="debug">Debug&lt;/h2>
+&lt;h3 id="demp大世界场景信息">Demp大世界场景信息&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">wp.Editor.DumpStreamingGenerationLog
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>5.3版本可以使用这个命令，输出一次WP的信息（也可以运行一次游戏或者cook的时候），输出结果会在 Saved\Logs\WorldPartition 里。&lt;/p>
+&lt;h3 id="grid调试">Grid调试&lt;/h3>
+&lt;p>&lt;img src="https://hebohang.github.io/p/worldpartition/image-15.png"
+width="1717"
+height="774"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="221"
+data-flex-basis="532px"
+>&lt;/p>
+&lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/world-partition-in-unreal-engine/" target="_blank" rel="noopener"
+>https://docs.unrealengine.com/5.3/zh-CN/world-partition-in-unreal-engine/&lt;/a>&lt;/p></description></item><item><title>UE-VS2022</title><link>https://hebohang.github.io/p/ue-vs2022/</link><pubDate>Wed, 17 Jan 2024 19:17:46 +0800</pubDate><guid>https://hebohang.github.io/p/ue-vs2022/</guid><description>&lt;h2 id="调试">调试&lt;/h2>
 &lt;h3 id="条件断点">条件断点&lt;/h3>
 &lt;h4 id="fstring">FString&lt;/h4>
 &lt;div class="highlight">&lt;div class="chroma">
@@ -59,6 +491,40 @@ class="gallery-image"
 data-flex-grow="152"
 data-flex-basis="366px"
 >&lt;/p>
+&lt;h2 id="配制">配制&lt;/h2>
+&lt;p>&lt;img src="https://hebohang.github.io/p/ue-vs2022/image-4.png"
+width="870"
+height="697"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="124"
+data-flex-basis="299px"
+>&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/ue-vs2022/image-5.png"
+width="1245"
+height="795"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="156"
+data-flex-basis="375px"
+>&lt;/p>
+&lt;h2 id="bug">bug&lt;/h2>
+&lt;h3 id="代码高亮错误">代码高亮错误&lt;/h3>
+&lt;p>表现为一堆报红线，网上有两种解决方法，参考：
+&lt;a class="link" href="https://forums.unrealengine.com/t/ue-5-1-visualstudio-2022-intellisense-for-engine-files-not-working-in-ue5/551166/19" target="_blank" rel="noopener"
+>https://forums.unrealengine.com/t/ue-5-1-visualstudio-2022-intellisense-for-engine-files-not-working-in-ue5/551166/19&lt;/a>&lt;/p>
+&lt;p>方法一：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/ue-vs2022/image-6.png"
+width="628"
+height="123"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="510"
+data-flex-basis="1225px"
+>&lt;/p>
+&lt;p>方法二：
+运行 GenerateProjectFiles.bat 加上 -Engine 参数： &lt;code>.\GenerateProjectFiles.bat -Engine&lt;/code>&lt;/p>
+&lt;p>我最后方法一不行试的方法二成功。&lt;/p>
 &lt;h2 id="参考">参考&lt;/h2>
 &lt;p>&lt;a class="link" href="https://www.bilibili.com/video/BV1iQ4y1j73A/?spm_id_from=333.1007.top_right_bar_window_custom_collection.content.click&amp;amp;vd_source=bd08f0c74da1940eb8682f61aa471b24" target="_blank" rel="noopener"
 >[UFSH2023]总有一个你不知道的虚幻引擎调试技巧 | 陈拓 Epic Games&lt;/a>&lt;/p></description></item><item><title>杂项</title><link>https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/</link><pubDate>Fri, 01 Dec 2023 15:01:20 +0800</pubDate><guid>https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/</guid><description>&lt;h2 id="一些小方法">一些小方法&lt;/h2>
@@ -246,6 +712,75 @@ data-flex-basis="882px"
 因此有时候测试需要打包后测，但是若是只改动部分cpp就要重新打个包会很漫长。&lt;/p>
 &lt;p>我们可以把配置改为 Development，然后编译项目（只需编译游戏项目就可以了），编译后在 Binaries\Win64 下，我们把编译后的游戏 exe 拷贝覆盖之前
 打的游戏包（这里只替换exe就行）。但是注意，直接运行 Development 是不可以的，因为相对路径不太一样。&lt;/p>
+&lt;h2 id="console-variable">Console Variable&lt;/h2>
+&lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/console-varaibles-cplusplus-in-unreal-engine/" target="_blank" rel="noopener"
+>https://docs.unrealengine.com/5.3/zh-CN/console-varaibles-cplusplus-in-unreal-engine/&lt;/a>&lt;/p>
+&lt;p>项目打开了 r.GenerateMeshDistanceFields，导致Static Mesh资源检查时都会生成一遍Distance Field，比较耗时，我们在编辑器下 console 里输入 &lt;code>r.GenerateMeshDistanceFields 1&lt;/code>，可以发现是只读的：
+&lt;img src="https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/image-4.png"
+width="360"
+height="35"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="1028"
+data-flex-basis="2468px"
+>&lt;/p>
+&lt;p>是因为这个变量有这个flag：
+&lt;img src="https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/image-5.png"
+width="740"
+height="339"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="218"
+data-flex-basis="523px"
+>&lt;/p>
+&lt;p>这样写也是报这个read only的错：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">FString&lt;/span> &lt;span class="n">Final&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;r.GenerateMeshDistanceFields 0&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">GEngine&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">Exec&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">GetWorld&lt;/span>&lt;span class="p">(),&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">Final&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>但是根据注释我们仍然可以C++中更改：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">UConsoleVariablesEditorFunctionLibrary&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">SetConsoleVariableByName_Bool&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;r.GenerateMeshDistanceFields&amp;#34;&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="nb">false&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>但是commandlet下仍然报错：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">LogConsoleVariablesEditor: Error: UConsoleVariablesEditorFunctionLibrary::SetConsoleVariableByName_String: FConsoleVariablesEditorCommandInfo was not foundwith given name: r.GenerateMeshDistanceFields.
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>在 RenderSettings.h 中，该变量如下：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/image-6.png"
+width="2118"
+height="131"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="1616"
+data-flex-basis="3880px"
+>&lt;/p>
+&lt;p>read only 属性则对应在这：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/image-7.png"
+width="1467"
+height="269"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="545"
+data-flex-basis="1308px"
+>&lt;/p>
+&lt;p>可以改成 ECVF_Default 来作用。&lt;/p>
 &lt;h2 id="问题合集">问题合集&lt;/h2>
 &lt;h3 id="fatal-error-c1083-cannot-open-compiler-generated-file">fatal error C1083: Cannot open compiler generated file&lt;/h3>
 &lt;p>主要是打包的时候出现的：&lt;/p>
@@ -454,98 +989,7 @@ p4此时就有这条delete的记录，在上述操作中就会缓存到ue里的 
 &lt;p>&lt;a class="link" href="https://docs.unrealengine.com/4.27/zh-CN/ProgrammingAndScripting/ProgrammingWithCPP/UnrealArchitecture/TMap/" target="_blank" rel="noopener"
 >https://docs.unrealengine.com/4.27/zh-CN/ProgrammingAndScripting/ProgrammingWithCPP/UnrealArchitecture/TMap/&lt;/a>&lt;/p>
 &lt;p>事实上也可以参考这个文件：Engine\Source\Runtime\Core\Private\Containers\ContainersTest.cpp&lt;/p>
-&lt;p>其中有类 FCaseSensitiveLookupKeyFuncs ，参考他的写法即可&lt;/p></description></item><item><title>场景优化</title><link>https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/</link><pubDate>Mon, 20 Nov 2023 17:27:45 +0800</pubDate><guid>https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/</guid><description>&lt;h2 id="world-partition">World Partition&lt;/h2>
-&lt;p>官方文档：&lt;/p>
-&lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.0/zh-CN/world-partition-in-unreal-engine/" target="_blank" rel="noopener"
->https://docs.unrealengine.com/5.0/zh-CN/world-partition-in-unreal-engine/&lt;/a>&lt;/p>
-&lt;p>主要是服务于大世界，提供了自动数据管理和基于距离进行加载的关卡流送系统。每个关卡分为是不是 World Partition（下称为WP）的版本，我们可以通过：&lt;/p>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;span class="lnt">3
-&lt;/span>&lt;span class="lnt">4
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">UWorld&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">World&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">GEditor&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetEditorWorldContext&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="n">World&lt;/span>&lt;span class="p">();&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">World&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">IsPartitionedWorld&lt;/span>&lt;span class="p">())&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>来判断。&lt;/p>
-&lt;h3 id="非wp关卡转换为wp关卡">非WP关卡转换为WP关卡&lt;/h3>
-&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-1.png"
-width="430"
-height="943"
-loading="lazy"
-class="gallery-image"
-data-flex-grow="45"
-data-flex-basis="109px"
->&lt;/p>
-&lt;h3 id="landscapespline">LandscapeSpline&lt;/h3>
-&lt;p>LandscapeSpline与World Partition相关。&lt;/p>
-&lt;p>核心函数：
-LandscapeEdModeSplineTools.cpp：
-BeginTool、AddControlPoint、AddSegment&lt;/p>
-&lt;p>WorldPartition中，特殊的 ALandscapeSplineActor 的Owner是空的，他是通过 LandscapeGuid 和 LandscapeActor 附着到一个 ALandscape 上的。Outer是这个UWorld.&lt;/p>
-&lt;p>非 WP 版本，是全部塞到一个 ALandscapeProxy 里面，一个 landscap e有一个 ALandscapeProxy，ALandscapeProxy 里面挂有 ULandscapeSplinesComponent，ULandscapeSplinesComponent， 里面有Segment数组和Control Point数组；&lt;/p>
-&lt;p>WP版本则是每个landscape可以挂上多个 ALandscapeSplineActor，每个 ALandscapeSplineActor 里面挂有 ULandscapeSplinesComponent。&lt;/p>
-&lt;h3 id="wp-hlod">WP-HLOD&lt;/h3>
-&lt;p>还不太清楚 WP 版本的 HLOD 和正常的有什么区别，文档：
-&lt;a class="link" href="https://docs.unrealengine.com/5.0/zh-CN/world-partition---hierarchical-level-of-detail-in-unreal-engine/" target="_blank" rel="noopener"
->https://docs.unrealengine.com/5.0/zh-CN/world-partition---hierarchical-level-of-detail-in-unreal-engine/&lt;/a>&lt;/p>
-&lt;h3 id="ofpa-one-file-per-actor">OFPA (One File Per Actor)&lt;/h3>
-&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/502063482" target="_blank" rel="noopener"
->https://zhuanlan.zhihu.com/p/502063482&lt;/a>&lt;/p>
-&lt;p>World Partition下默认开启，非 WP 关卡可以在这里打开：&lt;/p>
-&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-14.png"
-width="1646"
-height="899"
-loading="lazy"
-class="gallery-image"
-data-flex-grow="183"
-data-flex-basis="439px"
->&lt;/p>
-&lt;h3 id="grid-cell">Grid Cell&lt;/h3>
-&lt;p>Runtime Grid 运行时网格，相当于对整个世界划分为一个个格子，每个格子就是 cell，通过 cell size 来控制。&lt;/p>
-&lt;p>可以对每个关卡中的物体的detail面板中编辑 World Partition 属性，写上对应属于的Grid的名字。&lt;/p>
-&lt;p>参考：&lt;/p>
-&lt;p>&lt;a class="link" href="https://www.bilibili.com/video/BV1ik4y1A77p/?spm_id_from=333.337.top_right_bar_window_history.content.click&amp;amp;vd_source=bd08f0c74da1940eb8682f61aa471b24" target="_blank" rel="noopener"
->https://www.bilibili.com/video/BV1ik4y1A77p/?spm_id_from=333.337.top_right_bar_window_history.content.click&amp;vd_source=bd08f0c74da1940eb8682f61aa471b24&lt;/a>&lt;/p>
-&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/537589944" target="_blank" rel="noopener"
->https://zhuanlan.zhihu.com/p/537589944&lt;/a>&lt;/p>
-&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/502053365" target="_blank" rel="noopener"
->https://zhuanlan.zhihu.com/p/502053365&lt;/a>&lt;/p>
-&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/675514420" target="_blank" rel="noopener"
->https://zhuanlan.zhihu.com/p/675514420&lt;/a>&lt;/p>
-&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/610772419" target="_blank" rel="noopener"
->https://zhuanlan.zhihu.com/p/610772419&lt;/a>&lt;/p>
-&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/541239006" target="_blank" rel="noopener"
->https://zhuanlan.zhihu.com/p/541239006&lt;/a>&lt;/p>
-&lt;h2 id="debug">Debug&lt;/h2>
-&lt;h3 id="demp大世界场景信息">Demp大世界场景信息&lt;/h3>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">wp.Editor.DumpStreamingGenerationLog
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;p>5.3版本可以使用这个命令，输出一次WP的信息（也可以运行一次游戏或者cook的时候），输出结果会在 Saved\Logs\WorldPartition 里。&lt;/p>
-&lt;h3 id="grid调试">Grid调试&lt;/h3>
-&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image-15.png"
-width="1717"
-height="774"
-loading="lazy"
-class="gallery-image"
-data-flex-grow="221"
-data-flex-basis="532px"
->&lt;/p>
-&lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/world-partition-in-unreal-engine/" target="_blank" rel="noopener"
->https://docs.unrealengine.com/5.3/zh-CN/world-partition-in-unreal-engine/&lt;/a>&lt;/p>
-&lt;h2 id="ism-与-hism">ISM 与 HISM&lt;/h2>
+&lt;p>其中有类 FCaseSensitiveLookupKeyFuncs ，参考他的写法即可&lt;/p></description></item><item><title>场景优化</title><link>https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/</link><pubDate>Mon, 20 Nov 2023 17:27:45 +0800</pubDate><guid>https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/</guid><description>&lt;h2 id="ism-与-hism">ISM 与 HISM&lt;/h2>
 &lt;p>&lt;img src="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image.png"
 width="421"
 height="395"
