@@ -11,7 +11,7 @@
 &lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/world-partition-in-unreal-engine/" target="_blank" rel="noopener"
 >https://docs.unrealengine.com/5.3/zh-CN/world-partition-in-unreal-engine/&lt;/a>&lt;/p>
 &lt;p>以下代码均为 5.3 版本对应代码。&lt;/p>
-&lt;h2 id="gridlevelcell">Grid、Level、Cell&lt;/h2>
+&lt;h2 id="gridlevelcell-的划分">Grid、Level、Cell 的划分&lt;/h2>
 &lt;h3 id="wp-与-uworldulevel-的串连">WP 与 UWorld、ULevel 的串连&lt;/h3>
 &lt;p>我们知道，UE中，一个 UWorld 由各个 ULevel 组织而成，每个 ULevel 则拥有一个对应的设置信息记录 AWorldSettings：
 &lt;a class="link" href="https://zhuanlan.zhihu.com/p/22924838" target="_blank" rel="noopener"
@@ -126,6 +126,30 @@ class="gallery-image"
 data-flex-grow="467"
 data-flex-basis="1122px"
 >&lt;/p>
+&lt;h3 id="gridlevelcell-的基础含义">Grid、Level、Cell 的基础含义&lt;/h3>
+&lt;p>在进入正式分析之前，再简单说一下这三个的意思。&lt;/p>
+&lt;p>Grid 是棋盘，Cell 是格子，Level 则是分层管理。每一级 Level 都有自己的格子，即自己的 Cell Size，每两级 Level 之间的 Cell Size 是乘 2 的关系，
+即格子放大四倍（宽、高都乘上了2）。&lt;/p>
+&lt;p>Level 0 的 Cell Size 是 WP 面板上填的数值，也是最小的 Cell Size，最大的一级 Level 则会覆盖整个世界，因此我们只需要知道 Level 的
+总个数以及面板上自己设定的 Cell Size，就知道了每一级 Level 的 Cell Size，具体函数如下（会在 UWorldPartitionRuntimeSpatialHash 的 GenerateStreaming 函数中调用，后面章节会详细分析）：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/image-19.png"
+width="1067"
+height="440"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="242"
+data-flex-basis="582px"
+>&lt;/p>
+&lt;p>一个例子如下：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/image-20.png"
+width="631"
+height="181"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="348"
+data-flex-basis="836px"
+>&lt;/p>
+&lt;p>显然为了内存考虑，一个 Level 只会保存含有 Actor 的那些格子，在这个例子中，我们可以看到 Level 0 有 7 个 Cell，Level 4 则有 25 个；一个 Actor 只会被划分到固定一级 Level 的固定一个 Cell 中。&lt;/p>
 &lt;h3 id="初始化generatestreaming">初始化：GenerateStreaming&lt;/h3>
 &lt;p>这是 WP 最重要的函数之一，在 UWorldPartition::OnBeginPlay 中我们会调用此函数，来完成对所有 Actor 的划分，决定归属于哪一级 Level 的哪一个 Cell 中，以及
 哪些 Actor 会打到一个 Cluster 里面（根据引用关系来）。这样划分好后，我们加载的时候，就只需要根据 Loading Range 来判断覆盖了哪些 Cell，然后去 SpatialHash 中拿到
@@ -135,7 +159,7 @@ data-flex-basis="1122px"
 &lt;ol>
 &lt;li>
 &lt;p>Dump state log&lt;/p>
-&lt;p>这一步我们会把WP相关信息都dump出来，和指令 &lt;code>wp.Editor.DumpStreamingGenerationLog&lt;/code> 是一样的效果，我们放在后面的 Debug 一节重点讲。&lt;/p>
+&lt;p>这一步我们会把WP相关信息都dump出来，和指令 &lt;code>wp.Editor.DumpStreamingGenerationLog&lt;/code> 是一样的效果，我们放在后面的 Debug 一节重点讲。当然这一步是做好 dump 的准备工作，在后面的2、3都会执行相关dump操作。&lt;/p>
 &lt;/li>
 &lt;li>
 &lt;p>Preparation Phase&lt;/p>
@@ -187,7 +211,17 @@ data-flex-basis="1257px"
 &lt;/li>
 &lt;li>
 &lt;p>根据 WP 面板设置，完成 Actor 的划分&lt;/p>
-&lt;p>重点看 RuntimeSpatialHashGridHelper.cpp 中的 GetPartitionedActors 函数，关键点是这几个配置：&lt;/p>
+&lt;p>重点看 RuntimeSpatialHashGridHelper.cpp 中的 GetPartitionedActors 函数，接下来会详细分析。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>完成最终 FSpatialHashStreamingGrid 的构建&lt;/p>
+&lt;p>对应 CreateStreamingGrid 函数。至此初始化完毕。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h4 id="getpartitionedactors">GetPartitionedActors&lt;/h4>
+&lt;p>在这里我们又会分几步进行：&lt;/p>
+&lt;p>3.1. FSquare2DGridHelper&lt;/p>
+&lt;p>关键点是这几个配置：&lt;/p>
 &lt;p>&lt;img src="https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/image-13.png"
 width="485"
 height="118"
@@ -196,9 +230,7 @@ class="gallery-image"
 data-flex-grow="411"
 data-flex-basis="986px"
 >&lt;/p>
-&lt;p>前两个一般勾选 Disable ，&lt;/p>
-&lt;/li>
-&lt;/ol>
+&lt;p>这是 5.3 才给出的选项，前两个一般勾选 Disabled ，是为了解决老版本的问题：&lt;/p>
 &lt;p>这里保存 Cell 的时候也是仅考虑上面有 Actor 的情形，我们也可以手动调用这个函数来完成一些事情，例如调查有几个 Cell 的小工具：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -332,7 +364,12 @@ data-flex-grow="1223"
 data-flex-basis="2935px"
 >&lt;/li>
 &lt;li>运行指令 &lt;code>print(unreal.get_editor_subsystem(unreal.EditorActorSubsystem).get_selected_level_actors()[0].get_editor_property(&amp;quot;actor_guid&amp;quot;).to_string())&lt;/code>&lt;/li>
-&lt;/ol></description></item><item><title>WorldPartition</title><link>https://hebohang.github.io/p/worldpartition/</link><pubDate>Mon, 05 Feb 2024 18:14:13 +0800</pubDate><guid>https://hebohang.github.io/p/worldpartition/</guid><description>&lt;h2 id="world-partition">World Partition&lt;/h2>
+&lt;/ol>
+&lt;h2 id="参考">参考&lt;/h2>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/675514420" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/675514420&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/610772419" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/610772419&lt;/a>&lt;/p></description></item><item><title>WorldPartition</title><link>https://hebohang.github.io/p/worldpartition/</link><pubDate>Mon, 05 Feb 2024 18:14:13 +0800</pubDate><guid>https://hebohang.github.io/p/worldpartition/</guid><description>&lt;h2 id="world-partition">World Partition&lt;/h2>
 &lt;p>官方文档：&lt;/p>
 &lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.0/zh-CN/world-partition-in-unreal-engine/" target="_blank" rel="noopener"
 >https://docs.unrealengine.com/5.0/zh-CN/world-partition-in-unreal-engine/&lt;/a>&lt;/p>
@@ -525,6 +562,8 @@ data-flex-basis="1225px"
 &lt;p>方法二：
 运行 GenerateProjectFiles.bat 加上 -Engine 参数： &lt;code>.\GenerateProjectFiles.bat -Engine&lt;/code>&lt;/p>
 &lt;p>我最后方法一不行试的方法二成功。&lt;/p>
+&lt;p>方法三：
+某个模块改坏了，导致一直红线。这时候改一下对应的 .Build.cs（随便改然后撤回就行，目的是触发重新检测环境），然后重新 GenerateProjectFiles&lt;/p>
 &lt;h2 id="参考">参考&lt;/h2>
 &lt;p>&lt;a class="link" href="https://www.bilibili.com/video/BV1iQ4y1j73A/?spm_id_from=333.1007.top_right_bar_window_custom_collection.content.click&amp;amp;vd_source=bd08f0c74da1940eb8682f61aa471b24" target="_blank" rel="noopener"
 >[UFSH2023]总有一个你不知道的虚幻引擎调试技巧 | 陈拓 Epic Games&lt;/a>&lt;/p></description></item><item><title>杂项</title><link>https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/</link><pubDate>Fri, 01 Dec 2023 15:01:20 +0800</pubDate><guid>https://hebohang.github.io/p/%E6%9D%82%E9%A1%B9/</guid><description>&lt;h2 id="一些小方法">一些小方法&lt;/h2>
@@ -818,6 +857,9 @@ class="gallery-image"
 data-flex-grow="353"
 data-flex-basis="849px"
 >&lt;/p>
+&lt;h3 id="页面文件太小">页面文件太小&lt;/h3>
+&lt;p>&lt;a class="link" href="https://ue5wiki.com/wiki/5cc4f8a/" target="_blank" rel="noopener"
+>https://ue5wiki.com/wiki/5cc4f8a/&lt;/a>&lt;/p>
 &lt;h3 id="合集">合集&lt;/h3>
 &lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/80809567" target="_blank" rel="noopener"
 >https://zhuanlan.zhihu.com/p/80809567&lt;/a>&lt;/p>
@@ -1450,6 +1492,11 @@ data-flex-basis="362px"
 &lt;h5 id="蓝图-uparamref">蓝图 UPARAM(ref)&lt;/h5>
 &lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/exposing-gameplay-elements-to-blueprints-visual-scripting-in-unreal-engine/" target="_blank" rel="noopener"
 >https://docs.unrealengine.com/5.3/zh-CN/exposing-gameplay-elements-to-blueprints-visual-scripting-in-unreal-engine/&lt;/a>&lt;/p>
+&lt;h4 id="with_editoronly_data-宏">WITH_EDITORONLY_DATA 宏&lt;/h4>
+&lt;p>用 WITH_EDITOR 包裹反射属性会在非 Editor 时报错，这是因为 UHT 不会检测宏条件，导致这部分属性也被反射生成了；此时要用 WITH_EDITORONLY_DATA 宏，
+UE 对这个宏做了特殊处理。&lt;/p>
+&lt;p>&lt;a class="link" href="https://ue5wiki.com/wiki/41080/" target="_blank" rel="noopener"
+>https://ue5wiki.com/wiki/41080/&lt;/a>&lt;/p>
 &lt;h3 id="指针和引用">指针和引用&lt;/h3>
 &lt;p>参考：
 &lt;a class="link" href="https://zhuanlan.zhihu.com/p/604213414" target="_blank" rel="noopener"
