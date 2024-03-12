@@ -320,6 +320,99 @@ data-flex-grow="1160"
 data-flex-basis="2785px"
 >&lt;/p>
 &lt;p>因而加载的时候也是最终调用到 UWorldPartitionLevelStreamingDynamic::Activate&lt;/p>
+&lt;h2 id="ofpa">OFPA&lt;/h2>
+&lt;h3 id="__externalactors__-与-__externalobjects__">&lt;strong>ExternalActors&lt;/strong> 与 &lt;strong>ExternalObjects&lt;/strong>&lt;/h3>
+&lt;p>对于 &lt;strong>ExternalObjects&lt;/strong>，他主要保存的是 Outliner 的文件夹对象，对应 UE 的 UActorFolder 类。&lt;/p>
+&lt;p>对于 &lt;strong>ExternalActors&lt;/strong>，他保存的是关卡中的Actor对象，实际上会对Actor调用 SetPackageExternal(true)，最后给 Object 设置上 RF_HasExternalPackage 标记：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/image-21.png"
+width="1215"
+height="320"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="379"
+data-flex-basis="911px"
+>&lt;/p>
+&lt;p>而在序列化时，我们保存的是 UPackage，对于标记了 RF_HasExternalPackage 的 Actor，他的 GetPackage 方法最终会得到 ExternalPackage：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/image-24.png"
+width="615"
+height="225"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="273"
+data-flex-basis="656px"
+>&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/image-23.png"
+width="929"
+height="241"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="385"
+data-flex-basis="925px"
+>&lt;/p>
+&lt;p>这段代码的逻辑是，我们会不断拿 ExternalPackage，如果 OuterPrivate 非空且标记了 RF_HasExternalPackage，就会拿到一份 ExternalPackage，如果 OuterPrivate 非空但没标记上 RF_HasExternalPackage，拿到的就是 nullptr；
+而如果拿到 nullptr，则会继续追踪 Outer（OuterPrivate），直到没有 Outer，表示到达最顶层，从而拿到最顶层 UPackage&lt;/p>
+&lt;p>在 FPackagePath 类中有方法：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="k">const&lt;/span> &lt;span class="n">TCHAR&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">FPackagePath&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">GetExternalActorsFolderName&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nf">TEXT&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;__ExternalActors__&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">const&lt;/span> &lt;span class="n">TCHAR&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">FPackagePath&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">GetExternalObjectsFolderName&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nf">TEXT&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;__ExternalObjects__&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="编辑器下actor的加载">编辑器下Actor的加载&lt;/h3>
+&lt;p>对于 &lt;strong>ExternalObjects&lt;/strong>，会在 ULevel::PostLoad 中调用 FExternalPackageHelper::LoadObjectsFromExternalPackages 来加载：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/image-25.png"
+width="1016"
+height="213"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="476"
+data-flex-basis="1144px"
+>&lt;/p>
+&lt;p>实际上也就是根据 Level 名字拿到对应 __ExternalObjects__ 路径。例如 Content/HbhTest/NewMap.umap 就会拿到 Content/__ExternalObjects__/HbhTest/NewMap 这个路径从而直接加载里头的所有 Package：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/image-26.png"
+width="1215"
+height="308"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="394"
+data-flex-basis="946px"
+>&lt;/p>
+&lt;p>对于 &lt;strong>ExternalActors&lt;/strong> 也类似，只是挪到了 ULevel::OnLevelLoaded 里面初始化 WorldPartition 的阶段，最后会调用到 UActorDescContainer::Initialize 来加载所有对应 __ExternalActors__ 路径下的 Actor：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/image-22.png"
+width="1395"
+height="546"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="255"
+data-flex-basis="613px"
+>&lt;/p>
+&lt;p>这些 Actor 信息在编辑器情况下最后会被缓存到 WorldPartition 的 EditorHash 中，最后可以根据 XYZ 以及对应 Level 级别得到所有的 Actor：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/image-27.png"
+width="803"
+height="137"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="586"
+data-flex-basis="1406px"
+>&lt;/p>
 &lt;h2 id="debug">Debug&lt;/h2>
 &lt;h3 id="demp大世界场景信息">Demp大世界场景信息&lt;/h3>
 &lt;div class="highlight">&lt;div class="chroma">
