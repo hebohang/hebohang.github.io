@@ -322,7 +322,16 @@ data-flex-basis="2785px"
 &lt;p>因而加载的时候也是最终调用到 UWorldPartitionLevelStreamingDynamic::Activate&lt;/p>
 &lt;h2 id="ofpa">OFPA&lt;/h2>
 &lt;h3 id="__externalactors__-与-__externalobjects__">&lt;strong>ExternalActors&lt;/strong> 与 &lt;strong>ExternalObjects&lt;/strong>&lt;/h3>
-&lt;p>对于 &lt;strong>ExternalObjects&lt;/strong>，他主要保存的是 Outliner 的文件夹对象，对应 UE 的 UActorFolder 类。&lt;/p>
+&lt;p>对于 &lt;strong>ExternalObjects&lt;/strong>，他主要保存的是 Outliner 的文件夹对象，对应 UE 的 UActorFolder 类。在构造时会调用 FLevelActorFoldersHelper::AddActorFolder 添加到 ULevel 中，
+可以看到对应 ULevel 里面的属性是标记为 &lt;code>UPROPERTY(Transient)&lt;/code> 不保存的：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/image-30.png"
+width="1181"
+height="304"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="388"
+data-flex-basis="932px"
+>&lt;/p>
 &lt;p>对于 &lt;strong>ExternalActors&lt;/strong>，他保存的是关卡中的Actor对象，实际上会对Actor调用 SetPackageExternal(true)，最后给 Object 设置上 RF_HasExternalPackage 标记：&lt;/p>
 &lt;p>&lt;img src="https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/image-21.png"
 width="1215"
