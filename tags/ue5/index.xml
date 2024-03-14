@@ -854,6 +854,9 @@ data-flex-basis="849px"
 &lt;h3 id="页面文件太小">页面文件太小&lt;/h3>
 &lt;p>&lt;a class="link" href="https://ue5wiki.com/wiki/5cc4f8a/" target="_blank" rel="noopener"
 >https://ue5wiki.com/wiki/5cc4f8a/&lt;/a>&lt;/p>
+&lt;h3 id="材质回退到默认方格块">材质回退到默认方格块&lt;/h3>
+&lt;p>打开关卡会对 map 进行检测，注意看消息日志。&lt;/p>
+&lt;p>我这里是出现某个材质需要勾选 bUsedWithStaticLighting 的选项，勾了就好了。&lt;/p>
 &lt;h3 id="合集">合集&lt;/h3>
 &lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/80809567" target="_blank" rel="noopener"
 >https://zhuanlan.zhihu.com/p/80809567&lt;/a>&lt;/p>
