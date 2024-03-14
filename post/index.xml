@@ -413,6 +413,30 @@ class="gallery-image"
 data-flex-grow="586"
 data-flex-basis="1406px"
 >&lt;/p>
+&lt;h3 id="引用关系">引用关系&lt;/h3>
+&lt;p>在前一节中我们说过，加载的时候是根据路径来判断的，Map 对应的资产并不会存有 __ExternalObjects__ 与 __ExternalActors__ 的信息。但是当我们使用 Reference Viewer 进行查看的
+时候，会发现大世界 Map 对应的 Dependencies 有所有的 __ExternalActors__，而 Referencers 既有 __ExternalActors__ 又有 __ExternalObjects__&lt;/p>
+&lt;p>这是因为 UE 的 Reference Viewer 也对大世界关卡特殊处理了，在打开ue编辑器的时候，他会对所有资产做一个缓存，存到 FAssetRegistryState 的 CachedAssets 中，我们每添加一个依赖，就会对应的
+添加上引用：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/image-29.png"
+width="1112"
+height="489"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="227"
+data-flex-basis="545px"
+>&lt;/p>
+&lt;p>因此对于一个大世界 map，实际上是对 __ExternalObjects__ 的这些资产添加上了 map 的依赖，从而让 map 的引用有了 __ExternalObjects__ 里的东西。&lt;/p>
+&lt;p>而对于 map 本身的依赖项，ue 会进行特殊处理：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/image-28.png"
+width="1951"
+height="678"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="287"
+data-flex-basis="690px"
+>&lt;/p>
+&lt;p>和上一节加载的手法类似，从而让 map 的 dependencies 有了这些 __ExternalActors__&lt;/p>
 &lt;h2 id="debug">Debug&lt;/h2>
 &lt;h3 id="demp大世界场景信息">Demp大世界场景信息&lt;/h3>
 &lt;div class="highlight">&lt;div class="chroma">
