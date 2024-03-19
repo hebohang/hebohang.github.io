@@ -110,6 +110,16 @@ UE 对这个宏做了特殊处理。</p><p><a class=link href=https://ue5wiki.co
 </span><span class=lnt>2
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=n>TArray</span><span class=o>&lt;</span><span class=n>FAssetData</span><span class=o>&gt;</span> <span class=n>AssetDataArray</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=n>AssetRegistryModule</span><span class=p>.</span><span class=n>Get</span><span class=p>().</span><span class=n>GetAssetsByPackageName</span><span class=p>(</span><span class=o>*</span><span class=n>AssetPackageName</span><span class=p>,</span> <span class=n>AssetDataArray</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>之后再加载有两种方法：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=c1>// 1
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>UObject</span><span class=o>*</span> <span class=n>ObjectPtr</span> <span class=o>=</span> <span class=n>AssetDataArray</span><span class=p>[</span><span class=mi>0</span><span class=p>].</span><span class=n>GetSoftObjectPath</span><span class=p>().</span><span class=n>TryLoad</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 2
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>UWorld</span><span class=o>*</span> <span class=n>World</span> <span class=o>=</span> <span class=n>LoadObject</span><span class=o>&lt;</span><span class=n>UWorld</span><span class=o>&gt;</span><span class=p>(</span><span class=k>nullptr</span><span class=p>,</span> <span class=o>*</span><span class=n>AssetDataArray</span><span class=p>[</span><span class=mi>0</span><span class=p>].</span><span class=n>GetObjectPathString</span><span class=p>());</span>
 </span></span></code></pre></td></tr></table></div></div><p><a class=link href=https://zhuanlan.zhihu.com/p/152201635 target=_blank rel=noopener>https://zhuanlan.zhihu.com/p/152201635</a></p><h3 id=复制-duplicate>复制 Duplicate</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
