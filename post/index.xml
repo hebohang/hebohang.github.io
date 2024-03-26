@@ -2315,12 +2315,31 @@ data-flex-basis="362px"
 UE 对这个宏做了特殊处理。&lt;/p>
 &lt;p>&lt;a class="link" href="https://ue5wiki.com/wiki/41080/" target="_blank" rel="noopener"
 >https://ue5wiki.com/wiki/41080/&lt;/a>&lt;/p>
-&lt;h3 id="指针和引用">指针和引用&lt;/h3>
+&lt;h3 id="gc">gc&lt;/h3>
+&lt;p>参考：
+&lt;a class="link" href="https://unrealcommunity.wiki/memory-management-6rlf3v4i" target="_blank" rel="noopener"
+>https://unrealcommunity.wiki/memory-management-6rlf3v4i&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://dev.epicgames.com/documentation/zh-cn/unreal-engine/unreal-object-handling-in-unreal-engine" target="_blank" rel="noopener"
+>https://dev.epicgames.com/documentation/zh-cn/unreal-engine/unreal-object-handling-in-unreal-engine&lt;/a>&lt;/p>
+&lt;p>继承了 UObject，并且被标记了 UPROERTY 的指针对象 Obj ，会被 GC 追踪。gc完了之后这个指针就变成nullptr了。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 阻塞式gc
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">CollectGarbage&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">RF_NoFlags&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="指针和引用">指针和引用&lt;/h3>
 &lt;p>参考：
 &lt;a class="link" href="https://zhuanlan.zhihu.com/p/604213414" target="_blank" rel="noopener"
 >https://zhuanlan.zhihu.com/p/604213414&lt;/a>&lt;/p>
 &lt;h4 id="类指针">类指针&lt;/h4>
 &lt;p>UClass* 和 TSubClassOf&lt;T>&lt;/p>
+&lt;p>&lt;a class="link" href="https://dev.epicgames.com/documentation/zh-cn/unreal-engine/typed-object-pointer-properties-in-unreal-engine" target="_blank" rel="noopener"
+>https://dev.epicgames.com/documentation/zh-cn/unreal-engine/typed-object-pointer-properties-in-unreal-engine&lt;/a>&lt;/p>
 &lt;h4 id="软引用和硬引用">软引用和硬引用&lt;/h4>
 &lt;p>硬引用在资产加载时的逻辑：当A资产持有B资产的硬引用时，A资产被加载到内存中时，B资产也会被加载到内存中。&lt;/p>
 &lt;p>软引用在资产加载时的逻辑：当A资产持有B资产的软引用是，A资产被加载到内存中时，B资产不会被加载。&lt;/p>
@@ -2348,6 +2367,10 @@ data-flex-basis="452px"
 &lt;p>看注释也知道他是指向一个 Level 中的 Object 的路径，因此持有软引用的时候加载并不会加载资产，可以用 &lt;code>IsPending()&lt;/code>
 方法来判断是否可以访问。&lt;/p>
 &lt;p>继承关系：TSoftObjectPtr 只是对 FSoftObjectPtr 的一个 Wrapper，FSoftObjectPtr 继承自 &lt;code>TPersistentObjectPtr&amp;lt;FSoftObjectPath&amp;gt;&lt;/code>&lt;/p>
+&lt;h3 id="智能指针">智能指针&lt;/h3>
+&lt;p>&lt;a class="link" href="https://dev.epicgames.com/documentation/zh-cn/unreal-engine/smart-pointers-in-unreal-engine" target="_blank" rel="noopener"
+>https://dev.epicgames.com/documentation/zh-cn/unreal-engine/smart-pointers-in-unreal-engine&lt;/a>&lt;/p>
+&lt;p>在结构体 A 中使用 UPROPERTY 标记了一个 UObject 类的指针，但是这个 A 本身在 class B 中却没有被标记 UPROPERTY，此时引用链断开。建议使用 TWeakObjectPtr&lt;/p>
 &lt;h3 id="字符串处理">字符串处理&lt;/h3>
 &lt;h4 id="fstringfnameftext互转">FString、FName、FText互转&lt;/h4>
 &lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/string-handling-in-unreal-engine/" target="_blank" rel="noopener"
