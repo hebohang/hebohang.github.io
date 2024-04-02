@@ -446,6 +446,10 @@ data-flex-grow="287"
 data-flex-basis="690px"
 >&lt;/p>
 &lt;p>和上一节加载的手法类似，从而让 map 的 dependencies 有了这些 __ExternalActors__&lt;/p>
+&lt;h4 id="只特殊处理-externalactors-的原因思考">只特殊处理 ExternalActors 的原因思考&lt;/h4>
+&lt;p>通过
+&lt;a class="link" href="https://hebohang.github.io/p/cook/#打包逻辑" >Cook-打包逻辑&lt;/a>
+我们知道引擎 Cook 时会把依赖的文件一同进行 Cook，而在游戏中我们是不需要这些文件夹信息的，因此也就无需 Cook ExternalObjects，所以只特殊处理 ExternalActors 就够了。&lt;/p>
 &lt;h2 id="debug">Debug&lt;/h2>
 &lt;h3 id="demp大世界场景信息">Demp大世界场景信息&lt;/h3>
 &lt;div class="highlight">&lt;div class="chroma">
