@@ -1,4 +1,17 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on 何律师</title><link>https://hebohang.github.io/post/</link><description>Recent content in Posts on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Thu, 08 Feb 2024 14:39:49 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>WorldPartition解析</title><link>https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/</link><pubDate>Thu, 08 Feb 2024 14:39:49 +0800</pubDate><guid>https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/</guid><description>&lt;h2 id="概览">概览&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on 何律师</title><link>https://hebohang.github.io/post/</link><description>Recent content in Posts on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Mon, 08 Apr 2024 16:55:31 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Rider</title><link>https://hebohang.github.io/p/rider/</link><pubDate>Mon, 08 Apr 2024 16:55:31 +0800</pubDate><guid>https://hebohang.github.io/p/rider/</guid><description>&lt;h2 id="参考资料">参考资料&lt;/h2>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/611515616" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/611515616&lt;/a>&lt;/p>
+&lt;h2 id="calculating-asset-index">calculating asset index&lt;/h2>
+&lt;p>这一步总是占用非常多的资源，实际上只是为了在代码中很好的对蓝图类型做高亮。&lt;/p>
+&lt;p>我们可以这样在设置中关掉他：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/rider/image.png"
+width="982"
+height="728"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="134"
+data-flex-basis="323px"
+>&lt;/p></description></item><item><title>WorldPartition解析</title><link>https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/</link><pubDate>Thu, 08 Feb 2024 14:39:49 +0800</pubDate><guid>https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/</guid><description>&lt;h2 id="概览">概览&lt;/h2>
 &lt;p>在 UE5 推出了服务于大世界的 World Partition 系统，总的来说主要分几大块：&lt;/p>
 &lt;ol>
 &lt;li>Grid、Level（Grid Level，非 ULevel）、Cell 的划分&lt;/li>
