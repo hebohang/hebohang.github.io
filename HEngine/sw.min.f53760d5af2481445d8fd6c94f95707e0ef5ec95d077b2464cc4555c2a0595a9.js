@@ -1,0 +1,1 @@
+navigator.serviceWorker&&navigator.serviceWorker.register("/HEngine/sw.js",{scope:"/"})
