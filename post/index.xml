@@ -1,4 +1,164 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on 何律师</title><link>https://hebohang.github.io/post/</link><description>Recent content in Posts on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Mon, 08 Apr 2024 16:55:31 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Rider</title><link>https://hebohang.github.io/p/rider/</link><pubDate>Mon, 08 Apr 2024 16:55:31 +0800</pubDate><guid>https://hebohang.github.io/p/rider/</guid><description>&lt;h2 id="参考资料">参考资料&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on 何律师</title><link>https://hebohang.github.io/post/</link><description>Recent content in Posts on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Tue, 21 May 2024 11:40:08 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>Redirector</title><link>https://hebohang.github.io/p/redirector/</link><pubDate>Tue, 21 May 2024 11:40:08 +0800</pubDate><guid>https://hebohang.github.io/p/redirector/</guid><description>&lt;h2 id="重定向器逻辑">重定向器逻辑&lt;/h2>
+&lt;p>&lt;a class="link" href="https://blog.csdn.net/u013412391/article/details/107772484" target="_blank" rel="noopener"
+>https://blog.csdn.net/u013412391/article/details/107772484&lt;/a>&lt;/p>
+&lt;p>FAssetRenameManager::PopulateAssetReferencers&lt;/p>
+&lt;h2 id="fix-up">Fix Up&lt;/h2>
+&lt;p>Engine\Plugins\Editor\EngineAssetDefinitions\Source\Private\AssetDefinition_Redirector.cpp&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/redirector/image.png"
+width="1174"
+height="661"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="177"
+data-flex-basis="426px"
+>&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/redirector/image-1.png"
+width="1580"
+height="430"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="367"
+data-flex-basis="881px"
+>&lt;/p>
+&lt;p>最终到 UAssetToolsImpl::FixupReferencers -&amp;gt; FAssetFixUpRedirectors::FixupReferencers&lt;/p>
+&lt;h2 id="ci">CI&lt;/h2>
+&lt;p>&lt;a class="link" href="https://dev.epicgames.com/documentation/en-us/unreal-engine/asset-redirectors-in-unreal-engine" target="_blank" rel="noopener"
+>https://dev.epicgames.com/documentation/en-us/unreal-engine/asset-redirectors-in-unreal-engine&lt;/a>&lt;/p>
+&lt;p>和正常的 commandlet 一样，对应这个文件：
+Engine\Source\Editor\UnrealEd\Classes\Commandlets\ResavePackagesCommandlet.h&lt;/p></description></item><item><title>解析文件</title><link>https://hebohang.github.io/p/%E8%A7%A3%E6%9E%90%E6%96%87%E4%BB%B6/</link><pubDate>Tue, 21 May 2024 11:33:31 +0800</pubDate><guid>https://hebohang.github.io/p/%E8%A7%A3%E6%9E%90%E6%96%87%E4%BB%B6/</guid><description>&lt;h2 id="txt">txt&lt;/h2>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">FString&lt;/span> &lt;span class="n">Content&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;xxx&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FString&lt;/span> &lt;span class="n">FileName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FPaths&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">ProjectIntermediateDir&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="s">&amp;#34;xxx/xxx.txt&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FFileHelper&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">SaveStringToFile&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Content&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">FileName&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">FFileHelper&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">EEncodingOptions&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">ForceUTF8WithoutBOM&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="json">json&lt;/h2>
+&lt;p>&lt;a class="link" href="https://www.cnblogs.com/shiroe/p/14751769.html" target="_blank" rel="noopener"
+>https://www.cnblogs.com/shiroe/p/14751769.html&lt;/a>&lt;/p>
+&lt;h2 id="ini">ini&lt;/h2>
+&lt;p>&lt;a class="link" href="https://dev.epicgames.com/documentation/zh-cn/unreal-engine/configuration-files-in-unreal-engine?application_version=5.4" target="_blank" rel="noopener"
+>https://dev.epicgames.com/documentation/zh-cn/unreal-engine/configuration-files-in-unreal-engine?application_version=5.4&lt;/a>&lt;/p>
+&lt;h2 id="xml">xml&lt;/h2>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#include&lt;/span> &lt;span class="cpf">&amp;#34;XmlFile.h&amp;#34;&lt;/span>&lt;span class="cp">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FString&lt;/span> &lt;span class="n">OutputFilePath&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FPaths&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">ProjectIntermediateDir&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="s">&amp;#34;xxx/xxx.xml&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">const&lt;/span> &lt;span class="n">FString&lt;/span> &lt;span class="n">XmlTemplate&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;&amp;lt;?xml version=&lt;/span>&lt;span class="se">\&amp;#34;&lt;/span>&lt;span class="s">1.0&lt;/span>&lt;span class="se">\&amp;#34;&lt;/span>&lt;span class="s"> encoding=&lt;/span>&lt;span class="se">\&amp;#34;&lt;/span>&lt;span class="s">UTF - 8&lt;/span>&lt;span class="se">\&amp;#34;&lt;/span>&lt;span class="s">?&amp;gt;&lt;/span>&lt;span class="se">\n&lt;/span>&lt;span class="s">&amp;lt;root&amp;gt;&lt;/span>&lt;span class="se">\n&lt;/span>&lt;span class="s">&amp;lt;/root&amp;gt;&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FXmlFile&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">XmlFile&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="n">FXmlFile&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">XmlTemplate&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">EConstructMethod&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">ConstructFromBuffer&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="n">XmlFile&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">IsValid&lt;/span>&lt;span class="p">())&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FXmlNode&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">XmlRoot&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">XmlFile&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetRootNode&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">XmlRoot&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="k">nullptr&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 添加
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">XmlRoot&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">AppendChildNode&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">xxx&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">XmlFile&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">Save&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">OutputFilePath&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">delete&lt;/span> &lt;span class="n">XmlFile&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="excel">excel&lt;/h2>
+&lt;p>保存数据的类：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">USTRUCT&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">struct&lt;/span> &lt;span class="nc">FAssetLockedTable&lt;/span> &lt;span class="o">:&lt;/span> &lt;span class="k">public&lt;/span> &lt;span class="n">FTableRowBase&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">GENERATED_BODY&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">UPROPERTY&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">EditAnywhere&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">FString&lt;/span> &lt;span class="n">PackageName&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">UPROPERTY&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">EditAnywhere&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">FString&lt;/span> &lt;span class="n">ReferencerName&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">UPROPERTY&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">EditAnywhere&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">FString&lt;/span> &lt;span class="n">OtherUserCheckedOutName&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">};&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>保存cpp代码：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">UDataTable&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">DataTable&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">NewObject&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">UDataTable&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">DataTable&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">RowStruct&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FAssetLockedTable&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">StaticStruct&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FAssetLockedTable&lt;/span> &lt;span class="n">RowData&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">RowData&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">PackageName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;1&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">RowData&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">ReferencerName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;2&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">RowData&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">OtherUserCheckedOutName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;3&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">DataTable&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">AddRow&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">FName&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;hebohang&amp;#34;&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="n">RowData&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">const&lt;/span> &lt;span class="n">FString&lt;/span> &lt;span class="n">CSVString&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">DataTable&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetTableAsCSV&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FString&lt;/span> &lt;span class="n">CsvPath&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FPaths&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">ProjectIntermediateDir&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">TEXT&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Test/AssetLockedTable.csv&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FFileHelper&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">SaveStringToFile&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">CSVString&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">CsvPath&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">FFileHelper&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">EEncodingOptions&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">ForceUTF8&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>生成 excel：
+&lt;img src="https://hebohang.github.io/p/%E8%A7%A3%E6%9E%90%E6%96%87%E4%BB%B6/image.png"
+width="469"
+height="68"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="689"
+data-flex-basis="1655px"
+>&lt;/p></description></item><item><title>Rider</title><link>https://hebohang.github.io/p/rider/</link><pubDate>Mon, 08 Apr 2024 16:55:31 +0800</pubDate><guid>https://hebohang.github.io/p/rider/</guid><description>&lt;h2 id="参考资料">参考资料&lt;/h2>
 &lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/611515616" target="_blank" rel="noopener"
 >https://zhuanlan.zhihu.com/p/611515616&lt;/a>&lt;/p>
 &lt;h2 id="calculating-asset-index">calculating asset index&lt;/h2>
@@ -1883,7 +2043,19 @@ data-flex-basis="945px"
 >&lt;/p>
 &lt;p>参考：
 &lt;a class="link" href="https://stackoverflow.com/questions/134103/how-do-you-search-the-text-of-changelist-descriptions-in-perforce" target="_blank" rel="noopener"
->https://stackoverflow.com/questions/134103/how-do-you-search-the-text-of-changelist-descriptions-in-perforce&lt;/a>&lt;/p></description></item><item><title>场景优化</title><link>https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/</link><pubDate>Mon, 20 Nov 2023 17:27:45 +0800</pubDate><guid>https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/</guid><description>&lt;h2 id="ism-与-hism">ISM 与 HISM&lt;/h2>
+>https://stackoverflow.com/questions/134103/how-do-you-search-the-text-of-changelist-descriptions-in-perforce&lt;/a>&lt;/p>
+&lt;h3 id="p4host">P4HOST&lt;/h3>
+&lt;p>默认的 P4HOST 应该和本地计算机名一致，在设置里可以重命名。Workspace 需要和 Host 绑定。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">p4 &lt;span class="nb">set&lt;/span> &lt;span class="nv">P4HOST&lt;/span>&lt;span class="o">=&lt;/span>DESKTOP-HEBOHANG
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>命令行环境和 workspace 的host不一致可能会导致p4v无法进去，此时可以用前面的 bash 指令先改回 workspace 对应的 host.&lt;/p>
+&lt;p>p4v 可以在 connection -&amp;gt; edit current workspace -&amp;gt; advance 中改当前 workspace 的 host。&lt;/p></description></item><item><title>场景优化</title><link>https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/</link><pubDate>Mon, 20 Nov 2023 17:27:45 +0800</pubDate><guid>https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/</guid><description>&lt;h2 id="ism-与-hism">ISM 与 HISM&lt;/h2>
 &lt;p>&lt;img src="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image.png"
 width="421"
 height="395"
@@ -2588,22 +2760,59 @@ data-flex-basis="428px"
 &lt;/div>&lt;p>从 UObject 到各种路径：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;span class="lnt">3
-&lt;/span>&lt;span class="lnt">4
-&lt;/span>&lt;span class="lnt">5
-&lt;/span>&lt;span class="lnt">6
-&lt;/span>&lt;span class="lnt">7
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// PackageName
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">FString&lt;/span> &lt;span class="n">a&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Obj&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetPackage&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetFName&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="n">ToString&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FString&lt;/span> &lt;span class="n">b&lt;/span>&lt;span class="p">;&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Obj&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetPackage&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetName&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">c&lt;/span>&lt;span class="p">);&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Obj&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetPackage&lt;/span>&lt;span class="p">()&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetLoadedPath&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="n">GetPackageFName&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// AssetName
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">FName&lt;/span> &lt;span class="n">c&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Obj&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetFName&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>从 PackageName 到绝对路径（文件后缀是 .uasset 还是 .umap 我一直没有好的判断方法，只能两个都试一遍）：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">FString&lt;/span> &lt;span class="n">Filename&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FPackageName&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">LongPackageNameToFilename&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">PackageName&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FString&lt;/span> &lt;span class="n">AbsPath&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FString&lt;/span> &lt;span class="n">AssetAbsPath&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FPaths&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">ConvertRelativePathToFull&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Filename&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">FPackageName&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">GetAssetPackageExtension&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FString&lt;/span> &lt;span class="n">MapAbsPath&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FPaths&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">ConvertRelativePathToFull&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Filename&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">FPackageName&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">GetMapPackageExtension&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">FPaths&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">FileExists&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">AssetAbsPath&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">AbsPath&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">AssetAbsPath&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">else&lt;/span> &lt;span class="nf">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">FPaths&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">FileExists&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">MapAbsPath&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">AbsPath&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">AssetAbsPath&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
 &lt;/div>&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/152201635" target="_blank" rel="noopener"

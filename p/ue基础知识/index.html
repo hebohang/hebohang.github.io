@@ -125,20 +125,50 @@ UE 对这个宏做了特殊处理。</p><p><a class=link href=https://ue5wiki.co
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1>// 2
 </span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>UWorld</span><span class=o>*</span> <span class=n>World</span> <span class=o>=</span> <span class=n>LoadObject</span><span class=o>&lt;</span><span class=n>UWorld</span><span class=o>&gt;</span><span class=p>(</span><span class=k>nullptr</span><span class=p>,</span> <span class=o>*</span><span class=n>AssetDataArray</span><span class=p>[</span><span class=mi>0</span><span class=p>].</span><span class=n>GetObjectPathString</span><span class=p>());</span>
-</span></span></code></pre></td></tr></table></div></div><p>从 UObject 到各种路径：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span><span class=lnt>7
+</span></span></code></pre></td></tr></table></div></div><p>从 UObject 到各种路径：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=c1>// PackageName
 </span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>FString</span> <span class=n>a</span> <span class=o>=</span> <span class=n>Obj</span><span class=o>-&gt;</span><span class=n>GetPackage</span><span class=p>()</span><span class=o>-&gt;</span><span class=n>GetFName</span><span class=p>().</span><span class=n>ToString</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=n>FString</span> <span class=n>b</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=n>Obj</span><span class=o>-&gt;</span><span class=n>GetPackage</span><span class=p>()</span><span class=o>-&gt;</span><span class=n>GetName</span><span class=p>(</span><span class=n>c</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>Obj</span><span class=o>-&gt;</span><span class=n>GetPackage</span><span class=p>()</span><span class=o>-&gt;</span><span class=n>GetLoadedPath</span><span class=p>().</span><span class=n>GetPackageFName</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1>// AssetName
 </span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>FName</span> <span class=n>c</span> <span class=o>=</span> <span class=n>Obj</span><span class=o>-&gt;</span><span class=n>GetFName</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><p>从 PackageName 到绝对路径（文件后缀是 .uasset 还是 .umap 我一直没有好的判断方法，只能两个都试一遍）：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=n>FString</span> <span class=n>Filename</span> <span class=o>=</span> <span class=n>FPackageName</span><span class=o>::</span><span class=n>LongPackageNameToFilename</span><span class=p>(</span><span class=n>PackageName</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>FString</span> <span class=n>AbsPath</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=n>FString</span> <span class=n>AssetAbsPath</span> <span class=o>=</span> <span class=n>FPaths</span><span class=o>::</span><span class=n>ConvertRelativePathToFull</span><span class=p>(</span><span class=n>Filename</span><span class=p>)</span> <span class=o>+</span> <span class=n>FPackageName</span><span class=o>::</span><span class=n>GetAssetPackageExtension</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=n>FString</span> <span class=n>MapAbsPath</span> <span class=o>=</span> <span class=n>FPaths</span><span class=o>::</span><span class=n>ConvertRelativePathToFull</span><span class=p>(</span><span class=n>Filename</span><span class=p>)</span> <span class=o>+</span> <span class=n>FPackageName</span><span class=o>::</span><span class=n>GetMapPackageExtension</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=n>FPaths</span><span class=o>::</span><span class=n>FileExists</span><span class=p>(</span><span class=n>AssetAbsPath</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>AbsPath</span> <span class=o>=</span> <span class=n>AssetAbsPath</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=k>else</span> <span class=nf>if</span> <span class=p>(</span><span class=n>FPaths</span><span class=o>::</span><span class=n>FileExists</span><span class=p>(</span><span class=n>MapAbsPath</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>AbsPath</span> <span class=o>=</span> <span class=n>AssetAbsPath</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
 </span></span></code></pre></td></tr></table></div></div><p><a class=link href=https://zhuanlan.zhihu.com/p/152201635 target=_blank rel=noopener>https://zhuanlan.zhihu.com/p/152201635</a></p><h3 id=复制-duplicate>复制 Duplicate</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
