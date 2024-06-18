@@ -1034,10 +1034,10 @@ data-flex-basis="849px"
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl"> .&lt;span class="se">\U&lt;/span>nrealEditor-Cmd.exe E:&lt;span class="se">\W&lt;/span>ork&lt;span class="se">\x&lt;/span>xx&lt;span class="se">\x&lt;/span>xx.uproject -run&lt;span class="o">=&lt;/span>cook -targetplatform&lt;span class="o">=&lt;/span>Windows -map&lt;span class="o">=&lt;/span>TestMap.umap
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl"> .&lt;span class="se">\U&lt;/span>nrealEditor-Cmd.exe E:&lt;span class="se">\W&lt;/span>ork&lt;span class="se">\x&lt;/span>xx&lt;span class="se">\x&lt;/span>xx.uproject -run&lt;span class="o">=&lt;/span>cook -targetplatform&lt;span class="o">=&lt;/span>Windows -map&lt;span class="o">=&lt;/span>/Game/TestMap
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>这里的 .\ 一定需要，目录在项目路径的 Engine\Binaries\Win64 中；但是 -map 我测试没有起作用，还有待考察。&lt;/p>
+&lt;/div>&lt;p>这里的 .\ 一定需要，目录在项目路径的 Engine\Binaries\Win64 中&lt;/p>
 &lt;p>测完会放在项目目录的 &lt;code>Saved\Cooked\Windows\&lt;/code> 中。&lt;/p>
 &lt;h3 id="编辑器与ide下启动">编辑器与IDE下启动&lt;/h3>
 &lt;p>编辑器下，我们可以点击cook：
@@ -1085,7 +1085,42 @@ class="gallery-image"
 data-flex-grow="514"
 data-flex-basis="1235px"
 >&lt;/p>
-&lt;h2 id="打包逻辑">打包逻辑&lt;/h2>
+&lt;h3 id="参数">参数&lt;/h3>
+&lt;p>&lt;img src="https://hebohang.github.io/p/cook/image-4.png"
+width="1258"
+height="606"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="207"
+data-flex-basis="498px"
+>&lt;/p>
+&lt;p>-iterate：以 Windows 为例，会存到 Saved\Cooked\Windows\项目名字\Content\相同路径下， 例如一个关卡 /Game/Test1/HbhTest.umap, 则会生成对应两个文件：
+Saved\Cooked\Windows\项目名字\Content\Test1\HbhTest.uexp, Saved\Cooked\Windows\项目名字\Content\Test1\HbhTest.umap；这个参数会比较创建的时间戳，如果需要更新则会重新cook；
+因此如果本地删除这两个文件，用 -iterate 参数即会重新 cook&lt;/p>
+&lt;p>-skipeditorcontent：在 CookOnTheFlyServer 中会忽略 /Engine/Editor* 与 /Editor/VREditor* 中的资源&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// don&amp;#39;t save Editor resources from the Engine if the target doesn&amp;#39;t have editoronly data
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">IsCookFlagSet&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">ECookInitializationFlags&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">SkipEditorContent&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">&amp;amp;&amp;amp;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">(&lt;/span>&lt;span class="n">PackagePathName&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">StartsWith&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">TEXT&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/Engine/Editor&amp;#34;&lt;/span>&lt;span class="p">))&lt;/span> &lt;span class="o">||&lt;/span> &lt;span class="n">PackagePathName&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">StartsWith&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">TEXT&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;/Engine/VREditor&amp;#34;&lt;/span>&lt;span class="p">)))&lt;/span> &lt;span class="o">&amp;amp;&amp;amp;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">!&lt;/span>&lt;span class="n">Target&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">HasEditorOnlyData&lt;/span>&lt;span class="p">())&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Result&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">ESavePackageResult&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">ContainsEditorOnlyData&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">bCookPackage&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nb">false&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="打包逻辑">打包逻辑&lt;/h2>
 &lt;p>UE 打包时加载资源的思路是：先找到本地 uasset 文件，将路径转换为 PackageName，进行加载，在加载时会把依赖的资源也加载了，然后将其一起 Cook。&lt;/p>
 &lt;p>参考：
 &lt;a class="link" href="https://imzlp.com/posts/22570/" target="_blank" rel="noopener"
@@ -1917,7 +1952,7 @@ data-flex-basis="428px"
 &lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">FName&lt;/span> &lt;span class="n">c&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Obj&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetFName&lt;/span>&lt;span class="p">();&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;p>从 PackageName 到绝对路径（文件后缀是 .uasset 还是 .umap 我一直没有好的判断方法，只能两个都试一遍）：&lt;/p>
+&lt;/div>&lt;p>从 PackageName 到绝对路径：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
 &lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
@@ -1932,9 +1967,35 @@ data-flex-basis="428px"
 &lt;/span>&lt;span class="lnt">10
 &lt;/span>&lt;span class="lnt">11
 &lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
 &lt;/span>&lt;/code>&lt;/pre>&lt;/td>
 &lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">FString&lt;/span> &lt;span class="n">Filename&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FPackageName&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">LongPackageNameToFilename&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">PackageName&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 参考 Engine\Plugins\Editor\AssetSearch\Source\Private\FileInfoDatabase.cpp AddOrUpdateFileInfo 函数
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">const&lt;/span> &lt;span class="n">FString&lt;/span> &lt;span class="n">PackageName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">InAssetData&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">PackageName&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">ToString&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">const&lt;/span> &lt;span class="n">FString&lt;/span> &lt;span class="n">Extension&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">InAssetData&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">PackageFlags&lt;/span> &lt;span class="o">&amp;amp;&lt;/span> &lt;span class="n">PKG_ContainsMap&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">?&lt;/span> &lt;span class="n">FPackageName&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">GetMapPackageExtension&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="o">:&lt;/span> &lt;span class="n">FPackageName&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">GetAssetPackageExtension&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FString&lt;/span> &lt;span class="n">FilePath&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="n">FPackageName&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">TryConvertLongPackageNameToFilename&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">PackageName&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">FilePath&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">Extension&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nb">false&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">const&lt;/span> &lt;span class="n">FString&lt;/span> &lt;span class="n">FullFilePath&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FPaths&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">ConvertRelativePathToFull&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">FilePath&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 旧方法
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">FString&lt;/span> &lt;span class="n">Filename&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FPackageName&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">LongPackageNameToFilename&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">PackageName&lt;/span>&lt;span class="p">);&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FString&lt;/span> &lt;span class="n">AbsPath&lt;/span>&lt;span class="p">;&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FString&lt;/span> &lt;span class="n">AssetAbsPath&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FPaths&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">ConvertRelativePathToFull&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Filename&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">FPackageName&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">GetAssetPackageExtension&lt;/span>&lt;span class="p">();&lt;/span>
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FString&lt;/span> &lt;span class="n">MapAbsPath&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FPaths&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">ConvertRelativePathToFull&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Filename&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">FPackageName&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">GetMapPackageExtension&lt;/span>&lt;span class="p">();&lt;/span>

@@ -145,7 +145,7 @@ UE 对这个宏做了特殊处理。</p><p><a class=link href=https://ue5wiki.co
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=c1>// AssetName
 </span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>FName</span> <span class=n>c</span> <span class=o>=</span> <span class=n>Obj</span><span class=o>-&gt;</span><span class=n>GetFName</span><span class=p>();</span>
-</span></span></code></pre></td></tr></table></div></div><p>从 PackageName 到绝对路径（文件后缀是 .uasset 还是 .umap 我一直没有好的判断方法，只能两个都试一遍）：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span></span></code></pre></td></tr></table></div></div><p>从 PackageName 到绝对路径：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -157,7 +157,33 @@ UE 对这个宏做了特殊处理。</p><p><a class=link href=https://ue5wiki.co
 </span><span class=lnt>10
 </span><span class=lnt>11
 </span><span class=lnt>12
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=n>FString</span> <span class=n>Filename</span> <span class=o>=</span> <span class=n>FPackageName</span><span class=o>::</span><span class=n>LongPackageNameToFilename</span><span class=p>(</span><span class=n>PackageName</span><span class=p>);</span>
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=c1>// 参考 Engine\Plugins\Editor\AssetSearch\Source\Private\FileInfoDatabase.cpp AddOrUpdateFileInfo 函数
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>const</span> <span class=n>FString</span> <span class=n>PackageName</span> <span class=o>=</span> <span class=n>InAssetData</span><span class=p>.</span><span class=n>PackageName</span><span class=p>.</span><span class=n>ToString</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=k>const</span> <span class=n>FString</span> <span class=n>Extension</span> <span class=o>=</span> <span class=p>(</span><span class=n>InAssetData</span><span class=p>.</span><span class=n>PackageFlags</span> <span class=o>&amp;</span> <span class=n>PKG_ContainsMap</span><span class=p>)</span> <span class=o>?</span> <span class=n>FPackageName</span><span class=o>::</span><span class=n>GetMapPackageExtension</span><span class=p>()</span> <span class=o>:</span> <span class=n>FPackageName</span><span class=o>::</span><span class=n>GetAssetPackageExtension</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>FString</span> <span class=n>FilePath</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>FPackageName</span><span class=o>::</span><span class=n>TryConvertLongPackageNameToFilename</span><span class=p>(</span><span class=n>PackageName</span><span class=p>,</span> <span class=n>FilePath</span><span class=p>,</span> <span class=n>Extension</span><span class=p>))</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nb>false</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>const</span> <span class=n>FString</span> <span class=n>FullFilePath</span> <span class=o>=</span> <span class=n>FPaths</span><span class=o>::</span><span class=n>ConvertRelativePathToFull</span><span class=p>(</span><span class=n>FilePath</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 旧方法
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>FString</span> <span class=n>Filename</span> <span class=o>=</span> <span class=n>FPackageName</span><span class=o>::</span><span class=n>LongPackageNameToFilename</span><span class=p>(</span><span class=n>PackageName</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=n>FString</span> <span class=n>AbsPath</span><span class=p>;</span>
 </span></span><span class=line><span class=cl><span class=n>FString</span> <span class=n>AssetAbsPath</span> <span class=o>=</span> <span class=n>FPaths</span><span class=o>::</span><span class=n>ConvertRelativePathToFull</span><span class=p>(</span><span class=n>Filename</span><span class=p>)</span> <span class=o>+</span> <span class=n>FPackageName</span><span class=o>::</span><span class=n>GetAssetPackageExtension</span><span class=p>();</span>
 </span></span><span class=line><span class=cl><span class=n>FString</span> <span class=n>MapAbsPath</span> <span class=o>=</span> <span class=n>FPaths</span><span class=o>::</span><span class=n>ConvertRelativePathToFull</span><span class=p>(</span><span class=n>Filename</span><span class=p>)</span> <span class=o>+</span> <span class=n>FPackageName</span><span class=o>::</span><span class=n>GetMapPackageExtension</span><span class=p>();</span>
