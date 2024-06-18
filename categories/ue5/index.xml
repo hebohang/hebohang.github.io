@@ -1777,6 +1777,67 @@ data-flex-basis="452px"
 &lt;h4 id="fstringfnameftext互转">FString、FName、FText互转&lt;/h4>
 &lt;p>&lt;a class="link" href="https://docs.unrealengine.com/5.3/zh-CN/string-handling-in-unreal-engine/" target="_blank" rel="noopener"
 >https://docs.unrealengine.com/5.3/zh-CN/string-handling-in-unreal-engine/&lt;/a>&lt;/p>
+&lt;table>
+&lt;thead>
+&lt;tr>
+&lt;th style="text-align:center">From&lt;/th>
+&lt;th style="text-align:center">To&lt;/th>
+&lt;th style="text-align:center">Example&lt;/th>
+&lt;/tr>
+&lt;/thead>
+&lt;tbody>
+&lt;tr>
+&lt;td style="text-align:center">FName&lt;/td>
+&lt;td style="text-align:center">FString&lt;/td>
+&lt;td style="text-align:center">TestHUDString = TestHUDName.ToString();&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:center">FName&lt;/td>
+&lt;td style="text-align:center">FText&lt;/td>
+&lt;td style="text-align:center">TestHUDText = FText::FromName(TestHUDName);&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:center">FString&lt;/td>
+&lt;td style="text-align:center">FName&lt;/td>
+&lt;td style="text-align:center">TestHUDName = FName(*TestHUDString);&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:center">FString&lt;/td>
+&lt;td style="text-align:center">FText&lt;/td>
+&lt;td style="text-align:center">TestHUDText = FText::FromString(TestHUDString);&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:center">FText&lt;/td>
+&lt;td style="text-align:center">FString&lt;/td>
+&lt;td style="text-align:center">TestHUDString = TestHUDText.ToString();&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:center">FText&lt;/td>
+&lt;td style="text-align:center">FName&lt;/td>
+&lt;td style="text-align:center">There is no direct conversion from FText to FName. Instead, convert to FString and then to FName.&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:center">FString&lt;/td>
+&lt;td style="text-align:center">int32&lt;/td>
+&lt;td style="text-align:center">int32 TestInt = FCString::Atoi(*MyFString);&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:center">FString&lt;/td>
+&lt;td style="text-align:center">float&lt;/td>
+&lt;td style="text-align:center">float TestFloat = FCString::Atof(*MyFString);&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:center">int32&lt;/td>
+&lt;td style="text-align:center">FString&lt;/td>
+&lt;td style="text-align:center">FString TestString = FString::FromInt(MyInt);&lt;/td>
+&lt;/tr>
+&lt;tr>
+&lt;td style="text-align:center">float&lt;/td>
+&lt;td style="text-align:center">FString&lt;/td>
+&lt;td style="text-align:center">FString TestString = FString::SanitizeFloat(MyFloat);&lt;/td>
+&lt;/tr>
+&lt;/tbody>
+&lt;/table>
 &lt;h5 id="enum-转-fstring">Enum 转 FString&lt;/h5>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
@@ -1844,7 +1905,69 @@ data-flex-basis="428px"
 >https://blog.csdn.net/u011718663/article/details/117785611&lt;/a>&lt;/p>
 &lt;p>&lt;a class="link" href="https://forums.unrealengine.com/t/define-loctext-namespace-something/438086" target="_blank" rel="noopener"
 >https://forums.unrealengine.com/t/define-loctext-namespace-something/438086&lt;/a>&lt;/p>
-&lt;h3 id="路径">路径&lt;/h3>
+&lt;h3 id="委托delegate">委托（Delegate）&lt;/h3>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/126630820" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/126630820&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/460092901" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/460092901&lt;/a>&lt;/p>
+&lt;p>委托分 单播/多播（Multicast, 能否绑定多个函数）、静态/动态（Dynamic, 支持序列化、可以给蓝图用）&lt;/p>
+&lt;p>其中一个 wbp 按钮 UButton 的 OnClicked 事件属于 DYNAMIC_MULTICAST_DELEGATE（&lt;code>DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnButtonClickedEvent)&lt;/code>），因此不能绑定 lambda 函数（动态多播只能绑定某个 object 上的 ufunction）；
+但是我们可以拿到他的 slate，再对 slate 绑定 lambda，参考：
+&lt;a class="link" href="https://benui.ca/unreal/using-same-function-for-many-ubuttons/" target="_blank" rel="noopener"
+>https://benui.ca/unreal/using-same-function-for-many-ubuttons/&lt;/a>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="kt">void&lt;/span> &lt;span class="n">UBUIUWTestWindow&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">NativeConstruct&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Super&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">NativeConstruct&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// Imagine we have an array of buttons already populated
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">int32&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">&amp;lt;&lt;/span> &lt;span class="n">Buttons&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Num&lt;/span>&lt;span class="p">();&lt;/span> &lt;span class="o">++&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">UButton&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">Button&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Buttons&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">SButton&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">ButtonWidget&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">SButton&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="p">)&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Button&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">TakeWidget&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="n">Get&lt;/span>&lt;span class="p">());&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">ButtonWidget&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">SetOnClicked&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">FOnClicked&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">CreateLambda&lt;/span>&lt;span class="p">([&lt;/span>&lt;span class="k">this&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">i&lt;/span>&lt;span class="p">]()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">OnClicked&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">FReply&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">Handled&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}));&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kt">void&lt;/span> &lt;span class="n">UBUIUWTestWindow&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">OnClicked&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">int32&lt;/span> &lt;span class="n">Index&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// Find the button and do whatever we want
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="c1">// The argument passed in here doesn&amp;#39;t have to be an int32
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="路径">路径&lt;/h3>
 &lt;p>各种资源的路径格式：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
 &lt;table class="lntable">&lt;tr>&lt;td class="lntd">
