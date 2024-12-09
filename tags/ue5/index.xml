@@ -1953,61 +1953,61 @@ data-flex-basis="452px"
 &lt;table>
 &lt;thead>
 &lt;tr>
-&lt;th style="text-align:center">From&lt;/th>
-&lt;th style="text-align:center">To&lt;/th>
-&lt;th style="text-align:center">Example&lt;/th>
+&lt;th style="text-align: center">From&lt;/th>
+&lt;th style="text-align: center">To&lt;/th>
+&lt;th style="text-align: center">Example&lt;/th>
 &lt;/tr>
 &lt;/thead>
 &lt;tbody>
 &lt;tr>
-&lt;td style="text-align:center">FName&lt;/td>
-&lt;td style="text-align:center">FString&lt;/td>
-&lt;td style="text-align:center">TestHUDString = TestHUDName.ToString();&lt;/td>
+&lt;td style="text-align: center">FName&lt;/td>
+&lt;td style="text-align: center">FString&lt;/td>
+&lt;td style="text-align: center">TestHUDString = TestHUDName.ToString();&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">FName&lt;/td>
-&lt;td style="text-align:center">FText&lt;/td>
-&lt;td style="text-align:center">TestHUDText = FText::FromName(TestHUDName);&lt;/td>
+&lt;td style="text-align: center">FName&lt;/td>
+&lt;td style="text-align: center">FText&lt;/td>
+&lt;td style="text-align: center">TestHUDText = FText::FromName(TestHUDName);&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">FString&lt;/td>
-&lt;td style="text-align:center">FName&lt;/td>
-&lt;td style="text-align:center">TestHUDName = FName(*TestHUDString);&lt;/td>
+&lt;td style="text-align: center">FString&lt;/td>
+&lt;td style="text-align: center">FName&lt;/td>
+&lt;td style="text-align: center">TestHUDName = FName(*TestHUDString);&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">FString&lt;/td>
-&lt;td style="text-align:center">FText&lt;/td>
-&lt;td style="text-align:center">TestHUDText = FText::FromString(TestHUDString);&lt;/td>
+&lt;td style="text-align: center">FString&lt;/td>
+&lt;td style="text-align: center">FText&lt;/td>
+&lt;td style="text-align: center">TestHUDText = FText::FromString(TestHUDString);&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">FText&lt;/td>
-&lt;td style="text-align:center">FString&lt;/td>
-&lt;td style="text-align:center">TestHUDString = TestHUDText.ToString();&lt;/td>
+&lt;td style="text-align: center">FText&lt;/td>
+&lt;td style="text-align: center">FString&lt;/td>
+&lt;td style="text-align: center">TestHUDString = TestHUDText.ToString();&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">FText&lt;/td>
-&lt;td style="text-align:center">FName&lt;/td>
-&lt;td style="text-align:center">There is no direct conversion from FText to FName. Instead, convert to FString and then to FName.&lt;/td>
+&lt;td style="text-align: center">FText&lt;/td>
+&lt;td style="text-align: center">FName&lt;/td>
+&lt;td style="text-align: center">There is no direct conversion from FText to FName. Instead, convert to FString and then to FName.&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">FString&lt;/td>
-&lt;td style="text-align:center">int32&lt;/td>
-&lt;td style="text-align:center">int32 TestInt = FCString::Atoi(*MyFString);&lt;/td>
+&lt;td style="text-align: center">FString&lt;/td>
+&lt;td style="text-align: center">int32&lt;/td>
+&lt;td style="text-align: center">int32 TestInt = FCString::Atoi(*MyFString);&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">FString&lt;/td>
-&lt;td style="text-align:center">float&lt;/td>
-&lt;td style="text-align:center">float TestFloat = FCString::Atof(*MyFString);&lt;/td>
+&lt;td style="text-align: center">FString&lt;/td>
+&lt;td style="text-align: center">float&lt;/td>
+&lt;td style="text-align: center">float TestFloat = FCString::Atof(*MyFString);&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">int32&lt;/td>
-&lt;td style="text-align:center">FString&lt;/td>
-&lt;td style="text-align:center">FString TestString = FString::FromInt(MyInt);&lt;/td>
+&lt;td style="text-align: center">int32&lt;/td>
+&lt;td style="text-align: center">FString&lt;/td>
+&lt;td style="text-align: center">FString TestString = FString::FromInt(MyInt);&lt;/td>
 &lt;/tr>
 &lt;tr>
-&lt;td style="text-align:center">float&lt;/td>
-&lt;td style="text-align:center">FString&lt;/td>
-&lt;td style="text-align:center">FString TestString = FString::SanitizeFloat(MyFloat);&lt;/td>
+&lt;td style="text-align: center">float&lt;/td>
+&lt;td style="text-align: center">FString&lt;/td>
+&lt;td style="text-align: center">FString TestString = FString::SanitizeFloat(MyFloat);&lt;/td>
 &lt;/tr>
 &lt;/tbody>
 &lt;/table>
