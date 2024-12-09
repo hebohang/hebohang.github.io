@@ -1,4 +1,277 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>UE5 on 何律师</title><link>https://hebohang.github.io/categories/ue5/</link><description>Recent content in UE5 on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Mon, 08 Apr 2024 16:55:31 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/categories/ue5/index.xml" rel="self" type="application/rss+xml"/><item><title>Rider</title><link>https://hebohang.github.io/p/rider/</link><pubDate>Mon, 08 Apr 2024 16:55:31 +0800</pubDate><guid>https://hebohang.github.io/p/rider/</guid><description>&lt;h2 id="参考资料">参考资料&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>UE5 on 何律师</title><link>https://hebohang.github.io/categories/ue5/</link><description>Recent content in UE5 on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Wed, 23 Oct 2024 16:16:20 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/categories/ue5/index.xml" rel="self" type="application/rss+xml"/><item><title>编译</title><link>https://hebohang.github.io/p/%E7%BC%96%E8%AF%91/</link><pubDate>Wed, 23 Oct 2024 16:16:20 +0800</pubDate><guid>https://hebohang.github.io/p/%E7%BC%96%E8%AF%91/</guid><description>&lt;h2 id="源码编译教程">源码编译教程&lt;/h2>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/107516361" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/107516361&lt;/a>&lt;/p>
+&lt;h2 id="一次-build-流程">一次 Build 流程&lt;/h2>
+&lt;ol>
+&lt;li>在 VS 中点击 Build，调用 build.bat&lt;/li>
+&lt;li>build.bat 中调用 UBT&lt;/li>
+&lt;li>UBT 执行 target.cs 和所有 Module 的 build.cs 中的逻辑&lt;/li>
+&lt;li>UBT 调用 UHT(根据 UE 的 宏标记 生成代码)&lt;/li>
+&lt;li>UHT 生成完毕后，UBT 调用编译器&lt;/li>
+&lt;li>预处理&lt;/li>
+&lt;li>编译&lt;/li>
+&lt;li>链接&lt;/li>
+&lt;/ol>
+&lt;p>参考：
+&lt;a class="link" href="https://ue5wiki.com/wiki/6362/#VS" target="_blank" rel="noopener"
+>https://ue5wiki.com/wiki/6362/#VS&lt;/a>&lt;/p>
+&lt;h2 id="unity-build">Unity Build&lt;/h2>
+&lt;p>UE 默认是开 Unity Build 的，在 Intermediate 里面，能找到对应的 Module.xxx.cpp (xxx为当前模块名称) 文件，里面整合了所有的 .gen.cpp 和 .cpp&lt;/p>
+&lt;p>检测到某个 cpp 更改时，会把这个 cpp 文件从 Module.xxx.cpp 中摘出去，这样其余文件还是可以 unity build，而我们在 ide 更改的这个 cpp 再单独 build&lt;/p>
+&lt;p>可以在模块的 .build.cs 中加代码 &lt;code>bUseUnity = false;&lt;/code> 来关闭 Unity Build.&lt;/p>
+&lt;p>参考：
+&lt;a class="link" href="https://ue5wiki.com/wiki/36076/" target="_blank" rel="noopener"
+>https://ue5wiki.com/wiki/36076/&lt;/a>&lt;/p>
+&lt;h2 id="pch">PCH&lt;/h2>
+&lt;p>我们在 &lt;a class="link" href="https://github.com/EpicGames/UnrealEngine/blob/release/Engine/Source/Programs/UnrealBuildTool/Configuration/ModuleRules.cs" target="_blank" rel="noopener"
+>https://github.com/EpicGames/UnrealEngine/blob/release/Engine/Source/Programs/UnrealBuildTool/Configuration/ModuleRules.cs&lt;/a> 中可以看到有这些 PCHUsageMode：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-C#" data-lang="C#">&lt;span class="line">&lt;span class="cl">&lt;span class="cs">/// &amp;lt;summary&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cs">/// What type of PCH to use for this module.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cs">/// &amp;lt;/summary&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="kd">public&lt;/span> &lt;span class="kd">enum&lt;/span> &lt;span class="n">PCHUsageMode&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="cs">/// &amp;lt;summary&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="cs">/// Default: Engine modules use shared PCHs, game modules do not&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="cs">/// &amp;lt;/summary&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Default&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="cs">/// &amp;lt;summary&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="cs">/// Never use any PCHs.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="cs">/// &amp;lt;/summary&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">NoPCHs&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="cs">/// &amp;lt;summary&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="cs">/// Never use shared PCHs. Always generate a unique PCH for this module if appropriate&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="cs">/// &amp;lt;/summary&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">NoSharedPCHs&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="cs">/// &amp;lt;summary&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="cs">/// Shared PCHs are OK!&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="cs">/// &amp;lt;/summary&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">UseSharedPCHs&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="cs">/// &amp;lt;summary&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="cs">/// Shared PCHs may be used if an explicit private PCH is not set through PrivatePCHHeaderFile. In either case, none of the source files manually include a module PCH, and should include a matching header instead.&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="cs">/// &amp;lt;/summary&amp;gt;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">UseExplicitOrSharedPCHs&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>我们的代码文件，在 Intermediate 中都有个 .cpp.dep.json 文件，里头会有用到的 PCH 是什么。这个文件在 UBT 流程用到。&lt;/p>
+&lt;p>输出到编译器的参数选项可以在同级目录的 .cpp.obj.rsp 查看，可以看到上面的 .cpp.dep.json 就是作为 /sourceDependencies 参数输给 msvc 的（
+&lt;a class="link" href="https://learn.microsoft.com/en-us/cpp/build/reference/sourcedependencies?view=msvc-170" target="_blank" rel="noopener"
+>https://learn.microsoft.com/en-us/cpp/build/reference/sourcedependencies?view=msvc-170&lt;/a>
+）&lt;/p>
+&lt;h2 id="precompile">Precompile&lt;/h2>
+&lt;p>模块有两个属性 bUsePrecompiled 和 bPrecompile&lt;/p>
+&lt;p>bPrecompile 我还不清楚是什么用，bUsePrecompiled 默认则是关闭，打开的话则会可以直接用 Binaries 里面的二进制内容&lt;/p>
+&lt;p>因此对于不希望分发源码的情况，我们可以只保留二进制文件，并在 .build.cs 中添加：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-c#" data-lang="c#">&lt;span class="line">&lt;span class="cl">&lt;span class="n">bUsePrecompiled&lt;/span> &lt;span class="p">=&lt;/span> &lt;span class="p">!&lt;/span>&lt;span class="n">File&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Exists&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Path&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Combine&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">PluginDirectory&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="s">&amp;#34;Source/xxx/xxx.cpp&amp;#34;&lt;/span>&lt;span class="p">));&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这样，在有某个代码文件 xxx.cpp 存在时，bUsePrecompiled 为 false，走本地编译；在这个文件不存在时，bUsePrecompiled 为 true，直接用 Binaries 的内容。&lt;/p>
+&lt;p>参考：
+&lt;a class="link" href="https://ue5wiki.com/wiki/16643/#bPreCompile%20%E4%B8%8E%20bUsePreCompiled" target="_blank" rel="noopener"
+>https://ue5wiki.com/wiki/16643/#bPreCompile%20%E4%B8%8E%20bUsePreCompiled&lt;/a>&lt;/p>
+&lt;h2 id="构建问题合集">构建问题合集&lt;/h2>
+&lt;h3 id="1-uecommonprops153-error-msb4019--找不到导入的项目eprogram-filesjetbrainsjetbrains-rider-202323toolsmsbuildmicrosoftvcv170microsoftcppdefaultprops">1. UECommon.props(15,3): Error MSB4019 : 找不到导入的项目“E:\Program Files\JetBrains\JetBrains Rider 2023.2.3\tools\MSBuild\Microsoft\VC\v170\Microsoft.Cpp.Default.props”&lt;/h3>
+&lt;p>&lt;a class="link" href="https://ganzhixiong.com/p/cf1fabff/" target="_blank" rel="noopener"
+>https://ganzhixiong.com/p/cf1fabff/&lt;/a>&lt;/p>
+&lt;h3 id="2-error-c4668--__has_feature-is-not-defined-as-a-preprocessor-macro-replacing-with-0-for-ifelif">2. error c4668 : &amp;lsquo;__has_feature&amp;rsquo; is not defined as a preprocessor macro, replacing with &amp;lsquo;0&amp;rsquo; for &amp;lsquo;#if/#elif&amp;rsquo;&lt;/h3>
+&lt;p>一些奇怪的编译报错，先确定 vs 版本有没有装对，用 GenerateProjectFiles.bat 生成工程，看提示有没有推荐的版本，装那个版本。&lt;/p>
+&lt;h2 id="参考">参考&lt;/h2>
+&lt;p>&lt;a class="link" href="https://ue5wiki.com/wiki/6362/#VS" target="_blank" rel="noopener"
+>https://ue5wiki.com/wiki/6362/#VS&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://ue5wiki.com/wiki/16643/#bUseRTTI-bool" target="_blank" rel="noopener"
+>https://ue5wiki.com/wiki/16643/#bUseRTTI-bool&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://ue5wiki.com/wiki/36076/" target="_blank" rel="noopener"
+>https://ue5wiki.com/wiki/36076/&lt;/a>&lt;/p></description></item><item><title>解析文件</title><link>https://hebohang.github.io/p/%E8%A7%A3%E6%9E%90%E6%96%87%E4%BB%B6/</link><pubDate>Tue, 21 May 2024 11:33:31 +0800</pubDate><guid>https://hebohang.github.io/p/%E8%A7%A3%E6%9E%90%E6%96%87%E4%BB%B6/</guid><description>&lt;h2 id="txt">txt&lt;/h2>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// Save
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">FString&lt;/span> &lt;span class="n">Content&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;xxx&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FString&lt;/span> &lt;span class="n">FileName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FPaths&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">ProjectIntermediateDir&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="s">&amp;#34;xxx/xxx.txt&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FFileHelper&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">SaveStringToFile&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Content&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">FileName&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">FFileHelper&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">EEncodingOptions&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">ForceUTF8WithoutBOM&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// Load
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">TArray&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">FString&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">OutStrings&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">FFileHelper&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">LoadANSITextFileToStrings&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">FilePath&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="k">nullptr&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">OutStrings&lt;/span>&lt;span class="p">))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="json">json&lt;/h2>
+&lt;p>&lt;a class="link" href="https://www.cnblogs.com/shiroe/p/14751769.html" target="_blank" rel="noopener"
+>https://www.cnblogs.com/shiroe/p/14751769.html&lt;/a>&lt;/p>
+&lt;h2 id="ini">ini&lt;/h2>
+&lt;p>&lt;a class="link" href="https://dev.epicgames.com/documentation/zh-cn/unreal-engine/configuration-files-in-unreal-engine?application_version=5.4" target="_blank" rel="noopener"
+>https://dev.epicgames.com/documentation/zh-cn/unreal-engine/configuration-files-in-unreal-engine?application_version=5.4&lt;/a>&lt;/p>
+&lt;h2 id="xml">xml&lt;/h2>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="cp">#include&lt;/span> &lt;span class="cpf">&amp;#34;XmlFile.h&amp;#34;&lt;/span>&lt;span class="cp">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cp">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FString&lt;/span> &lt;span class="n">OutputFilePath&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FPaths&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">ProjectIntermediateDir&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="s">&amp;#34;xxx/xxx.xml&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">const&lt;/span> &lt;span class="n">FString&lt;/span> &lt;span class="n">XmlTemplate&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;&amp;lt;?xml version=&lt;/span>&lt;span class="se">\&amp;#34;&lt;/span>&lt;span class="s">1.0&lt;/span>&lt;span class="se">\&amp;#34;&lt;/span>&lt;span class="s"> encoding=&lt;/span>&lt;span class="se">\&amp;#34;&lt;/span>&lt;span class="s">UTF - 8&lt;/span>&lt;span class="se">\&amp;#34;&lt;/span>&lt;span class="s">?&amp;gt;&lt;/span>&lt;span class="se">\n&lt;/span>&lt;span class="s">&amp;lt;root&amp;gt;&lt;/span>&lt;span class="se">\n&lt;/span>&lt;span class="s">&amp;lt;/root&amp;gt;&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FXmlFile&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">XmlFile&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="k">new&lt;/span> &lt;span class="n">FXmlFile&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">XmlTemplate&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">EConstructMethod&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">ConstructFromBuffer&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="n">XmlFile&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">IsValid&lt;/span>&lt;span class="p">())&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FXmlNode&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">XmlRoot&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">XmlFile&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetRootNode&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">XmlRoot&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="k">nullptr&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 添加
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">XmlRoot&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">AppendChildNode&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">xxx&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">XmlFile&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">Save&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">OutputFilePath&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">delete&lt;/span> &lt;span class="n">XmlFile&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="excel">excel&lt;/h2>
+&lt;p>保存数据的类：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">USTRUCT&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">struct&lt;/span> &lt;span class="nc">FAssetLockedTable&lt;/span> &lt;span class="o">:&lt;/span> &lt;span class="k">public&lt;/span> &lt;span class="n">FTableRowBase&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">GENERATED_BODY&lt;/span>&lt;span class="p">()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">UPROPERTY&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">EditAnywhere&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">FString&lt;/span> &lt;span class="n">PackageName&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">UPROPERTY&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">EditAnywhere&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">FString&lt;/span> &lt;span class="n">ReferencerName&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">UPROPERTY&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">EditAnywhere&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">FString&lt;/span> &lt;span class="n">OtherUserCheckedOutName&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">};&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>保存cpp代码：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">UDataTable&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">DataTable&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">NewObject&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">UDataTable&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">DataTable&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">RowStruct&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FAssetLockedTable&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">StaticStruct&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FAssetLockedTable&lt;/span> &lt;span class="n">RowData&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">RowData&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">PackageName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;1&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">RowData&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">ReferencerName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;2&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">RowData&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">OtherUserCheckedOutName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;3&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">DataTable&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">AddRow&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">FName&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;hebohang&amp;#34;&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="n">RowData&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">const&lt;/span> &lt;span class="n">FString&lt;/span> &lt;span class="n">CSVString&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">DataTable&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetTableAsCSV&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FString&lt;/span> &lt;span class="n">CsvPath&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FPaths&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">ProjectIntermediateDir&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">TEXT&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Test/AssetLockedTable.csv&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FFileHelper&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">SaveStringToFile&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">CSVString&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">CsvPath&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">FFileHelper&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">EEncodingOptions&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">ForceUTF8&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>生成 excel：
+&lt;img src="https://hebohang.github.io/p/%E8%A7%A3%E6%9E%90%E6%96%87%E4%BB%B6/image.png"
+width="469"
+height="68"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="689"
+data-flex-basis="1655px"
+>&lt;/p></description></item><item><title>Rider</title><link>https://hebohang.github.io/p/rider/</link><pubDate>Mon, 08 Apr 2024 16:55:31 +0800</pubDate><guid>https://hebohang.github.io/p/rider/</guid><description>&lt;h2 id="参考资料">参考资料&lt;/h2>
 &lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/611515616" target="_blank" rel="noopener"
 >https://zhuanlan.zhihu.com/p/611515616&lt;/a>&lt;/p>
 &lt;h2 id="calculating-asset-index">calculating asset index&lt;/h2>
@@ -11,6 +284,16 @@ loading="lazy"
 class="gallery-image"
 data-flex-grow="134"
 data-flex-basis="323px"
+>&lt;/p>
+&lt;h2 id="调试">调试&lt;/h2>
+&lt;h3 id="数据断点">数据断点&lt;/h3>
+&lt;p>&lt;img src="https://hebohang.github.io/p/rider/image-1.png"
+width="2890"
+height="992"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="291"
+data-flex-basis="699px"
 >&lt;/p></description></item><item><title>WorldPartition解析</title><link>https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/</link><pubDate>Thu, 08 Feb 2024 14:39:49 +0800</pubDate><guid>https://hebohang.github.io/p/worldpartition%E8%A7%A3%E6%9E%90/</guid><description>&lt;h2 id="概览">概览&lt;/h2>
 &lt;p>在 UE5 推出了服务于大世界的 World Partition 系统，总的来说主要分几大块：&lt;/p>
 &lt;ol>
@@ -717,6 +1000,12 @@ data-flex-basis="1225px"
 &lt;p>&lt;a class="link" href="https://hebohang.github.io/p/referenceviewer/" >ReferenceViewer&lt;/a>&lt;/p>
 &lt;h2 id="commandlet">Commandlet&lt;/h2>
 &lt;p>&lt;a class="link" href="https://hebohang.github.io/p/commandlet/" >Commandlet&lt;/a>&lt;/p>
+&lt;h2 id="redirector">Redirector&lt;/h2>
+&lt;p>&lt;a class="link" href="https://hebohang.github.io/p/redirector/" >Redirector&lt;/a>&lt;/p>
+&lt;h2 id="编译">编译&lt;/h2>
+&lt;p>&lt;a class="link" href="https://hebohang.github.io/p/%E7%BC%96%E8%AF%91/" >编译&lt;/a>&lt;/p>
+&lt;h2 id="解析文件">解析文件&lt;/h2>
+&lt;p>&lt;a class="link" href="https://hebohang.github.io/p/%E8%A7%A3%E6%9E%90%E6%96%87%E4%BB%B6/" >解析文件&lt;/a>&lt;/p>
 &lt;h2 id="保存资产">保存资产&lt;/h2>
 &lt;p>&lt;a class="link" href="https://georgy.dev/posts/save-uobject-to-package/" target="_blank" rel="noopener"
 >https://georgy.dev/posts/save-uobject-to-package/&lt;/a>&lt;/p>
@@ -1012,6 +1301,12 @@ data-flex-basis="849px"
 &lt;p>参考：
 &lt;a class="link" href="https://forums.unrealengine.com/t/what-is-my-editor-trying-to-do/76707/21" target="_blank" rel="noopener"
 >https://forums.unrealengine.com/t/what-is-my-editor-trying-to-do/76707/21&lt;/a>&lt;/p>
+&lt;h3 id="xxx-plugin-was-designed-for-build-xxx-attempt-to-load-it-anyway">xxx plugin was designed for build xxx. Attempt to load it anyway?&lt;/h3>
+&lt;p>这是因为对应插件的 .uplugin 中有一个 EngineVersion 字段，里面的引擎版本号和当前引擎版本号不一致，启动就会弹窗警告。（常发生在 ugs 拉完，再用源码编译时）&lt;/p>
+&lt;p>可以把 Engine\Build\Build.version 这里面的 IsLicenseeVersion 字段从 1 改成 0&lt;/p>
+&lt;h3 id="修复gpu驱动程序崩溃">修复GPU驱动程序崩溃&lt;/h3>
+&lt;p>&lt;a class="link" href="https://dev.epicgames.com/documentation/zh-cn/unreal-engine/how-to-fix-a-gpu-driver-crash-when-using-unreal-engine" target="_blank" rel="noopener"
+>https://dev.epicgames.com/documentation/zh-cn/unreal-engine/how-to-fix-a-gpu-driver-crash-when-using-unreal-engine&lt;/a>&lt;/p>
 &lt;h3 id="合集">合集&lt;/h3>
 &lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/80809567" target="_blank" rel="noopener"
 >https://zhuanlan.zhihu.com/p/80809567&lt;/a>&lt;/p>
