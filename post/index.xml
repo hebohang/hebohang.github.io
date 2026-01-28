@@ -1178,7 +1178,9 @@ data-flex-basis="645px"
 &lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">.&lt;span class="se">\U&lt;/span>nrealEditor.exe E:&lt;span class="se">\W&lt;/span>ork&lt;span class="se">\x&lt;/span>xx.uproject -skipcompile -run&lt;span class="o">=&lt;/span>XXX
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
-&lt;/div>&lt;h3 id="skipcompile参数作用">skipcompile参数作用&lt;/h3>
+&lt;/div>&lt;h2 id="小技巧">小技巧&lt;/h2>
+&lt;h3 id="参数">参数&lt;/h3>
+&lt;h4 id="skipcompile参数作用">skipcompile参数作用&lt;/h4>
 &lt;p>字面意思就是跳过编译，源码对应位置：
 &lt;img src="https://hebohang.github.io/p/commandlet/image.png"
 width="1173"
@@ -1188,7 +1190,178 @@ class="gallery-image"
 data-flex-grow="586"
 data-flex-basis="1407px"
 >&lt;/p>
-&lt;h2 id="参考">参考&lt;/h2>
+&lt;h4 id="allowcommandletrendering">AllowCommandletRendering&lt;/h4>
+&lt;p>commandlet 下默认没有渲染，需要加上 -AllowCommandletRendering 打开&lt;/p>
+&lt;h3 id="tick">tick&lt;/h3>
+&lt;p>Commandlet 无法tick，但是看ue源码发现大世界有个这样的函数：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">FWorldPartitionHelpers&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">FakeEngineTick&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>里面是调用了&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">CommandletHelpers&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">TickEngine&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="资源检索">资源检索&lt;/h3>
+&lt;p>很多需要用资源的地方比如 &lt;code>AssetRegistryModule.Get().GetDependencies&lt;/code> 之类的，需要提前注册到 AssetRegistryModule 里：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">UE_LOG&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">LogTemp&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">Display&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">TEXT&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Commandlet Start Load All Assets!&amp;#34;&lt;/span>&lt;span class="p">));&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FAssetRegistryModule&lt;/span>&lt;span class="o">&amp;amp;&lt;/span> &lt;span class="n">AssetRegistryModule&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FModuleManager&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">GetModuleChecked&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">FAssetRegistryModule&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;AssetRegistry&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">AssetRegistryModule&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Get&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="n">SearchAllAssets&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="cm">/*bSynchronousSearch =*/&lt;/span>&lt;span class="nb">true&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">UE_LOG&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">LogTemp&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">Display&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">TEXT&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Commandlet Finish Load All Assets!&amp;#34;&lt;/span>&lt;span class="p">));&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="贴图">贴图&lt;/h3>
+&lt;p>我想在 Commandlet 下拿到贴图的 Resource Size，跟编辑器打开贴图的 Detail 信息里的 Resource Size 等同，把源码挖来应该是这样：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 尝试从PlatformData获取资源大小
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">FTexturePlatformData&lt;/span>&lt;span class="o">**&lt;/span> &lt;span class="n">PlatformDataPtr&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Texture&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetRunningPlatformData&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">PlatformDataPtr&lt;/span> &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> &lt;span class="n">PlatformDataPtr&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">])&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">FTexturePlatformData&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">PlatformData&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">PlatformDataPtr&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 获取当前LOD bias
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">const&lt;/span> &lt;span class="n">FStreamableRenderResourceState&lt;/span> &lt;span class="n">SRRState&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Texture&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetStreamableResourceState&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">const&lt;/span> &lt;span class="n">int32&lt;/span> &lt;span class="n">ActualMipBias&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">SRRState&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">IsValid&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="o">?&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">SRRState&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">ResidentFirstLODIdx&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">SRRState&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">AssetLODBias&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">:&lt;/span> &lt;span class="n">Texture&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetCachedLODBias&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 使用GetPayloadSize获取资源大小
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="n">ResourceSizeBytes&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">PlatformData&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetPayloadSize&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">ActualMipBias&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">else&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 如果无法从PlatformData获取，则使用GetResourceSizeBytes
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="n">ResourceSizeBytes&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Texture&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetResourceSizeBytes&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">EResourceSizeMode&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">Exclusive&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 转换为KB
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">return&lt;/span> &lt;span class="n">FMath&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">DivideAndRoundNearest&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">ResourceSizeBytes&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="k">static_cast&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">int64&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">1024&lt;/span>&lt;span class="p">));&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>但是发现 Commandlet 环境下会有问题，最后发现需要补上一些前置代码：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">FTextureCompilingManager&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">Get&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="n">FinishCompilation&lt;/span>&lt;span class="p">({&lt;/span>&lt;span class="n">Texture&lt;/span>&lt;span class="p">});&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Texture&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">SetForceMipLevelsToBeResident&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mf">30.0f&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Texture&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">WaitForStreaming&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>完整代码如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 获取Texture的Resource Size（KB）
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">int64&lt;/span> &lt;span class="nf">GetTextureResourceSizeKB&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">UTexture&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">Texture&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="n">Texture&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">FTextureCompilingManager&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">Get&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="n">FinishCompilation&lt;/span>&lt;span class="p">({&lt;/span>&lt;span class="n">Texture&lt;/span>&lt;span class="p">});&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Texture&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">SetForceMipLevelsToBeResident&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mf">30.0f&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Texture&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">WaitForStreaming&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">int64&lt;/span> &lt;span class="n">ResourceSizeBytes&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 尝试从PlatformData获取资源大小
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="n">FTexturePlatformData&lt;/span>&lt;span class="o">**&lt;/span> &lt;span class="n">PlatformDataPtr&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Texture&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetRunningPlatformData&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">PlatformDataPtr&lt;/span> &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> &lt;span class="n">PlatformDataPtr&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">])&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">FTexturePlatformData&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">PlatformData&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">PlatformDataPtr&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">];&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 获取当前LOD bias
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">const&lt;/span> &lt;span class="n">FStreamableRenderResourceState&lt;/span> &lt;span class="n">SRRState&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Texture&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetStreamableResourceState&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">const&lt;/span> &lt;span class="n">int32&lt;/span> &lt;span class="n">ActualMipBias&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">SRRState&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">IsValid&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="o">?&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">SRRState&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">ResidentFirstLODIdx&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">SRRState&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">AssetLODBias&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">:&lt;/span> &lt;span class="n">Texture&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetCachedLODBias&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 使用GetPayloadSize获取资源大小
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="n">ResourceSizeBytes&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">PlatformData&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetPayloadSize&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">ActualMipBias&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">else&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 如果无法从PlatformData获取，则使用GetResourceSizeBytes
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="n">ResourceSizeBytes&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">Texture&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetResourceSizeBytes&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">EResourceSizeMode&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">Exclusive&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 转换为KB
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">return&lt;/span> &lt;span class="n">FMath&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">DivideAndRoundNearest&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">ResourceSizeBytes&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="k">static_cast&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">int64&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">1024&lt;/span>&lt;span class="p">));&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h2 id="参考">参考&lt;/h2>
 &lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/512610557" target="_blank" rel="noopener"
 >https://zhuanlan.zhihu.com/p/512610557&lt;/a>&lt;/p>
 &lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/377903983" target="_blank" rel="noopener"

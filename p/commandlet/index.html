@@ -10,9 +10,9 @@
 <span>HEngine</span></a></li><div class=menu-bottom-section><li id=i18n-switch><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-language" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z" fill="none"/><path d="M4 5h7"/><path d="M9 3v2c0 4.418-2.239 8-5 8"/><path d="M5 9c-.003 2.144 2.952 3.908 6.7 4"/><path d="M12 20l4-9 4 9"/><path d="M19.1 18h-6.2"/></svg>
 <select name=language onchange="window.location.href=this.selectedOptions[0].value"><option value=https://hebohang.github.io/ selected></option></select></li><li id=dark-mode-toggle><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="8" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="16" cy="12" r="2"/><rect x="2" y="6" width="20" height="12" rx="6"/></svg>
-<span>暗色模式</span></li></div></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#案例>案例</a><ol><li><a href=#skipcompile参数作用>skipcompile参数作用</a></li></ol></li><li><a href=#参考>参考</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/commandlet/>Commandlet</a></h2></div><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
+<span>暗色模式</span></li></div></ol></aside><aside class="sidebar right-sidebar sticky"><section class="widget archives"><div class=widget-icon><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-hash" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><line x1="5" y1="9" x2="19" y2="9"/><line x1="5" y1="15" x2="19" y2="15"/><line x1="11" y1="4" x2="7" y2="20"/><line x1="17" y1="4" x2="13" y2="20"/></svg></div><h2 class="widget-title section-title">目录</h2><div class=widget--toc><nav id=TableOfContents><ol><li><a href=#案例>案例</a></li><li><a href=#小技巧>小技巧</a><ol><li><a href=#参数>参数</a><ol><li><a href=#skipcompile参数作用>skipcompile参数作用</a></li><li><a href=#allowcommandletrendering>AllowCommandletRendering</a></li></ol></li><li><a href=#tick>tick</a></li><li><a href=#资源检索>资源检索</a></li><li><a href=#贴图>贴图</a></li></ol></li><li><a href=#参考>参考</a></li></ol></nav></div></section></aside><main class="main full-width"><article class=main-article><header class=article-header><div class=article-details><header class=article-category></header><div class=article-title-wrapper><h2 class=article-title><a href=/p/commandlet/>Commandlet</a></h2></div><footer class=article-time><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><path d="M11.795 21H5a2 2 0 01-2-2V7a2 2 0 012-2h12a2 2 0 012 2v4"/><circle cx="18" cy="18" r="4"/><path d="M15 3v4"/><path d="M7 3v4"/><path d="M3 11h16"/><path d="M18 16.496V18l1 1"/></svg>
 <time class=article-time--published>Dec 11, 2023</time></div><div><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 15"/></svg>
-<time class=article-time--reading>阅读时长: 1 分钟</time></div></footer></div></header><section class=article-content><h2 id=案例>案例</h2><p>头文件：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+<time class=article-time--reading>阅读时长: 2 分钟</time></div></footer></div></header><section class=article-content><h2 id=案例>案例</h2><p>头文件：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -90,8 +90,132 @@
 </span></span><span class=line><span class=cl><span class=p>}</span>
 </span></span></code></pre></td></tr></table></div></div><p>启动/调试时在vs中增加参数：<code>-skipcompile -run=XXX</code></p><p>这里的 XXX 换成你想要的名字，UResavePackagesCommandlet 也可以换成 UCommandlet</p><p>本地测试：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>.<span class=se>\U</span>nrealEditor.exe E:<span class=se>\W</span>ork<span class=se>\x</span>xx.uproject -skipcompile -run<span class=o>=</span>XXX
-</span></span></code></pre></td></tr></table></div></div><h3 id=skipcompile参数作用>skipcompile参数作用</h3><p>字面意思就是跳过编译，源码对应位置：
-<img src=/p/commandlet/image.png width=1173 height=200 loading=lazy class=gallery-image data-flex-grow=586 data-flex-basis=1407px></p><h2 id=参考>参考</h2><p><a class=link href=https://zhuanlan.zhihu.com/p/512610557 target=_blank rel=noopener>https://zhuanlan.zhihu.com/p/512610557</a></p><p><a class=link href=https://zhuanlan.zhihu.com/p/377903983 target=_blank rel=noopener>https://zhuanlan.zhihu.com/p/377903983</a></p></section><footer class=article-footer><section class=article-tags></section><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
+</span></span></code></pre></td></tr></table></div></div><h2 id=小技巧>小技巧</h2><h3 id=参数>参数</h3><h4 id=skipcompile参数作用>skipcompile参数作用</h4><p>字面意思就是跳过编译，源码对应位置：
+<img src=/p/commandlet/image.png width=1173 height=200 loading=lazy class=gallery-image data-flex-grow=586 data-flex-basis=1407px></p><h4 id=allowcommandletrendering>AllowCommandletRendering</h4><p>commandlet 下默认没有渲染，需要加上 -AllowCommandletRendering 打开</p><h3 id=tick>tick</h3><p>Commandlet 无法tick，但是看ue源码发现大世界有个这样的函数：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=n>FWorldPartitionHelpers</span><span class=o>::</span><span class=n>FakeEngineTick</span>
+</span></span></code></pre></td></tr></table></div></div><p>里面是调用了</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=n>CommandletHelpers</span><span class=o>::</span><span class=n>TickEngine</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=资源检索>资源检索</h3><p>很多需要用资源的地方比如 <code>AssetRegistryModule.Get().GetDependencies</code> 之类的，需要提前注册到 AssetRegistryModule 里：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=n>UE_LOG</span><span class=p>(</span><span class=n>LogTemp</span><span class=p>,</span> <span class=n>Display</span><span class=p>,</span> <span class=n>TEXT</span><span class=p>(</span><span class=s>&#34;Commandlet Start Load All Assets!&#34;</span><span class=p>));</span>
+</span></span><span class=line><span class=cl><span class=n>FAssetRegistryModule</span><span class=o>&amp;</span> <span class=n>AssetRegistryModule</span> <span class=o>=</span> <span class=n>FModuleManager</span><span class=o>::</span><span class=n>GetModuleChecked</span><span class=o>&lt;</span><span class=n>FAssetRegistryModule</span><span class=o>&gt;</span><span class=p>(</span><span class=s>&#34;AssetRegistry&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>AssetRegistryModule</span><span class=p>.</span><span class=n>Get</span><span class=p>().</span><span class=n>SearchAllAssets</span><span class=p>(</span><span class=cm>/*bSynchronousSearch =*/</span><span class=nb>true</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>UE_LOG</span><span class=p>(</span><span class=n>LogTemp</span><span class=p>,</span> <span class=n>Display</span><span class=p>,</span> <span class=n>TEXT</span><span class=p>(</span><span class=s>&#34;Commandlet Finish Load All Assets!&#34;</span><span class=p>));</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=贴图>贴图</h3><p>我想在 Commandlet 下拿到贴图的 Resource Size，跟编辑器打开贴图的 Detail 信息里的 Resource Size 等同，把源码挖来应该是这样：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=c1>// 尝试从PlatformData获取资源大小
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>FTexturePlatformData</span><span class=o>**</span> <span class=n>PlatformDataPtr</span> <span class=o>=</span> <span class=n>Texture</span><span class=o>-&gt;</span><span class=n>GetRunningPlatformData</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=k>if</span> <span class=p>(</span><span class=n>PlatformDataPtr</span> <span class=o>&amp;&amp;</span> <span class=n>PlatformDataPtr</span><span class=p>[</span><span class=mi>0</span><span class=p>])</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=n>FTexturePlatformData</span><span class=o>*</span> <span class=n>PlatformData</span> <span class=o>=</span> <span class=n>PlatformDataPtr</span><span class=p>[</span><span class=mi>0</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 获取当前LOD bias
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=k>const</span> <span class=n>FStreamableRenderResourceState</span> <span class=n>SRRState</span> <span class=o>=</span> <span class=n>Texture</span><span class=o>-&gt;</span><span class=n>GetStreamableResourceState</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>	<span class=k>const</span> <span class=n>int32</span> <span class=n>ActualMipBias</span> <span class=o>=</span> <span class=n>SRRState</span><span class=p>.</span><span class=n>IsValid</span><span class=p>()</span> <span class=o>?</span> <span class=p>(</span><span class=n>SRRState</span><span class=p>.</span><span class=n>ResidentFirstLODIdx</span><span class=p>()</span> <span class=o>+</span> <span class=n>SRRState</span><span class=p>.</span><span class=n>AssetLODBias</span><span class=p>)</span> <span class=o>:</span> <span class=n>Texture</span><span class=o>-&gt;</span><span class=n>GetCachedLODBias</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>	<span class=c1>// 使用GetPayloadSize获取资源大小
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=n>ResourceSizeBytes</span> <span class=o>=</span> <span class=n>PlatformData</span><span class=o>-&gt;</span><span class=n>GetPayloadSize</span><span class=p>(</span><span class=n>ActualMipBias</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=k>else</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=c1>// 如果无法从PlatformData获取，则使用GetResourceSizeBytes
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=n>ResourceSizeBytes</span> <span class=o>=</span> <span class=n>Texture</span><span class=o>-&gt;</span><span class=n>GetResourceSizeBytes</span><span class=p>(</span><span class=n>EResourceSizeMode</span><span class=o>::</span><span class=n>Exclusive</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>// 转换为KB
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=k>return</span> <span class=n>FMath</span><span class=o>::</span><span class=n>DivideAndRoundNearest</span><span class=p>(</span><span class=n>ResourceSizeBytes</span><span class=p>,</span> <span class=k>static_cast</span><span class=o>&lt;</span><span class=n>int64</span><span class=o>&gt;</span><span class=p>(</span><span class=mi>1024</span><span class=p>));</span>
+</span></span></code></pre></td></tr></table></div></div><p>但是发现 Commandlet 环境下会有问题，最后发现需要补上一些前置代码：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=n>FTextureCompilingManager</span><span class=o>::</span><span class=n>Get</span><span class=p>().</span><span class=n>FinishCompilation</span><span class=p>({</span><span class=n>Texture</span><span class=p>});</span>
+</span></span><span class=line><span class=cl><span class=n>Texture</span><span class=o>-&gt;</span><span class=n>SetForceMipLevelsToBeResident</span><span class=p>(</span><span class=mf>30.0f</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>Texture</span><span class=o>-&gt;</span><span class=n>WaitForStreaming</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><p>完整代码如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-cpp data-lang=cpp><span class=line><span class=cl><span class=c1>// 获取Texture的Resource Size（KB）
+</span></span></span><span class=line><span class=cl><span class=c1></span><span class=n>int64</span> <span class=nf>GetTextureResourceSizeKB</span><span class=p>(</span><span class=n>UTexture</span><span class=o>*</span> <span class=n>Texture</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>Texture</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>		<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=n>FTextureCompilingManager</span><span class=o>::</span><span class=n>Get</span><span class=p>().</span><span class=n>FinishCompilation</span><span class=p>({</span><span class=n>Texture</span><span class=p>});</span>
+</span></span><span class=line><span class=cl>	<span class=n>Texture</span><span class=o>-&gt;</span><span class=n>SetForceMipLevelsToBeResident</span><span class=p>(</span><span class=mf>30.0f</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=n>Texture</span><span class=o>-&gt;</span><span class=n>WaitForStreaming</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>	<span class=n>int64</span> <span class=n>ResourceSizeBytes</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>	<span class=c1>// 尝试从PlatformData获取资源大小
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=n>FTexturePlatformData</span><span class=o>**</span> <span class=n>PlatformDataPtr</span> <span class=o>=</span> <span class=n>Texture</span><span class=o>-&gt;</span><span class=n>GetRunningPlatformData</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=p>(</span><span class=n>PlatformDataPtr</span> <span class=o>&amp;&amp;</span> <span class=n>PlatformDataPtr</span><span class=p>[</span><span class=mi>0</span><span class=p>])</span>
+</span></span><span class=line><span class=cl>	<span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=n>FTexturePlatformData</span><span class=o>*</span> <span class=n>PlatformData</span> <span class=o>=</span> <span class=n>PlatformDataPtr</span><span class=p>[</span><span class=mi>0</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>		<span class=c1>// 获取当前LOD bias
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=k>const</span> <span class=n>FStreamableRenderResourceState</span> <span class=n>SRRState</span> <span class=o>=</span> <span class=n>Texture</span><span class=o>-&gt;</span><span class=n>GetStreamableResourceState</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>		<span class=k>const</span> <span class=n>int32</span> <span class=n>ActualMipBias</span> <span class=o>=</span> <span class=n>SRRState</span><span class=p>.</span><span class=n>IsValid</span><span class=p>()</span> <span class=o>?</span> <span class=p>(</span><span class=n>SRRState</span><span class=p>.</span><span class=n>ResidentFirstLODIdx</span><span class=p>()</span> <span class=o>+</span> <span class=n>SRRState</span><span class=p>.</span><span class=n>AssetLODBias</span><span class=p>)</span> <span class=o>:</span> <span class=n>Texture</span><span class=o>-&gt;</span><span class=n>GetCachedLODBias</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>		
+</span></span><span class=line><span class=cl>		<span class=c1>// 使用GetPayloadSize获取资源大小
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=n>ResourceSizeBytes</span> <span class=o>=</span> <span class=n>PlatformData</span><span class=o>-&gt;</span><span class=n>GetPayloadSize</span><span class=p>(</span><span class=n>ActualMipBias</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=k>else</span>
+</span></span><span class=line><span class=cl>	<span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=c1>// 如果无法从PlatformData获取，则使用GetResourceSizeBytes
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=n>ResourceSizeBytes</span> <span class=o>=</span> <span class=n>Texture</span><span class=o>-&gt;</span><span class=n>GetResourceSizeBytes</span><span class=p>(</span><span class=n>EResourceSizeMode</span><span class=o>::</span><span class=n>Exclusive</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	
+</span></span><span class=line><span class=cl>	<span class=c1>// 转换为KB
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=k>return</span> <span class=n>FMath</span><span class=o>::</span><span class=n>DivideAndRoundNearest</span><span class=p>(</span><span class=n>ResourceSizeBytes</span><span class=p>,</span> <span class=k>static_cast</span><span class=o>&lt;</span><span class=n>int64</span><span class=o>&gt;</span><span class=p>(</span><span class=mi>1024</span><span class=p>));</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=参考>参考</h2><p><a class=link href=https://zhuanlan.zhihu.com/p/512610557 target=_blank rel=noopener>https://zhuanlan.zhihu.com/p/512610557</a></p><p><a class=link href=https://zhuanlan.zhihu.com/p/377903983 target=_blank rel=noopener>https://zhuanlan.zhihu.com/p/377903983</a></p></section><footer class=article-footer><section class=article-tags></section><section class=article-copyright><svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentcolor" fill="none" stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"/><circle cx="12" cy="12" r="9"/><path d="M14.5 9a3.5 4 0 100 6"/></svg>
 <span>Licensed under CC BY-NC-SA 4.0</span></section></footer></article><aside class=related-content--wrapper><h2 class=section-title>相关文章</h2><div class=related-content><div class="flex article-list--tile"><article><a href=/p/redirector/><div class=article-details><h2 class=article-title>Redirector</h2></div></a></article><article><a href=/p/referenceviewer/><div class=article-details><h2 class=article-title>ReferenceViewer</h2></div></a></article></div></div></aside><script src=//unpkg.com/@waline/client@v2/dist/waline.js></script><link href=//unpkg.com/@waline/client@v2/dist/waline.css rel=stylesheet><div id=waline class=waline-container></div><style>.waline-container{background-color:var(--card-background);border-radius:var(--card-border-radius);box-shadow:var(--shadow-l1);padding:var(--card-padding);--waline-font-size:var(--article-font-size)}.waline-container .wl-count{color:var(--card-text-color-main)}</style><script>Waline.init({dark:'html[data-scheme="dark"]',el:"#waline",emoji:["https://unpkg.com/@waline/emojis@1.0.1/weibo","https://cdn.jsdelivr.net/gh/walinejs/emojis@1.0.0/qq"],locale:{admin:"Admin",placeholder:null},requiredMeta:["name","email","url"],serverURL:"https://hebohang-website-hugo-waline-vercel.vercel.app/"})</script><footer class=site-footer><section class=copyright>&copy;
 2020 -
 2026 hebohang</section><section class=powerby><br></section></footer><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
