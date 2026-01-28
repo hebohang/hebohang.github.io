@@ -1227,6 +1227,167 @@ data-flex-basis="1407px"
 &lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">UE_LOG&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">LogTemp&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">Display&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">TEXT&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Commandlet Finish Load All Assets!&amp;#34;&lt;/span>&lt;span class="p">));&lt;/span>
 &lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
 &lt;/div>
+&lt;/div>&lt;p>一般情况上面这样就够了，再严谨点可以用 FEvent 额外保护确保执行完成了：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 准备 AsssetRegistry
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">FEvent&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">AssetRegistryLoadedEvent&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FPlatformProcess&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">GetSynchEventFromPool&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">true&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// Ensure AssetRegistryModule is initialized
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">FAssetRegistryModule&lt;/span>&lt;span class="o">&amp;amp;&lt;/span> &lt;span class="n">AssetRegistryModule&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FModuleManager&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">LoadModuleChecked&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">FAssetRegistryModule&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;AssetRegistry&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">IAssetRegistry&lt;/span>&lt;span class="o">&amp;amp;&lt;/span> &lt;span class="n">AssetRegistry&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">AssetRegistryModule&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Get&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 初始化 AssetRegistry
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">AssetRegistry&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">SearchAllAssets&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">true&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// Wait until the AssetRegistry is fully loaded
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">AssetRegistry&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">OnFilesLoaded&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="n">AddLambda&lt;/span>&lt;span class="p">([&lt;/span>&lt;span class="n">AssetRegistryLoadedEvent&lt;/span>&lt;span class="p">]()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">AssetRegistryLoadedEvent&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">Trigger&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">});&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="n">AssetRegistry&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">IsLoadingAssets&lt;/span>&lt;span class="p">())&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">AssetRegistryLoadedEvent&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">Trigger&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// Wait for the AssetRegistry to be fully loaded
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">AssetRegistryLoadedEvent&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">Wait&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FPlatformProcess&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">ReturnSynchEventToPool&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">AssetRegistryLoadedEvent&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="http">http&lt;/h3>
+&lt;p>因为这种网络相关，我们很多时候需要确保拿到数据再同步执行后续操作，或是直接执行回调的方式，此时也可以通过 FEvent 来保证，通过让 HttpManager 不断 tick 去确保拿到数据，示例代码如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;span class="lnt">38
+&lt;/span>&lt;span class="lnt">39
+&lt;/span>&lt;span class="lnt">40
+&lt;/span>&lt;span class="lnt">41
+&lt;/span>&lt;span class="lnt">42
+&lt;/span>&lt;span class="lnt">43
+&lt;/span>&lt;span class="lnt">44
+&lt;/span>&lt;span class="lnt">45
+&lt;/span>&lt;span class="lnt">46
+&lt;/span>&lt;span class="lnt">47
+&lt;/span>&lt;span class="lnt">48
+&lt;/span>&lt;span class="lnt">49
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">FEvent&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">ReadyEvent&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FPlatformProcess&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">GetSynchEventFromPool&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="nb">true&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">TSharedPtr&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">FJsonObject&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">ResponseJson&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// Create HTTP request
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">TSharedRef&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">IHttpRequest&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">Request&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">FHttpModule&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">Get&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="n">CreateRequest&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Request&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">SetURL&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Url&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">Request&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">SetVerb&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Verb&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// Set headers
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="k">const&lt;/span> &lt;span class="k">auto&lt;/span>&lt;span class="o">&amp;amp;&lt;/span> &lt;span class="nl">Header&lt;/span> &lt;span class="p">:&lt;/span> &lt;span class="n">Headers&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Request&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">SetHeader&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Header&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Key&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">Header&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Value&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// Set content if provided
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="n">Content&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">IsEmpty&lt;/span>&lt;span class="p">())&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Request&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">SetContentAsString&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Content&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// Set completion callback
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">Request&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">OnProcessRequestComplete&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="n">BindLambda&lt;/span>&lt;span class="p">([&lt;/span>&lt;span class="n">ReadyEvent&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">ResponseJson&lt;/span>&lt;span class="p">](&lt;/span>&lt;span class="n">FHttpRequestPtr&lt;/span> &lt;span class="n">HttpRequest&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">FHttpResponsePtr&lt;/span> &lt;span class="n">HttpResponse&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">bool&lt;/span> &lt;span class="n">bSuccess&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">bSuccess&lt;/span> &lt;span class="o">&amp;amp;&amp;amp;&lt;/span> &lt;span class="n">HttpResponse&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">IsValid&lt;/span>&lt;span class="p">())&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">ResponseJson&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">MakeShareable&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="k">new&lt;/span> &lt;span class="n">FJsonObject&lt;/span>&lt;span class="p">());&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">TSharedRef&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">TJsonReader&lt;/span>&lt;span class="o">&amp;lt;&amp;gt;&amp;gt;&lt;/span> &lt;span class="n">Reader&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">TJsonReaderFactory&lt;/span>&lt;span class="o">&amp;lt;&amp;gt;::&lt;/span>&lt;span class="n">Create&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">HttpResponse&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetContentAsString&lt;/span>&lt;span class="p">());&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">FJsonSerializer&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">Deserialize&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Reader&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">ResponseJson&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">ReadyEvent&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">Trigger&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">});&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// Process the request
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="n">Request&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">ProcessRequest&lt;/span>&lt;span class="p">())&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">FPlatformProcess&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">ReturnSynchEventToPool&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">ReadyEvent&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">UE_LOG&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">LogTemp&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">Error&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">TEXT&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s">&amp;#34;Failed to start HTTP request: %s&amp;#34;&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="o">*&lt;/span>&lt;span class="n">Url&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="nb">false&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// Wait for the request to complete
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">while&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="o">!&lt;/span>&lt;span class="n">ReadyEvent&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">Wait&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">FTimespan&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">FromMilliseconds&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">100&lt;/span>&lt;span class="p">)))&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// Tick the HTTP manager to process the request
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="n">FHttpModule&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">Get&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="n">GetHttpManager&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="n">Tick&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mf">0.1f&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">ReadyEvent&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">Reset&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">FPlatformProcess&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">ReturnSynchEventToPool&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">ReadyEvent&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
 &lt;/div>&lt;h3 id="贴图">贴图&lt;/h3>
 &lt;p>我想在 Commandlet 下拿到贴图的 Resource Size，跟编辑器打开贴图的 Detail 信息里的 Resource Size 等同，把源码挖来应该是这样：&lt;/p>
 &lt;div class="highlight">&lt;div class="chroma">
