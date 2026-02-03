@@ -1699,7 +1699,77 @@ p4此时就有这条delete的记录，在上述操作中就会缓存到ue里的 
 &lt;p>&lt;a class="link" href="https://docs.unrealengine.com/4.27/zh-CN/ProgrammingAndScripting/ProgrammingWithCPP/UnrealArchitecture/TMap/" target="_blank" rel="noopener"
 >https://docs.unrealengine.com/4.27/zh-CN/ProgrammingAndScripting/ProgrammingWithCPP/UnrealArchitecture/TMap/&lt;/a>&lt;/p>
 &lt;p>事实上也可以参考这个文件：Engine\Source\Runtime\Core\Private\Containers\ContainersTest.cpp&lt;/p>
-&lt;p>其中有类 FCaseSensitiveLookupKeyFuncs ，参考他的写法即可&lt;/p></description></item><item><title>场景优化</title><link>https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/</link><pubDate>Mon, 20 Nov 2023 17:27:45 +0800</pubDate><guid>https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/</guid><description>&lt;h2 id="ism-与-hism">ISM 与 HISM&lt;/h2>
+&lt;p>其中有类 FCaseSensitiveLookupKeyFuncs ，参考他的写法即可&lt;/p>
+&lt;h3 id="版本管理获取文件状态时崩溃多线程崩溃">版本管理获取文件状态时崩溃（多线程崩溃）&lt;/h3>
+&lt;p>我们是ue5.5版本，有这个问题，发现在最新的ue5.7里已经修复了：
+&lt;a class="link" href="https://github.com/EpicGames/UnrealEngine/commit/a07d7efb635102fc687a7b4fa3a3455c2d08509d" target="_blank" rel="noopener"
+>https://github.com/EpicGames/UnrealEngine/commit/a07d7efb635102fc687a7b4fa3a3455c2d08509d&lt;/a>&lt;/p>
+&lt;p>这里还是简单分析一下，原来的代码：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">TSharedRef&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">FPerforceSourceControlState&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">ESPMode&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">ThreadSafe&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">FPerforceSourceControlProvider&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">GetStateInternal&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="k">const&lt;/span> &lt;span class="n">FString&lt;/span>&lt;span class="o">&amp;amp;&lt;/span> &lt;span class="n">Filename&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">TSharedRef&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">FPerforceSourceControlState&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">ESPMode&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">ThreadSafe&lt;/span>&lt;span class="o">&amp;gt;*&lt;/span> &lt;span class="n">State&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">StateCache&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Find&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Filename&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">State&lt;/span> &lt;span class="o">!=&lt;/span> &lt;span class="nb">NULL&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// found cached item
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="k">return&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="o">*&lt;/span>&lt;span class="n">State&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">else&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// cache an unknown state for this item
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="n">TSharedRef&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">FPerforceSourceControlState&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">ESPMode&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">ThreadSafe&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">NewState&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">MakeShared&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">FPerforceSourceControlState&lt;/span>&lt;span class="o">&amp;gt;&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Filename&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">StateCache&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Add&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">Filename&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">NewState&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">return&lt;/span> &lt;span class="n">NewState&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>GetStateInternal 这个函数在子线程和主线程都可能被调用，这样 StateCache.Find 的读操作就可能和 StateCache.Add 的写操作冲突从而崩溃。&lt;/p>
+&lt;p>我复现是单独开了个线程，不断读某个文件的版本管理状态：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;span class="lnt">8
+&lt;/span>&lt;span class="lnt">9
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">Async&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">EAsyncExecution&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">Thread&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="p">[&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="p">]()&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">while&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="nb">true&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">ISourceControlProvider&lt;/span>&lt;span class="o">&amp;amp;&lt;/span> &lt;span class="n">SourceControlProvider&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">ISourceControlModule&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">Get&lt;/span>&lt;span class="p">().&lt;/span>&lt;span class="n">GetProvider&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">const&lt;/span> &lt;span class="n">FString&lt;/span> &lt;span class="n">InFileName&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s">&amp;#34;xxx&amp;#34;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">SourceControlProvider&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">GetState&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">InFileName&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">EStateCacheUsage&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">Use&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">});&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>修复就是加个读写锁 mutable FRWLock StateCacheLock; 去保护&lt;/p></description></item><item><title>场景优化</title><link>https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/</link><pubDate>Mon, 20 Nov 2023 17:27:45 +0800</pubDate><guid>https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/</guid><description>&lt;h2 id="ism-与-hism">ISM 与 HISM&lt;/h2>
 &lt;p>&lt;img src="https://hebohang.github.io/p/%E5%9C%BA%E6%99%AF%E4%BC%98%E5%8C%96/image.png"
 width="421"
 height="395"
