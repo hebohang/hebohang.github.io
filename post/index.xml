@@ -1,4 +1,30 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on 何律师</title><link>https://hebohang.github.io/post/</link><description>Recent content in Posts on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Wed, 23 Oct 2024 16:16:20 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>编译</title><link>https://hebohang.github.io/p/%E7%BC%96%E8%AF%91/</link><pubDate>Wed, 23 Oct 2024 16:16:20 +0800</pubDate><guid>https://hebohang.github.io/p/%E7%BC%96%E8%AF%91/</guid><description>&lt;h2 id="源码编译教程">源码编译教程&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on 何律师</title><link>https://hebohang.github.io/post/</link><description>Recent content in Posts on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Wed, 04 Feb 2026 17:08:43 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>实时渲染</title><link>https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/</link><pubDate>Wed, 04 Feb 2026 17:08:43 +0800</pubDate><guid>https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/</guid><description>&lt;h2 id="本质思考">本质思考&lt;/h2>
+&lt;p>实时渲染本质上是一个在有限时间预算内，对三维连续场景信号（几何、材质、光照）进行离散化采样（生成屏幕像素），并不可避免地与走样进行斗争的过程。&lt;/p>
+&lt;h2 id="渲染管线与渲染路径">渲染管线与渲染路径&lt;/h2>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/408238134" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/408238134&lt;/a>&lt;/p>
+&lt;h2 id="抗锯齿">抗锯齿&lt;/h2>
+&lt;p>对信号的采样频率不够，就会走样，那么锯齿可以简单分为：&lt;/p>
+&lt;ul>
+&lt;li>几何层面锯齿：是形状的锯齿，来源于对几何三角形边缘的采样不足。&lt;/li>
+&lt;li>着色层面锯齿：是颜色/明暗的锯齿，来源于对着色计算结果的采样不足。&lt;/li>
+&lt;/ul>
+&lt;p>那么一些抗锯齿技术就很好理解了：&lt;/p>
+&lt;ul>
+&lt;li>SSAA、MSAA：提升空间采样频率，可以解决几何层面锯齿。&lt;/li>
+&lt;li>TAA：在时间维度上进行采样，并通过累积和重建，达到与提升空间采样频率相同的目标——获得更高频的信号信息以消除走样。&lt;/li>
+&lt;li>FXAA：先低通滤波平滑信号，再进行采样。&lt;/li>
+&lt;/ul>
+&lt;h3 id="为什么msaa与延迟渲染不好兼容">为什么MSAA与延迟渲染不好兼容&lt;/h3>
+&lt;p>延迟渲染会先将场景信息离散到一个GBuffer里，此时场景的几何信息被离散化处理掉了，而MSAA是通过提升空间采样频率来实现的，比如是4个采样点，那么就只能对GBuffer里每个像素分为四个采样点分别去算着色来提升采样频率，这样等于退化到SSAA，或是更大的GBuffer。并且MSAA一般有硬件协同。&lt;/p>
+&lt;h3 id="mipmap与各向异性过滤">Mipmap与各向异性过滤&lt;/h3>
+&lt;p>如果一个像素对应一大块纹素，那么此时相当于采样频率很低，但是信号（每块纹素信息）却很剧烈。所以我们也可以先低通滤波，即通过卷积让信号变得平滑，再采样。有效解决欠采样。&lt;/p>
+&lt;h2 id="渲染方程和蒙特卡洛">渲染方程和蒙特卡洛&lt;/h2>
+&lt;p>把三维信号等价于渲染方程，蒙特卡洛方法则是采样手段&lt;/p>
+&lt;h2 id="光谱渲染">光谱渲染&lt;/h2>
+&lt;p>光谱无疑更复杂更接近现实世界，从光谱计算后的结果降采样到屏幕RGB像素，无疑质量更高。&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/1985714288455873077" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/1985714288455873077&lt;/a>&lt;/p></description></item><item><title>编译</title><link>https://hebohang.github.io/p/%E7%BC%96%E8%AF%91/</link><pubDate>Wed, 23 Oct 2024 16:16:20 +0800</pubDate><guid>https://hebohang.github.io/p/%E7%BC%96%E8%AF%91/</guid><description>&lt;h2 id="源码编译教程">源码编译教程&lt;/h2>
 &lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/107516361" target="_blank" rel="noopener"
 >https://zhuanlan.zhihu.com/p/107516361&lt;/a>&lt;/p>
 &lt;h2 id="一次-build-流程">一次 Build 流程&lt;/h2>
