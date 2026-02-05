@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>计算机 on 何律师</title><link>https://hebohang.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/</link><description>Recent content in 计算机 on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Thu, 05 Feb 2026 11:51:51 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA/index.xml" rel="self" type="application/rss+xml"/><item><title>GC</title><link>https://hebohang.github.io/p/gc/</link><pubDate>Thu, 05 Feb 2026 11:51:51 +0800</pubDate><guid>https://hebohang.github.io/p/gc/</guid><description>&lt;h2 id="常见gc垃圾回收算法">常见GC垃圾回收算法&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>GC on 何律师</title><link>https://hebohang.github.io/tags/gc/</link><description>Recent content in GC on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Thu, 05 Feb 2026 11:51:51 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/tags/gc/index.xml" rel="self" type="application/rss+xml"/><item><title>GC</title><link>https://hebohang.github.io/p/gc/</link><pubDate>Thu, 05 Feb 2026 11:51:51 +0800</pubDate><guid>https://hebohang.github.io/p/gc/</guid><description>&lt;h2 id="常见gc垃圾回收算法">常见GC垃圾回收算法&lt;/h2>
 &lt;p>三种最基本的GC算法是标记-清除法、引用计数法、GC复制算法。其余很多是这几种的组合。&lt;/p>
 &lt;h3 id="引用计数法">引用计数法：&lt;/h3>
 &lt;p>计数器为0则回收。所以可即刻回收垃圾。&lt;/p>
@@ -106,61 +106,4 @@ data-flex-basis="476px"
 &lt;p>&lt;a class="link" href="https://docs.unity3d.com/cn/current/Manual/performance-managed-memory.html" target="_blank" rel="noopener"
 >https://docs.unity3d.com/cn/current/Manual/performance-managed-memory.html&lt;/a>&lt;/p>
 &lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/1922386751520997859" target="_blank" rel="noopener"
->https://zhuanlan.zhihu.com/p/1922386751520997859&lt;/a>&lt;/p></description></item><item><title>Bat</title><link>https://hebohang.github.io/p/bat/</link><pubDate>Mon, 25 Dec 2023 15:54:56 +0800</pubDate><guid>https://hebohang.github.io/p/bat/</guid><description>&lt;h2 id="schtasks">schtasks&lt;/h2>
-&lt;p>可以启用一个定时任务，可以在 Task Scheduler（任务计划程序）中查看或更改权限等：
-&lt;img src="https://hebohang.github.io/p/bat/image.png"
-width="234"
-height="87"
-loading="lazy"
-class="gallery-image"
-data-flex-grow="268"
-data-flex-basis="645px"
->&lt;/p>
-&lt;h2 id="实用-bat">实用 bat&lt;/h2>
-&lt;h3 id="删除temp文件夹">删除temp文件夹&lt;/h3>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">rd %temp% /s/q
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">mkdir %temp%
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;h3 id="批量删除空文件夹">批量删除空文件夹&lt;/h3>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;span class="lnt">2
-&lt;/span>&lt;span class="lnt">3
-&lt;/span>&lt;span class="lnt">4
-&lt;/span>&lt;span class="lnt">5
-&lt;/span>&lt;span class="lnt">6
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">@echo off
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">SET &lt;span class="nv">current_path&lt;/span>&lt;span class="o">=&lt;/span>%CD%
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">for&lt;/span> /f &lt;span class="s2">&amp;#34;delims=&amp;#34;&lt;/span> %%a in &lt;span class="o">(&lt;/span>&lt;span class="s1">&amp;#39;dir /ad /b /s &amp;#34;%current_path%&amp;#34; ^| sort /r&amp;#39;&lt;/span>&lt;span class="o">)&lt;/span> &lt;span class="k">do&lt;/span> &lt;span class="o">(&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> rd &lt;span class="s2">&amp;#34;%%a&amp;#34;&lt;/span>&amp;gt;nul 2&amp;gt;nul &lt;span class="o">&amp;amp;&amp;amp;&lt;/span>&lt;span class="nb">echo&lt;/span> Empty folder &lt;span class="s2">&amp;#34;%%a&amp;#34;&lt;/span> delete！
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="o">)&lt;/span>
-&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">pause
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div>&lt;h3 id="统一-ue-本地-ddc-多个-project-用一个-ddc-文件夹">统一 UE 本地 DDC （多个 project 用一个 ddc 文件夹）&lt;/h3>
-&lt;div class="highlight">&lt;div class="chroma">
-&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
-&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
-&lt;td class="lntd">
-&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">setx UE-LocalDataCachePath E:&lt;span class="se">\D&lt;/span>erivedDataCache
-&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
-&lt;/div>
-&lt;/div></description></item><item><title>电脑空间优化</title><link>https://hebohang.github.io/p/%E7%94%B5%E8%84%91%E7%A9%BA%E9%97%B4%E4%BC%98%E5%8C%96/</link><pubDate>Fri, 15 Dec 2023 11:40:29 +0800</pubDate><guid>https://hebohang.github.io/p/%E7%94%B5%E8%84%91%E7%A9%BA%E9%97%B4%E4%BC%98%E5%8C%96/</guid><description>&lt;h2 id="分析工具">分析工具&lt;/h2>
-&lt;p>SpaceSniffer.exe&lt;/p>
-&lt;h2 id="优化c盘">优化C盘&lt;/h2>
-&lt;p>C盘空间占用太大，可以优化：&lt;/p>
-&lt;p>关闭睡眠与休眠功能：
-&lt;code>powercfg -h off&lt;/code>&lt;/p>
-&lt;p>&lt;a class="link" href="https://answers.microsoft.com/zh-hans/windows/forum/windows_7-performance/answers-%E5%88%86%E4%BA%ABwindows/21af6481-a388-4bb9-896f-7d4885cea3bb" target="_blank" rel="noopener"
->https://answers.microsoft.com/zh-hans/windows/forum/windows_7-performance/answers-%E5%88%86%E4%BA%ABwindows/21af6481-a388-4bb9-896f-7d4885cea3bb&lt;/a>&lt;/p></description></item></channel></rss>
+>https://zhuanlan.zhihu.com/p/1922386751520997859&lt;/a>&lt;/p></description></item></channel></rss>

@@ -1,4 +1,112 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on 何律师</title><link>https://hebohang.github.io/post/</link><description>Recent content in Posts on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Wed, 04 Feb 2026 17:08:43 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>实时渲染</title><link>https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/</link><pubDate>Wed, 04 Feb 2026 17:08:43 +0800</pubDate><guid>https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/</guid><description>&lt;h2 id="本质思考">本质思考&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on 何律师</title><link>https://hebohang.github.io/post/</link><description>Recent content in Posts on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Thu, 05 Feb 2026 11:51:51 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/post/index.xml" rel="self" type="application/rss+xml"/><item><title>GC</title><link>https://hebohang.github.io/p/gc/</link><pubDate>Thu, 05 Feb 2026 11:51:51 +0800</pubDate><guid>https://hebohang.github.io/p/gc/</guid><description>&lt;h2 id="常见gc垃圾回收算法">常见GC垃圾回收算法&lt;/h2>
+&lt;p>三种最基本的GC算法是标记-清除法、引用计数法、GC复制算法。其余很多是这几种的组合。&lt;/p>
+&lt;h3 id="引用计数法">引用计数法：&lt;/h3>
+&lt;p>计数器为0则回收。所以可即刻回收垃圾。&lt;/p>
+&lt;h3 id="标记-清除法">标记-清除法&lt;/h3>
+&lt;p>全量标记，增量清除。遍历对象并标记，再对不可达对象收集到一个链表里进行回收。&lt;/p>
+&lt;h3 id="gc复制算法">GC复制算法&lt;/h3>
+&lt;p>对象分配在from空间，from空间占满时，把这些对象复制到to空间，然后互换from空间和to空间。
+所以不会有碎片化问题，也不需要挨个回收，但是对象会移动位置，且每次只能利用一半的堆空间。
+&lt;img src="https://hebohang.github.io/p/gc/image.png"
+width="1486"
+height="970"
+loading="lazy"
+alt="GC复制算法的示意图"
+class="gallery-image"
+data-flex-grow="153"
+data-flex-basis="367px"
+>&lt;/p>
+&lt;h3 id="分代垃圾回收">分代垃圾回收&lt;/h3>
+&lt;p>把对象分为几代，将存活了一定次数的新生代对象当作老年代对象来处理，所以可以较少被gc；
+新生代空间则可以用 GC 复制算法。
+&lt;img src="https://hebohang.github.io/p/gc/image-1.png"
+width="1024"
+height="516"
+loading="lazy"
+alt="分代垃圾回收的堆空间"
+class="gallery-image"
+data-flex-grow="198"
+data-flex-basis="476px"
+>&lt;/p>
+&lt;h3 id="增量式垃圾回收">增量式垃圾回收&lt;/h3>
+&lt;p>标记清楚时的全量标记耗时又不能分帧，会造成卡顿。所以诞生了增量式GC。一般用三色标记法。&lt;/p>
+&lt;p>三色标记法是将对象根据搜索情况，分为三种颜色：&lt;/p>
+&lt;ul>
+&lt;li>白色：还未搜索过的对象&lt;/li>
+&lt;li>灰色：正在搜索的对象&lt;/li>
+&lt;li>黑色：搜索完成的对象&lt;/li>
+&lt;/ul>
+&lt;p>标记阶段就先标记灰色，再对灰色的子节点标记灰色，当前节点则标记黑色，依次下去。&lt;/p>
+&lt;p>但这样在并发时可能有问题，需要导致对象丢失，所以需要有屏障机制，一般会有写入屏障。&lt;/p>
+&lt;h3 id="参考">参考&lt;/h3>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/690601125" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/690601125&lt;/a>&lt;/p>
+&lt;h2 id="ue的gc">UE的GC&lt;/h2>
+&lt;h3 id="基础算法">基础算法&lt;/h3>
+&lt;p>标记-清楚算法，分成三个部分：所有UObject先标记不可达，可达性分析，销毁垃圾。&lt;/p>
+&lt;p>垃圾收集：&lt;/p>
+&lt;ol>
+&lt;li>GC.MarkObjectsAsUnreachable: 标记所有对象不可达，保存所有Root对象。&lt;/li>
+&lt;li>GC.PerformReachabilityAnalysisOnObjectsInternal: 遍历所有Root对象的引用对象，标识为可达。&lt;/li>
+&lt;li>GatherUnreachableObjects: 遍历所有UObject，收集所有不可达对象到 GUnreachableObjects&lt;/li>
+&lt;/ol>
+&lt;p>不可达对象清除：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>UnhashUnreachableObjects：&lt;/p>
+&lt;p>遍历所有不可达对象，调用ConditionalBeginDestroy，完成销毁前的清理工作，可自定义实现BeginDestroy。调用UnhashObject，从FUObjectHashTables移除。&lt;/p>
+&lt;p>此处会提交贴图内存资源销毁操作到RHICommandList，由渲染线程执行销毁。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>IncrementalDestroyGarbage&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;p>UObject、继承FGCObject的对象可被 GC。通过UClass的反射信息可以在可达性分析时快速拿到对象的引用关系。&lt;/p>
+&lt;h3 id="cluster优化">Cluster优化&lt;/h3>
+&lt;p>如果一堆UObject生命周期与一个节点一致，则可以绑成一个 Cluster，这个节点则为 Cluster Root。可达性分析时每次遍历到这个 Cluster 时就可以认为整个 Cluster 里所有对象都可达。&lt;/p>
+&lt;p>AddToCluster 可以把一个UObject加入到一个 Cluster 里。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="cm">/**
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cm">* Adds this objects to a GC cluster that already exists
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cm">* @param ClusterRootOrObjectFromCluster Object that belongs to the cluster we want to add this object to.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cm">* @param Add this object to the target cluster as a mutable object without adding this object&amp;#39;s references.
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cm">*/&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">COREUOBJECT_API&lt;/span> &lt;span class="kt">void&lt;/span> &lt;span class="nf">AddToCluster&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">UObjectBaseUtility&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">ClusterRootOrObjectFromCluster&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="kt">bool&lt;/span> &lt;span class="n">bAddAsMutableObject&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="nb">false&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="ue5的gc改动">UE5的GC改动&lt;/h3>
+&lt;h4 id="加入引用计数机制">加入引用计数机制&lt;/h4>
+&lt;p>主要是 StrongObjectPtr 使用，通过 RAII 在构造析构时操作 RefCount。可以减少可达性分析时间，同时单独针对StrongObjectPtr进行了优化。&lt;/p>
+&lt;h4 id="增量式可达性分析">增量式可达性分析&lt;/h4>
+&lt;p>增量式的垃圾回收，目前还是Experimental阶段。&lt;/p>
+&lt;p>对于UE的GC的三个部分：所有UObject先标记不可达，可达性分析，销毁垃圾。最后销毁垃圾是可以分帧的，但是前两个部分是不能分帧的。而可达性分析阶段是耗时主要部分。&lt;/p>
+&lt;p>这里主要要考虑写入屏障，UE 引入 TObjectPtr，使得A.XX = B这种语句能被捕获到了。&lt;/p>
+&lt;h4 id="参考-1">参考&lt;/h4>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/1991647341095179509" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/1991647341095179509&lt;/a>&lt;/p>
+&lt;h2 id="unity的gc">Unity的GC&lt;/h2>
+&lt;h3 id="基础">基础&lt;/h3>
+&lt;p>Unity 有两个脚本后端：Mono 和 IL2CPP (Intermediate Language To C++)，它们各自使用不同的编译技术：&lt;/p>
+&lt;ul>
+&lt;li>Mono 使用即时 (JIT) 编译，在运行时按需编译代码。&lt;/li>
+&lt;li>IL2CPP 使用提前 (AOT) 编译，在运行之前编译整个应用程序。&lt;/li>
+&lt;/ul>
+&lt;p>Unity的托管堆是游戏脚本（如C#代码）中所有引用类型对象（比如类实例、数组、字符串）存放的内存区域。它的生命周期由垃圾回收器自动管理，这也是“托管”的含义。&lt;/p>
+&lt;p>所以Unity的GC一般是指托管堆的这部分，采样 Boehm 算法。实际上是标记清楚算法，默认是增量式的，也就是有三色标记法、写入屏障等。&lt;/p>
+&lt;h3 id="参考-2">参考&lt;/h3>
+&lt;p>&lt;a class="link" href="https://docs.unity3d.com/cn/current/Manual/performance-managed-memory.html" target="_blank" rel="noopener"
+>https://docs.unity3d.com/cn/current/Manual/performance-managed-memory.html&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/1922386751520997859" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/1922386751520997859&lt;/a>&lt;/p></description></item><item><title>实时渲染</title><link>https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/</link><pubDate>Wed, 04 Feb 2026 17:08:43 +0800</pubDate><guid>https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/</guid><description>&lt;h2 id="本质思考">本质思考&lt;/h2>
 &lt;p>实时渲染本质上是一个在有限时间预算内，对三维连续场景信号（几何、材质、光照）进行离散化采样（生成屏幕像素），并不可避免地与走样进行斗争的过程。&lt;/p>
 &lt;h2 id="渲染管线与渲染路径">渲染管线与渲染路径&lt;/h2>
 &lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/408238134" target="_blank" rel="noopener"
