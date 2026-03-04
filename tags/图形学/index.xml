@@ -1,4 +1,25 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>图形学 on 何律师</title><link>https://hebohang.github.io/tags/%E5%9B%BE%E5%BD%A2%E5%AD%A6/</link><description>Recent content in 图形学 on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Wed, 04 Mar 2026 16:35:45 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/tags/%E5%9B%BE%E5%BD%A2%E5%AD%A6/index.xml" rel="self" type="application/rss+xml"/><item><title>实时阴影技术</title><link>https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/</link><pubDate>Wed, 04 Mar 2026 16:35:45 +0800</pubDate><guid>https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/</guid><description>&lt;h2 id="基础shadow-map">基础Shadow Map&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>图形学 on 何律师</title><link>https://hebohang.github.io/tags/%E5%9B%BE%E5%BD%A2%E5%AD%A6/</link><description>Recent content in 图形学 on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Wed, 04 Mar 2026 22:45:55 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/tags/%E5%9B%BE%E5%BD%A2%E5%AD%A6/index.xml" rel="self" type="application/rss+xml"/><item><title>VirtualTexture</title><link>https://hebohang.github.io/p/virtualtexture/</link><pubDate>Wed, 04 Mar 2026 22:45:55 +0800</pubDate><guid>https://hebohang.github.io/p/virtualtexture/</guid><description>&lt;h2 id="原理">原理&lt;/h2>
+&lt;p>&lt;img src="https://hebohang.github.io/p/virtualtexture/image.png"
+width="2185"
+height="1201"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="181"
+data-flex-basis="436px"
+>&lt;/p>
+&lt;p>传统的贴图加载，选哪个mip事实上会根据 UV 在屏幕上变化的速度来决定。&lt;/p>
+&lt;p>对于 VT 而言，会把贴图分成一些 Page（UE的默认大小是128），如上图是 1024 的贴图，所以最低级的mip是 8*8 的 Page 数。
+根据在屏幕上是否要渲染，决定哪些 Page 是否要加载，最后加载到一个 Physical Page Texture（或者叫 VT Cache）去。最后在这个 Physical Texture 里
+怎么存也和这个 Page Table 有关。&lt;/p>
+&lt;h2 id="参考">参考&lt;/h2>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/29778075372" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/29778075372&lt;/a>
+&lt;a class="link" href="https://zhuanlan.zhihu.com/p/138484024" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/138484024&lt;/a>
+&lt;a class="link" href="https://zhuanlan.zhihu.com/p/143709152" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/143709152&lt;/a>
+&lt;a class="link" href="https://www.bilibili.com/video/BV1KK411L7Rg" target="_blank" rel="noopener"
+>https://www.bilibili.com/video/BV1KK411L7Rg&lt;/a>&lt;/p></description></item><item><title>实时阴影技术</title><link>https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/</link><pubDate>Wed, 04 Mar 2026 16:35:45 +0800</pubDate><guid>https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/</guid><description>&lt;h2 id="基础shadow-map">基础Shadow Map&lt;/h2>
 &lt;h3 id="渲染流程">渲染流程&lt;/h3>
 &lt;p>&lt;strong>1. 从光源位置看向场景，渲染一张深度纹理（Shadow Map），记录每个像素的最小深度值（即光源到最近物体的距离）。&lt;/strong>&lt;/p>
 &lt;ul>
