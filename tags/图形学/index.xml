@@ -1,4 +1,216 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>图形学 on 何律师</title><link>https://hebohang.github.io/tags/%E5%9B%BE%E5%BD%A2%E5%AD%A6/</link><description>Recent content in 图形学 on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Wed, 04 Feb 2026 17:08:43 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/tags/%E5%9B%BE%E5%BD%A2%E5%AD%A6/index.xml" rel="self" type="application/rss+xml"/><item><title>实时渲染</title><link>https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/</link><pubDate>Wed, 04 Feb 2026 17:08:43 +0800</pubDate><guid>https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/</guid><description>&lt;h2 id="本质思考">本质思考&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>图形学 on 何律师</title><link>https://hebohang.github.io/tags/%E5%9B%BE%E5%BD%A2%E5%AD%A6/</link><description>Recent content in 图形学 on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Wed, 04 Mar 2026 16:35:45 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/tags/%E5%9B%BE%E5%BD%A2%E5%AD%A6/index.xml" rel="self" type="application/rss+xml"/><item><title>实时阴影技术</title><link>https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/</link><pubDate>Wed, 04 Mar 2026 16:35:45 +0800</pubDate><guid>https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/</guid><description>&lt;h2 id="基础shadow-map">基础Shadow Map&lt;/h2>
+&lt;h3 id="渲染流程">渲染流程&lt;/h3>
+&lt;p>&lt;strong>1. 从光源位置看向场景，渲染一张深度纹理（Shadow Map），记录每个像素的最小深度值（即光源到最近物体的距离）。&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>设置光源的视角和投影矩阵。对于方向光，通常使用正交投影；对于点光源/聚光灯，使用透视投影。
+&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/image.png"
+width="800"
+height="249"
+loading="lazy"
+alt="alt text"
+class="gallery-image"
+data-flex-grow="321"
+data-flex-basis="771px"
+>&lt;/li>
+&lt;li>对方向光，最简单的shadowmap直接覆盖场景范围（和摄像机视锥无关了），生成一张 shadowmap&lt;/li>
+&lt;li>对点光源，需要创建一个光周围的深度值的立方体贴图，我们必须渲染场景6次：每次一个面。显然渲染场景6次需要6个不同的视图矩阵，每次把一个不同的立方体贴图面附加到帧缓冲对象上。&lt;/li>
+&lt;li>因此点光源性能开销较大&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>2. 在主摄像机渲染场景时，将每个像素的世界坐标变换到光源空间，比较其深度与阴影图中存储的深度：若当前深度大于阴影图中的深度，说明该点被遮挡，处于阴影中；否则被照亮。&lt;/strong>&lt;/p>
+&lt;h3 id="普通阴影渲染的问题">普通阴影渲染的问题&lt;/h3>
+&lt;h4 id="阴影失真shadow-acne">阴影失真(Shadow Acne)&lt;/h4>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/image-1.png"
+width="600"
+height="188"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="319"
+data-flex-basis="765px"
+>&lt;/p>
+&lt;p>受阴影贴图的分辨率影响，当多个片段距离光源比较远的时候，它们可能从深度贴图中采样相同的深度值。图片中，每个斜坡代表深度贴图一个单独的纹理像素。你可以看到，多个片段会采样相同的深度值。
+比如最左侧一黑一黄的片段都采样到一个shadowmap的纹素，但是把他们的世界坐标变换到光源空间比较深度时，就会导致黑色深度更小没被遮挡，而黄色深度更大被遮挡。&lt;/p>
+&lt;p>此时可以加一个阴影偏移（shadow bias），我们简单的对表面的深度（或深度贴图）应用一个偏移量，这样片段就不会被错误地认为在表面之下了：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/image-2.png"
+width="600"
+height="154"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="389"
+data-flex-basis="935px"
+>&lt;/p>
+&lt;p>但 bias 过大了可能会导致阴影悬浮(Peter Panning)&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/image-3.png"
+width="1889"
+height="1335"
+loading="lazy"
+alt="Games202"
+class="gallery-image"
+data-flex-grow="141"
+data-flex-basis="339px"
+>&lt;/p>
+&lt;h4 id="走样aliasing">走样(Aliasing)&lt;/h4>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/image-4.png"
+width="256"
+height="201"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="127"
+data-flex-basis="305px"
+>&lt;/p>
+&lt;p>因为深度贴图的分辨率固定，一个纹理像素可能覆盖了多个片段，结果就是多个片段会从深度贴图中采样相同的深度值，并得到相同的阴影判定结果，这也就导致了图中的锯齿边缘。&lt;/p>
+&lt;p>这块可以看：
+&lt;a class="link" href="https://learnopengl-cn.github.io/05%20Advanced%20Lighting/03%20Shadows/01%20Shadow%20Mapping/#_7" target="_blank" rel="noopener"
+>https://learnopengl-cn.github.io/05%20Advanced%20Lighting/03%20Shadows/01%20Shadow%20Mapping/#_7&lt;/a>&lt;/p>
+&lt;h2 id="percentage-closer-filtering-pcf">Percentage Closer Filtering (PCF)&lt;/h2>
+&lt;p>主要是想解决走样而非实现软阴影，但后来人们也想应用到软阴影上。&lt;/p>
+&lt;p>核心思想是多次采样深度贴图，每一次采样的纹理坐标都稍有不同，独立判断每个采样点的阴影状态后，将子结果混合取平均，最终获得相对柔和的阴影。&lt;/p>
+&lt;p>最简单的采样深度贴图周边纹理像素，并取平均值：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-glsl" data-lang="glsl">&lt;span class="line">&lt;span class="cl">&lt;span class="k">float&lt;/span> &lt;span class="n">shadow&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mf">0.0&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">vec2&lt;/span> &lt;span class="n">texelSize&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mf">1.0&lt;/span> &lt;span class="o">/&lt;/span> &lt;span class="n">textureSize&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">shadowMap&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mo">0&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">for&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="k">int&lt;/span> &lt;span class="n">x&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">x&lt;/span> &lt;span class="o">&amp;lt;=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="o">++&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">for&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="k">int&lt;/span> &lt;span class="n">y&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">y&lt;/span> &lt;span class="o">&amp;lt;=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="o">++&lt;/span>&lt;span class="n">y&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">float&lt;/span> &lt;span class="n">pcfDepth&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">texture&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">shadowMap&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">projCoords&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">xy&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="k">vec2&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">x&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">y&lt;/span>&lt;span class="p">)&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">texelSize&lt;/span>&lt;span class="p">).&lt;/span>&lt;span class="n">r&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">shadow&lt;/span> &lt;span class="o">+=&lt;/span> &lt;span class="n">currentDepth&lt;/span> &lt;span class="o">-&lt;/span> &lt;span class="n">bias&lt;/span> &lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">pcfDepth&lt;/span> &lt;span class="o">?&lt;/span> &lt;span class="mf">1.0&lt;/span> &lt;span class="o">:&lt;/span> &lt;span class="mf">0.0&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">shadow&lt;/span> &lt;span class="o">/=&lt;/span> &lt;span class="mf">9.0&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>因为这只是最终采样做的手段，所以也可以和 CSM 之类的阴影技术结合。&lt;/p>
+&lt;p>从信号角度来看，PCF 就是对是否是阴影的这么一个可见性函数进行低通滤波，在边缘处信号量变化剧烈，所以需要先低通滤波再去采样。&lt;/p>
+&lt;h2 id="csm-cascaded-shadow-maps">CSM (Cascaded Shadow Maps)&lt;/h2>
+&lt;p>针对方向光（如太阳）的大范围场景，CSM 是最常用的阴影技术。它将摄像机的视锥体按深度分割成多个级联（cascade），每个级联对应一张阴影图，覆盖近到远不同距离的区域。&lt;/p>
+&lt;h3 id="渲染流程-1">渲染流程&lt;/h3>
+&lt;p>&lt;strong>1. 分割视锥体：根据深度将视锥体划分为若干区间（如4个）。分割方式可以是均匀分割、对数分割或混合分割（如practical split scheme，结合均匀和对数）。&lt;/strong>&lt;/p>
+&lt;p>&lt;strong>2. 计算每个级联的光源正交投影矩阵&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>对每个级联，计算其包围盒在世界空间中的范围。&lt;/li>
+&lt;li>调整包围盒以匹配光源方向（通常让包围盒与光源方向对齐，但保持正交投影的轴对齐性质，或使用“Stabilize Cascades”技术避免阴影抖动如用包围球避免旋转的抖动）。&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>3. 渲染阴影图：为每个级联渲染一张深度图。&lt;/strong>&lt;/p>
+&lt;p>&lt;strong>4. 主渲染&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>在片段着色器中，根据当前像素的深度确定它属于哪个级联。&lt;/li>
+&lt;/ul>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-glsl" data-lang="glsl">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// select cascade layer&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">vec4&lt;/span> &lt;span class="n">fragPosViewSpace&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">view&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="k">vec4&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">fragPosWorldSpace&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mf">1.0&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">float&lt;/span> &lt;span class="n">depthValue&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">abs&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">fragPosViewSpace&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">z&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">int&lt;/span> &lt;span class="n">layer&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="k">int&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mo">0&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">i&lt;/span> &lt;span class="o">&amp;lt;&lt;/span> &lt;span class="n">cascadeCount&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="o">++&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">depthValue&lt;/span> &lt;span class="o">&amp;lt;&lt;/span> &lt;span class="n">cascadePlaneDistances&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">i&lt;/span>&lt;span class="p">])&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">layer&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">i&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">break&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">if&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">layer&lt;/span> &lt;span class="o">==&lt;/span> &lt;span class="o">-&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">layer&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">cascadeCount&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">vec4&lt;/span> &lt;span class="n">fragPosLightSpace&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">lightSpaceMatrices&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">layer&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="k">vec4&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">fragPosWorldSpace&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mf">1.0&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;ul>
+&lt;li>使用对应级联的阴影图进行阴影测试。&lt;/li>
+&lt;li>在级联边界处可能需要进行混合，避免突然的过渡。&lt;/li>
+&lt;/ul>
+&lt;h3 id="阴影抖动">阴影抖动&lt;/h3>
+&lt;h4 id="原因">原因&lt;/h4>
+&lt;p>&lt;strong>1. 当摄像机移动或旋转时，视锥子区域发生变化，导致每个级联的投影矩阵随之改变。&lt;/strong>&lt;/p>
+&lt;ul>
+&lt;li>平移变化：摄像机移动时，包围盒的位置平移。&lt;/li>
+&lt;li>缩放变化：视锥子区域的远近、宽高变化可能导致包围盒大小改变。&lt;/li>
+&lt;li>旋转影响：摄像机旋转时，视锥子区域的方向变化，其轴对齐包围盒会膨胀或收缩，导致投影矩阵的缩放因子突变。&lt;/li>
+&lt;li>这些变化使得同一个世界空间点在不同帧中映射到阴影贴图的不同纹素位置。即使场景完全静止，阴影比较结果也可能因为纹素偏移而改变，从而产生抖动。&lt;/li>
+&lt;/ul>
+&lt;p>&lt;strong>2. 当物体从一个级联区域移动到另一个时，如果两个级联的阴影贴图分辨率或投影参数不同，阴影可能突然变化，造成跳变。&lt;/strong>&lt;/p>
+&lt;h4 id="解决手段">解决手段&lt;/h4>
+&lt;h5 id="fit-to-scene-vs-fit-to-cascade">Fit to scene vs. fit to cascade&lt;/h5>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/image-6.png"
+width="640"
+height="140"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="457"
+data-flex-basis="1097px"
+>&lt;/p>
+&lt;p>上图左边为 Fit to Scene，每个CSM的包围盒都包围前一个包围盒，即CSM2包围CSM1，CSM3包围CSM2和CSM1，以此类推。可以解决镜头平移、缩放甚至旋转带来的采样点在Shadowmap的Texel中发生的平移和缩放。缺点是包围盒不够紧凑。&lt;/p>
+&lt;p>右边为 Fit to CSM&lt;/p>
+&lt;h3 id="细节">细节&lt;/h3>
+&lt;h4 id="不能用于点光源且通常只有主光源如太阳用-csm">不能用于点光源，且通常只有主光源（如太阳）用 CSM&lt;/h4>
+&lt;p>理论上可以为场景中的每一个方向光都分配一组CSM，但这意味着渲染开销会成倍增长。因为每一组CSM都需要每帧为每个级联渲染一次场景。考虑到性能预算，这种做法非常奢侈。对于次要的方向光（如补光），通常使用简单的单张阴影贴图甚至不开启实时阴影，以平衡画面效果和运行效率。只有在包含多个主光源的复杂场景中，才有可能需要为每个主光源配置CSM。&lt;/p>
+&lt;h4 id="csm-caching">CSM Caching&lt;/h4>
+&lt;p>在使用CSM时，我们常常会遇到 CSM开销较大的问题，比如现在使用四级CSM级联，就意味着在生成shaodwmap时，很多物体需要重复绘制四次。因此有的时候我们会对 CSM 进行一些优化。&lt;/p>
+&lt;p>一种方式是降低远处 CSM 的更新频率。比如在原神的PC版中，共有八级的CSM，前四级是每帧都更新的，后四级是逐帧依次更新的，这样相当于每帧需要更新五级的CSM。&lt;/p>
+&lt;p>另外一种方式是将 CSM 中算出的阴影动态缓存，对于静态物体的 shadowmap，是可以实现前后两帧之间的复用的。上一帧中静态物体的shadowmap，经过一些小小的处理，在当前帧仍然是可用的，对于一些没有覆盖的区域，可以动态来检测，重新绘制生成：
+&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/image-5.png"
+width="1081"
+height="389"
+loading="lazy"
+alt="CSM Caching"
+class="gallery-image"
+data-flex-grow="277"
+data-flex-basis="666px"
+>&lt;/p>
+&lt;h2 id="vsm-virtual-shadow-maps">VSM (Virtual Shadow Maps)&lt;/h2>
+&lt;h2 id="参考">参考&lt;/h2>
+&lt;p>&lt;a class="link" href="https://learnopengl-cn.github.io/05%20Advanced%20Lighting/03%20Shadows/01%20Shadow%20Mapping/#_2" target="_blank" rel="noopener"
+>https://learnopengl-cn.github.io/05%20Advanced%20Lighting/03%20Shadows/01%20Shadow%20Mapping/#_2&lt;/a>
+&lt;a class="link" href="https://learnopengl-cn.github.io/05%20Advanced%20Lighting/03%20Shadows/02%20Point%20Shadows/" target="_blank" rel="noopener"
+>https://learnopengl-cn.github.io/05%20Advanced%20Lighting/03%20Shadows/02%20Point%20Shadows/&lt;/a>
+&lt;a class="link" href="https://learnopengl.com/Guest-Articles/2021/CSM" target="_blank" rel="noopener"
+>https://learnopengl.com/Guest-Articles/2021/CSM&lt;/a>
+&lt;a class="link" href="https://zhuanlan.zhihu.com/p/53689987" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/53689987&lt;/a>
+&lt;a class="link" href="https://www.zhihu.com/search?type=content&amp;amp;q=%E7%A8%B3%E5%AE%9ACSM" target="_blank" rel="noopener"
+>https://www.zhihu.com/search?type=content&amp;q=%E7%A8%B3%E5%AE%9ACSM&lt;/a>
+&lt;a class="link" href="https://learn.microsoft.com/en-us/windows/win32/dxtecharts/cascaded-shadow-maps" target="_blank" rel="noopener"
+>https://learn.microsoft.com/en-us/windows/win32/dxtecharts/cascaded-shadow-maps&lt;/a>
+&lt;a class="link" href="https://zhuanlan.zhihu.com/p/104687855" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/104687855&lt;/a>&lt;/p></description></item><item><title>实时渲染</title><link>https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/</link><pubDate>Wed, 04 Feb 2026 17:08:43 +0800</pubDate><guid>https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/</guid><description>&lt;h2 id="本质思考">本质思考&lt;/h2>
 &lt;p>实时渲染本质上是一个在有限时间预算内，对三维连续场景信号（几何、材质、光照）进行离散化采样（生成屏幕像素），并不可避免地与走样进行斗争的过程。&lt;/p>
 &lt;h2 id="渲染管线与渲染路径">渲染管线与渲染路径&lt;/h2>
 &lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/408238134" target="_blank" rel="noopener"
