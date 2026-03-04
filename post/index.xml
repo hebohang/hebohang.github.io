@@ -196,6 +196,22 @@ data-flex-grow="277"
 data-flex-basis="666px"
 >&lt;/p>
 &lt;h2 id="vsm-virtual-shadow-maps">VSM (Virtual Shadow Maps)&lt;/h2>
+&lt;p>这里的 V 即 Virtual，这个概念取自于Virtual Memory，类似的还有 VT (Virtual Texture)&lt;/p>
+&lt;h2 id="contact-shadow">Contact Shadow&lt;/h2>
+&lt;p>在屏幕空间进行逐像素的 RayMaraching，来得到高质量的近距离阴影。因为RayMarching的开销较大，Contact Shadow RayMarching的距离一般都很短，大约在0.1m~0.5m左右。&lt;/p>
+&lt;h2 id="sdf-阴影">SDF 阴影&lt;/h2>
+&lt;p>SDF 可以很好的做软阴影。软阴影由来就是一个面光源有一部分被挡住了，那么用SDF就可以近似得到大概有多少范围被挡住的一个信息，虽然不准，但是比较符合人们的观察。&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/image-7.png"
+width="1718"
+height="916"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="187"
+data-flex-basis="450px"
+>&lt;/p>
+&lt;p>参考
+&lt;a class="link" href="https://zhuanlan.zhihu.com/p/398656596" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/398656596&lt;/a>&lt;/p>
 &lt;h2 id="参考">参考&lt;/h2>
 &lt;p>&lt;a class="link" href="https://learnopengl-cn.github.io/05%20Advanced%20Lighting/03%20Shadows/01%20Shadow%20Mapping/#_2" target="_blank" rel="noopener"
 >https://learnopengl-cn.github.io/05%20Advanced%20Lighting/03%20Shadows/01%20Shadow%20Mapping/#_2&lt;/a>
