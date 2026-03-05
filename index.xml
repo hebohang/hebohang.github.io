@@ -218,6 +218,122 @@ data-flex-basis="666px"
 >&lt;/p>
 &lt;h2 id="vsm-virtual-shadow-maps">VSM (Virtual Shadow Maps)&lt;/h2>
 &lt;p>这里的 V 即 Virtual，这个概念取自于Virtual Memory，类似的还有 VT (Virtual Texture)&lt;/p>
+&lt;p>虚拟超大纹理 + 分页（Page）管理 + 按需渲染 + 帧间缓存 + Clipmap / 级联适配。&lt;/p>
+&lt;p>只渲染屏幕可见区域对应的阴影页，用物理页池承载虚拟超大纹理，缓存复用，实现超高分辨率阴影。&lt;/p>
+&lt;h3 id="细节-1">细节&lt;/h3>
+&lt;h4 id="shadow-map-划分">Shadow Map 划分&lt;/h4>
+&lt;p>类似 VT 的方式，这里一般平行光用 Clipmap 形式，点光和聚光可以用 Mipmap 的形式。点光源每个方向一张VT，共6张，平行光和聚光灯每盏一个VT。&lt;/p>
+&lt;p>这里主要分析平行光的 Clipmap 形式，如下，中心为相机位置，白色为视锥范围：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/image-8.png"
+width="981"
+height="849"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="115"
+data-flex-basis="277px"
+>&lt;/p>
+&lt;p>UE 的 VSM 的 VT 大小默认16k * 16k，其中每个Page分辨率为128 * 128，共 128 * 128 个Page&lt;/p>
+&lt;h4 id="page-收集">Page 收集&lt;/h4>
+&lt;p>每帧在主视图的Nanite流程走完后，可以得到主视图的深度图，将每个像素根据深度计算世界空间坐标再转换到光源空间得到像素在光源空间的位置，
+再根据像素与相机之间的距离来计算合适的Clipmap层级，这样就可以知道这个像素需要哪级Clipmap上的哪个Page的Shadow信息：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/image-9.png"
+width="1575"
+height="877"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="179"
+data-flex-basis="431px"
+>&lt;/p>
+&lt;p>这部分可以用 Compute Shader 批量统计：哪些虚拟页被至少一个像素引用 → 可见页集合。&lt;/p>
+&lt;h4 id="渲染流程-2">渲染流程&lt;/h4>
+&lt;p>Step 1：重置与标记脏页&lt;/p>
+&lt;ul>
+&lt;li>清空上一帧可见标记，保留物理页映射与缓存。&lt;/li>
+&lt;li>遍历动态物体 / 光源，标记受影响的虚拟页为脏（Dirty），需重渲染。&lt;/li>
+&lt;/ul>
+&lt;p>Step 2：可见性收集（屏幕空间→光源空间）&lt;/p>
+&lt;ul>
+&lt;li>对主相机深度缓冲做光源空间投影，为每个屏幕像素计算其在虚拟 SM 上的 UV 与页坐标。&lt;/li>
+&lt;li>用 Compute Shader 批量统计：哪些虚拟页被至少一个像素引用 → 可见页集合。&lt;/li>
+&lt;/ul>
+&lt;p>Step 3：物理页分配与映射&lt;/p>
+&lt;p>对每个可见页：&lt;/p>
+&lt;ul>
+&lt;li>已分配且不脏 → 直接复用物理页（缓存命中）。&lt;/li>
+&lt;li>未分配 / 脏 → 从物理页池分配空闲页，更新页状态表的物理索引。&lt;/li>
+&lt;li>页池满 → 采用 &lt;strong>LRU（最近最少使用）&lt;/strong> 替换策略，淘汰最久未使用的页。&lt;/li>
+&lt;/ul>
+&lt;p>Step 4：批量渲染阴影页（光源视角）&lt;/p>
+&lt;p>对所有可见且脏的虚拟页，执行光源视角光栅化：&lt;/p>
+&lt;ul>
+&lt;li>每个页对应一个视口（Viewport），只渲染该页覆盖的场景区域。&lt;/li>
+&lt;li>深度写入物理页对应的 Atlas 位置，生成页级深度缓冲。&lt;/li>
+&lt;li>支持多线程 / 多队列并行渲染，大幅提升效率。&lt;/li>
+&lt;/ul>
+&lt;p>Step 5：阴影采样（主渲染阶段）&lt;/p>
+&lt;p>主相机渲染时，像素着色器：&lt;/p>
+&lt;ul>
+&lt;li>将像素位置投影到光源空间，计算虚拟 SM UV。&lt;/li>
+&lt;li>从页状态表查询对应虚拟页的物理页索引与 UV 偏移。&lt;/li>
+&lt;li>采样物理页池 Atlas，获取深度值。&lt;/li>
+&lt;li>比较当前深度与采样深度，输出阴影 / 非阴影结果。&lt;/li>
+&lt;/ul>
+&lt;h4 id="帧间缓存阴影缓存">帧间缓存（阴影缓存）&lt;/h4>
+&lt;p>物理页与映射关系跨帧保留，仅脏页重渲染。&lt;/p>
+&lt;p>支持缓存是VSM变得高效的重要因素。在光源不动的情况下，对于每个ShadowPage，其覆盖的世界空间范围相对较小，在这一帧ShadowPage绘制完之后下一帧如果检测当前Page范围内没有物体发生变化则直接复用上帧数据即可。&lt;/p>
+&lt;p>每帧在收集到屏幕上像素所需的所有Page之后，这些Page大致分以下几种情况：&lt;/p>
+&lt;ul>
+&lt;li>新出现的Page，需要为其分配物理空间并绘制&lt;/li>
+&lt;li>已经缓存了的Page，但其上物体发生变化，需要重新绘制&lt;/li>
+&lt;li>已经缓存了的Page且其上物体没有变化，不需要绘制&lt;/li>
+&lt;/ul>
+&lt;h3 id="hiz遮挡剔除">HiZ遮挡剔除&lt;/h3>
+&lt;p>VSM 通常要配合 HiZ 进行深度遮挡剔除。&lt;/p>
+&lt;p>HiZ = Hierarchical Z（层次化深度缓冲区），是游戏渲染里GPU 级遮挡剔除的核心技术，用来快速扔掉被挡住的物体 / 片元，大幅减少 GPU 无用计算。&lt;/p>
+&lt;h4 id="原理">原理&lt;/h4>
+&lt;p>把深度图（Z‑Buffer）做成多级 Mipmap，每一层存对应区域的最大深度；用物体包围盒快速查高层（粗粒度）HiZ，只要物体最近深度 &amp;gt; 该区域最大深度，就直接判定被遮挡、不渲染。&lt;/p>
+&lt;h4 id="渲染流程-3">渲染流程&lt;/h4>
+&lt;ol>
+&lt;li>生成基础深度图（Z‑Buffer）&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>先渲染场景主要遮挡物（墙、地面、大模型），只写深度、不写颜色，得到全分辨率深度图。&lt;/li>
+&lt;/ul>
+&lt;ol start="2">
+&lt;li>构建 HiZ 层级（Mipmap 金字塔）&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>从全分辨率开始，每级降采样 2×2 像素，取最大深度值作为当前像素值。&lt;/li>
+&lt;li>层级越高，尺寸越小、精度越粗，但覆盖区域越大。&lt;/li>
+&lt;li>例：1024×1024 → 512×512 → 256×256 → &amp;hellip; → 1×1。&lt;/li>
+&lt;/ul>
+&lt;ol start="3">
+&lt;li>物体可见性判断（GPU 快速剔除）&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>
+&lt;p>对每个物体，计算屏幕空间包围盒（AABB / 球），得到它在屏幕上的大小。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>按包围盒大小选对应 HiZ 层级（大物体查高层，小物体查低层）。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>取物体最近深度（minZ），与 HiZ 该区域的 &lt;strong>最大深度(maxZ)&lt;/strong> 比较：&lt;/p>
+&lt;p>minZ &amp;gt; maxZ → 物体完全被遮挡 → 直接剔除，不进光栅化 / 片元着色。&lt;/p>
+&lt;p>否则 → 可见，继续渲染。&lt;/p>
+&lt;/li>
+&lt;/ul>
+&lt;ol start="4">
+&lt;li>渲染可见物体&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>只渲染通过 HiZ 测试的物体，跳过大量被遮挡的小物体 / 远处物体。&lt;/li>
+&lt;/ul>
+&lt;h4 id="gpu-driven">GPU Driven&lt;/h4>
+&lt;p>HiZ 通常结合 GPU Driven 来做，如生成 HiZ 金字塔和可见性剔除都可以用 Compute Shader 来做。&lt;/p>
+&lt;h3 id="参考">参考&lt;/h3>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/1973068100296527933" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/1973068100296527933&lt;/a>&lt;/p>
 &lt;h2 id="contact-shadow">Contact Shadow&lt;/h2>
 &lt;p>在屏幕空间进行逐像素的 RayMaraching，来得到高质量的近距离阴影。因为RayMarching的开销较大，Contact Shadow RayMarching的距离一般都很短，大约在0.1m~0.5m左右。&lt;/p>
 &lt;h2 id="sdf-阴影">SDF 阴影&lt;/h2>
@@ -233,7 +349,7 @@ data-flex-basis="450px"
 &lt;p>参考
 &lt;a class="link" href="https://zhuanlan.zhihu.com/p/398656596" target="_blank" rel="noopener"
 >https://zhuanlan.zhihu.com/p/398656596&lt;/a>&lt;/p>
-&lt;h2 id="参考">参考&lt;/h2>
+&lt;h2 id="参考-1">参考&lt;/h2>
 &lt;p>&lt;a class="link" href="https://learnopengl-cn.github.io/05%20Advanced%20Lighting/03%20Shadows/01%20Shadow%20Mapping/#_2" target="_blank" rel="noopener"
 >https://learnopengl-cn.github.io/05%20Advanced%20Lighting/03%20Shadows/01%20Shadow%20Mapping/#_2&lt;/a>
 &lt;a class="link" href="https://learnopengl-cn.github.io/05%20Advanced%20Lighting/03%20Shadows/02%20Point%20Shadows/" target="_blank" rel="noopener"
@@ -247,7 +363,9 @@ data-flex-basis="450px"
 &lt;a class="link" href="https://learn.microsoft.com/en-us/windows/win32/dxtecharts/cascaded-shadow-maps" target="_blank" rel="noopener"
 >https://learn.microsoft.com/en-us/windows/win32/dxtecharts/cascaded-shadow-maps&lt;/a>
 &lt;a class="link" href="https://zhuanlan.zhihu.com/p/104687855" target="_blank" rel="noopener"
->https://zhuanlan.zhihu.com/p/104687855&lt;/a>&lt;/p></description></item><item><title>GC</title><link>https://hebohang.github.io/p/gc/</link><pubDate>Thu, 05 Feb 2026 11:51:51 +0800</pubDate><guid>https://hebohang.github.io/p/gc/</guid><description>&lt;h2 id="常见gc垃圾回收算法">常见GC垃圾回收算法&lt;/h2>
+>https://zhuanlan.zhihu.com/p/104687855&lt;/a>
+&lt;a class="link" href="https://zhuanlan.zhihu.com/p/1973068100296527933" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/1973068100296527933&lt;/a>&lt;/p></description></item><item><title>GC</title><link>https://hebohang.github.io/p/gc/</link><pubDate>Thu, 05 Feb 2026 11:51:51 +0800</pubDate><guid>https://hebohang.github.io/p/gc/</guid><description>&lt;h2 id="常见gc垃圾回收算法">常见GC垃圾回收算法&lt;/h2>
 &lt;p>三种最基本的GC算法是标记-清除法、引用计数法、GC复制算法。其余很多是这几种的组合。&lt;/p>
 &lt;h3 id="引用计数法">引用计数法：&lt;/h3>
 &lt;p>计数器为0则回收。所以可即刻回收垃圾。&lt;/p>
