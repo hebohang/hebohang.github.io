@@ -1,4 +1,250 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>图形学 on 何律师</title><link>https://hebohang.github.io/categories/%E5%9B%BE%E5%BD%A2%E5%AD%A6/</link><description>Recent content in 图形学 on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Thu, 05 Mar 2026 11:27:06 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/categories/%E5%9B%BE%E5%BD%A2%E5%AD%A6/index.xml" rel="self" type="application/rss+xml"/><item><title>UE5渲染</title><link>https://hebohang.github.io/p/ue5%E6%B8%B2%E6%9F%93/</link><pubDate>Thu, 05 Mar 2026 11:27:06 +0800</pubDate><guid>https://hebohang.github.io/p/ue5%E6%B8%B2%E6%9F%93/</guid><description>&lt;h2 id="多线程模型">多线程模型&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>图形学 on 何律师</title><link>https://hebohang.github.io/categories/%E5%9B%BE%E5%BD%A2%E5%AD%A6/</link><description>Recent content in 图形学 on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Thu, 05 Mar 2026 15:59:08 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/categories/%E5%9B%BE%E5%BD%A2%E5%AD%A6/index.xml" rel="self" type="application/rss+xml"/><item><title>D3D12</title><link>https://hebohang.github.io/p/d3d12/</link><pubDate>Thu, 05 Mar 2026 15:59:08 +0800</pubDate><guid>https://hebohang.github.io/p/d3d12/</guid><description>&lt;h2 id="渲染流程">渲染流程&lt;/h2>
+&lt;h3 id="初始化阶段">初始化阶段&lt;/h3>
+&lt;h4 id="初始化d3d">初始化D3D&lt;/h4>
+&lt;p>首先是初始化DirectX的东西，每个版本基本都有，即 Factory、Adapter、Device&lt;/p>
+&lt;ul>
+&lt;li>Factory 是 DirectX 12 API 的入口，可以查找 Adapter 等。&lt;/li>
+&lt;li>Adapter 提供了有关 DirectX 设备物理属性的信息。你可以查询当前 GPU 的名称、制造商、显存容量以及其它更多信息。&lt;/li>
+&lt;li>Device 则是 DirectX 12 API 的主要入口点，可用来访问 API 的内部。这是访问重要数据结构和函数（如管线、着色器 blob、渲染状态、资源屏障等）的关键。&lt;/li>
+&lt;/ul>
+&lt;p>接着通过 Device 去初始化 SwapChain，以及 CommandQueue、commandAllocator、commandList，还有最后同步要用的 Fence 等。&lt;/p>
+&lt;h4 id="创建渲染目标视图rtv和深度模板视图dsv">创建渲染目标视图（RTV）和深度模板视图（DSV）&lt;/h4>
+&lt;p>交换链的后台缓冲区需要绑定为渲染目标，同时创建深度模板缓冲区（可选，但建议创建）。这些都对应成 DescriptorHeap。&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;span class="lnt">24
+&lt;/span>&lt;span class="lnt">25
+&lt;/span>&lt;span class="lnt">26
+&lt;/span>&lt;span class="lnt">27
+&lt;/span>&lt;span class="lnt">28
+&lt;/span>&lt;span class="lnt">29
+&lt;/span>&lt;span class="lnt">30
+&lt;/span>&lt;span class="lnt">31
+&lt;/span>&lt;span class="lnt">32
+&lt;/span>&lt;span class="lnt">33
+&lt;/span>&lt;span class="lnt">34
+&lt;/span>&lt;span class="lnt">35
+&lt;/span>&lt;span class="lnt">36
+&lt;/span>&lt;span class="lnt">37
+&lt;/span>&lt;span class="lnt">38
+&lt;/span>&lt;span class="lnt">39
+&lt;/span>&lt;span class="lnt">40
+&lt;/span>&lt;span class="lnt">41
+&lt;/span>&lt;span class="lnt">42
+&lt;/span>&lt;span class="lnt">43
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 1. 创建RTV堆（存储渲染目标视图）
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">D3D12_DESCRIPTOR_HEAP_DESC&lt;/span> &lt;span class="n">rtvHeapDesc&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{};&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">rtvHeapDesc&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">NumDescriptors&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1">// 双缓冲对应2个RTV
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">rtvHeapDesc&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Type&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">D3D12_DESCRIPTOR_HEAP_TYPE_RTV&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">rtvHeapDesc&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Flags&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">D3D12_DESCRIPTOR_HEAP_FLAG_NONE&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">device&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">CreateDescriptorHeap&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">rtvHeapDesc&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">IID_PPV_ARGS&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">rtvHeap&lt;/span>&lt;span class="p">));&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 2. 为每个后台缓冲区创建RTV
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">CD3DX12_CPU_DESCRIPTOR_HANDLE&lt;/span> &lt;span class="nf">rtvHandle&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">rtvHeap&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetCPUDescriptorHandleForHeapStart&lt;/span>&lt;span class="p">());&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">UINT&lt;/span> &lt;span class="n">rtvDescriptorSize&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">device&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetDescriptorHandleIncrementSize&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">D3D12_DESCRIPTOR_HEAP_TYPE_RTV&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="k">for&lt;/span> &lt;span class="p">(&lt;/span>&lt;span class="n">UINT&lt;/span> &lt;span class="n">n&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">n&lt;/span> &lt;span class="o">&amp;lt;&lt;/span> &lt;span class="mi">2&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="n">n&lt;/span>&lt;span class="o">++&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">ComPtr&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">ID3D12Resource&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">backBuffer&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">swapChain&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetBuffer&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">n&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">IID_PPV_ARGS&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">backBuffer&lt;/span>&lt;span class="p">));&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">device&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">CreateRenderTargetView&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">backBuffer&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Get&lt;/span>&lt;span class="p">(),&lt;/span> &lt;span class="k">nullptr&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">rtvHandle&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">rtvHandle&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Offset&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">rtvDescriptorSize&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">backBuffers&lt;/span>&lt;span class="p">[&lt;/span>&lt;span class="n">n&lt;/span>&lt;span class="p">]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">backBuffer&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1">// 保存后台缓冲区引用
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="p">}&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 3. 创建深度模板缓冲区和DSV（可选，三角形渲染可省略，但建议加）
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">ComPtr&lt;/span>&lt;span class="o">&amp;lt;&lt;/span>&lt;span class="n">ID3D12Resource&lt;/span>&lt;span class="o">&amp;gt;&lt;/span> &lt;span class="n">depthStencilBuffer&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">D3D12_RESOURCE_DESC&lt;/span> &lt;span class="n">depthDesc&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">CD3DX12_RESOURCE_DESC&lt;/span>&lt;span class="o">::&lt;/span>&lt;span class="n">Tex2D&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">DXGI_FORMAT_D32_FLOAT&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">800&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">600&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">D3D12_CLEAR_VALUE&lt;/span> &lt;span class="n">depthClearValue&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span> &lt;span class="n">DXGI_FORMAT_D32_FLOAT&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mf">1.0f&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">0&lt;/span> &lt;span class="p">};&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">device&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">CreateCommittedResource&lt;/span>&lt;span class="p">(&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">CD3DX12_HEAP_PROPERTIES&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">D3D12_HEAP_TYPE_DEFAULT&lt;/span>&lt;span class="p">),&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">D3D12_HEAP_FLAG_NONE&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">depthDesc&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">D3D12_RESOURCE_STATE_DEPTH_WRITE&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">depthClearValue&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">IID_PPV_ARGS&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">depthStencilBuffer&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 创建DSV堆和视图
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">D3D12_DESCRIPTOR_HEAP_DESC&lt;/span> &lt;span class="n">dsvHeapDesc&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{};&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">dsvHeapDesc&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">NumDescriptors&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="mi">1&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">dsvHeapDesc&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Type&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">D3D12_DESCRIPTOR_HEAP_TYPE_DSV&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">device&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">CreateDescriptorHeap&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">dsvHeapDesc&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">IID_PPV_ARGS&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="o">&amp;amp;&lt;/span>&lt;span class="n">dsvHeap&lt;/span>&lt;span class="p">));&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">CD3DX12_CPU_DESCRIPTOR_HANDLE&lt;/span> &lt;span class="nf">dsvHandle&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">dsvHeap&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetCPUDescriptorHandleForHeapStart&lt;/span>&lt;span class="p">());&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">device&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">CreateDepthStencilView&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">depthStencilBuffer&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Get&lt;/span>&lt;span class="p">(),&lt;/span> &lt;span class="k">nullptr&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">dsvHandle&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="资产准备阶段">资产准备阶段&lt;/h3>
+&lt;h4 id="定义顶点数据创建顶点缓冲区vb创建顶点bufferview">定义顶点数据，创建顶点缓冲区（VB），创建顶点BufferView&lt;/h4>
+&lt;p>在DX12中，ID3D12Resource是所有资源类型的代表，无论是Swapchain，还是Buffer，对API来说都只有一个ID3D12Resource。&lt;/p>
+&lt;p>对于Buffer而言，分为 UploadBuffer（CPU可见）、DefaultBuffer 和负责回读到CPU的ReadbackBuffer。&lt;/p>
+&lt;p>我们拷贝顶点数据到上传堆，再将上传堆的数据拷贝到默认堆，通过 BufferView 来标记 Buffer，绑定到根签名RootSignature，来让 Shader 知道从哪读数据。&lt;/p>
+&lt;h3 id="管线准备阶段">管线准备阶段&lt;/h3>
+&lt;h4 id="编译shader到中间码">编译Shader到中间码&lt;/h4>
+&lt;p>HLSL 编译成 DXIL（DirectX Intermediate Language），这种中间码保存到了Blob中，所谓Blob基本可以认为是一个std::vector&lt;a class="link" href="std::byte" >std::byte&lt;/a>一样的容器，原理简单。&lt;/p>
+&lt;h4 id="创建rootsignature">创建RootSignature&lt;/h4>
+&lt;p>RootSignature，描述了shader要使用哪些类型的资源，以及这些资源将会被绑定到哪些register space的registers上。比如绑定之前上传堆的 BufferView&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/388534044" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/388534044&lt;/a>&lt;/p>
+&lt;h4 id="创建pso">创建PSO&lt;/h4>
+&lt;p>有了中间码后，就需要提交给驱动，让它编译成机器码，这一步就是 CreateGraphicsPipelineState 这个函数。&lt;/p>
+&lt;p>PSO 是 DX12 的核心，封装顶点着色器、像素着色器、光栅化等所有渲染状态。&lt;/p>
+&lt;h3 id="录制命令阶段">录制命令阶段&lt;/h3>
+&lt;p>每次渲染帧都需要录制命令列表，包括绑定资源、设置管线、绘制三角形。&lt;/p>
+&lt;p>Command Allocator用来给CommandList分配内存，CommandList把提交指令录制下来并一次性提交给CommandQueue，CommandQueue每次接到一个CommandList都会马上开始执行这个CommandList中的命令。&lt;/p>
+&lt;p>这里 CommandList 就可以指定我们之前创建的 DescriptorHeap、RootSignature 等：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 设置渲染要用的root signature，由步骤3中的代码创建
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">_commandList&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">SetGraphicsRootSignature&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">_rootSignature&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Get&lt;/span>&lt;span class="p">());&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 设置/绑定索引为1的root paramter描述的资源，即每个pass用到的数据。
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 5. 每个渲染pass使用的constant buffer，被绑定到space0下的b1虚拟寄存器上。
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">ID3D12Resource&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">passCB&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">_curFrameData&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">PassCB&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">Resource&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">_commandList&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">SetGraphicsRootConstantBufferView&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">passCB&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetGPUVirtualAddress&lt;/span>&lt;span class="p">());&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 绑定root parameter描述的资源，即材质数据数组
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 2. 材质数据Buffer，其占用space1下从register t0 开始的register。
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">ID3D12Resource&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">materialBuffer&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">_curFrameData&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">MaterialBuffer&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">Resource&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">_commandList&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">SetGraphicsRootShaderResourceView&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">2&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">materialBuffer&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetGPUVirtualAddress&lt;/span>&lt;span class="p">());&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 绑定4张纹理
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 1. 声明一个纹理数组，其中有4张纹理。
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">_commandList&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">SetGraphicsRootDescriptorTable&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">3&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">mSrvDescriptorHeap&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetGPUDescriptorHandleForHeapStart&lt;/span>&lt;span class="p">());&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">D3D12_GPU_VIRTUAL_ADDRESS&lt;/span> &lt;span class="n">objCBAddress&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">objectCB&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">GetGPUVirtualAddress&lt;/span>&lt;span class="p">()&lt;/span> &lt;span class="o">+&lt;/span> &lt;span class="n">renderItem&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">ObjCBIndex&lt;/span> &lt;span class="o">*&lt;/span> &lt;span class="n">objCBByteSize&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 设置索引为0的root paramter描述的资源，即每个Object对应的数据
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 4. 每个Object独有的constant buffer,被绑定到space0下的b0虚拟寄存器上
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">cmdList&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">SetGraphicsRootConstantBufferView&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">0&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">objCBAddress&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>CommandList 应该与 PSO 绑定：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="n">m_commandList&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">Reset&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">m_commandAllocator&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Get&lt;/span>&lt;span class="p">(),&lt;/span> &lt;span class="n">m_pipelineState1&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Get&lt;/span>&lt;span class="p">());&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cm">/* …使用m_pipelineState1绘制物体… */&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 更改PSO
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">m_commandList&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">SetPipelineState&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">m_pipelineState2&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Get&lt;/span>&lt;span class="p">());&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cm">/* …使用m_pipelineState2绘制物体… */&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 更改PSO
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">m_commandList&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">SetPipelineState&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">m_pipelineState3&lt;/span>&lt;span class="p">.&lt;/span>&lt;span class="n">Get&lt;/span>&lt;span class="p">());&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="cm">/* …使用m_pipelineState3绘制物体… */&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="提交执行与呈现">提交执行与呈现&lt;/h3>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 1. 提交命令列表到命令队列
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">ID3D12CommandList&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">ppCommandLists&lt;/span>&lt;span class="p">[]&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="p">{&lt;/span>&lt;span class="n">commandList&lt;/span>&lt;span class="p">};&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">commandQueue&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">ExecuteCommandLists&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">_countof&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">ppCommandLists&lt;/span>&lt;span class="p">),&lt;/span> &lt;span class="n">ppCommandLists&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 2. 呈现画面（交换前后缓冲区）
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">swapchain&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">Present&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="mi">1&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="mi">0&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 3. 等待GPU完成，避免帧重叠（可选，建议加）
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="k">const&lt;/span> &lt;span class="n">UINT64&lt;/span> &lt;span class="n">fence&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">fenceValue&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">ThrowIfFailed&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">commandQueue&lt;/span>&lt;span class="o">-&amp;gt;&lt;/span>&lt;span class="n">Signal&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">fence&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">fence&lt;/span>&lt;span class="p">));&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="n">fenceValue&lt;/span>&lt;span class="o">++&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="流程图">流程图&lt;/h3>
+&lt;p>&lt;img src="https://hebohang.github.io/p/d3d12/image.png"
+width="1998"
+height="1144"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="174"
+data-flex-basis="419px"
+>&lt;/p>
+&lt;h2 id="参考">参考&lt;/h2>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/388534044" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/388534044&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/457348124" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/457348124&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/601720224" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/601720224&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://www.zhihu.com/column/c_1268850893845594112" target="_blank" rel="noopener"
+>https://www.zhihu.com/column/c_1268850893845594112&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/519905706" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/519905706&lt;/a>&lt;/p></description></item><item><title>UE5渲染</title><link>https://hebohang.github.io/p/ue5%E6%B8%B2%E6%9F%93/</link><pubDate>Thu, 05 Mar 2026 11:27:06 +0800</pubDate><guid>https://hebohang.github.io/p/ue5%E6%B8%B2%E6%9F%93/</guid><description>&lt;h2 id="多线程模型">多线程模型&lt;/h2>
 &lt;p>默认情况下，UE存在 Game Thread、Render Thread、RHI Thread，它们都独立地运行在专门的线程上（FRunnableThread）。&lt;/p>
 &lt;p>以场景中的一盏灯（ULightComponent）为例，它拥有完整的属性，可以被游戏逻辑随时修改（改变颜色、亮度）。&lt;/p>
 &lt;ol>
