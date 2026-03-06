@@ -1,4 +1,176 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>何律师</title><link>https://hebohang.github.io/</link><description>Recent content on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Thu, 05 Mar 2026 15:59:08 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>D3D12</title><link>https://hebohang.github.io/p/d3d12/</link><pubDate>Thu, 05 Mar 2026 15:59:08 +0800</pubDate><guid>https://hebohang.github.io/p/d3d12/</guid><description>&lt;h2 id="渲染流程">渲染流程&lt;/h2>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>何律师</title><link>https://hebohang.github.io/</link><description>Recent content on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Fri, 06 Mar 2026 16:43:56 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>渲染路径</title><link>https://hebohang.github.io/p/%E6%B8%B2%E6%9F%93%E8%B7%AF%E5%BE%84/</link><pubDate>Fri, 06 Mar 2026 16:43:56 +0800</pubDate><guid>https://hebohang.github.io/p/%E6%B8%B2%E6%9F%93%E8%B7%AF%E5%BE%84/</guid><description>&lt;h2 id="forward">Forward&lt;/h2>
+&lt;h3 id="渲染流程">渲染流程&lt;/h3>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E6%B8%B2%E6%9F%93%E8%B7%AF%E5%BE%84/image.png"
+width="982"
+height="545"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="180"
+data-flex-basis="432px"
+>&lt;/p>
+&lt;p>待渲染几何体 → 顶点着色器 → 片元着色器 → 渲染目标&lt;/p>
+&lt;h3 id="优缺点">优缺点&lt;/h3>
+&lt;h4 id="缺点">缺点&lt;/h4>
+&lt;ul>
+&lt;li>光源数量对计算复杂度影响巨大&lt;/li>
+&lt;li>访问深度等数据需要额外计算&lt;/li>
+&lt;/ul>
+&lt;h4 id="优点">优点&lt;/h4>
+&lt;ul>
+&lt;li>支持半透明渲染&lt;/li>
+&lt;li>支持使用多个光照pass&lt;/li>
+&lt;li>支持自定义光照计算方式（延迟渲染因为是用整个Light Pass去计算所有的光照，所以不支持每一个物体用单独的光照方式计算）&lt;/li>
+&lt;/ul>
+&lt;h2 id="deferred">Deferred&lt;/h2>
+&lt;h3 id="渲染流程-1">渲染流程&lt;/h3>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E6%B8%B2%E6%9F%93%E8%B7%AF%E5%BE%84/image-1.png"
+width="934"
+height="673"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="138"
+data-flex-basis="333px"
+>&lt;/p>
+&lt;p>首先将场景渲染一次，获取到的待渲染对象的各种几何信息存储到G-buffer中，然后第二个pass再遍历所有G-buffer中的位置、颜色、法线等参数，执行一次光照计算。&lt;/p>
+&lt;p>一个典型的G-Buffer：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E6%B8%B2%E6%9F%93%E8%B7%AF%E5%BE%84/image-2.png"
+width="828"
+height="221"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="374"
+data-flex-basis="899px"
+>&lt;/p>
+&lt;h3 id="优缺点-1">优缺点&lt;/h3>
+&lt;h4 id="缺点-1">缺点&lt;/h4>
+&lt;ul>
+&lt;li>对MSAA支持不友好&lt;/li>
+&lt;li>透明物体渲染存在问题&lt;/li>
+&lt;li>占用大量的显存带宽&lt;/li>
+&lt;/ul>
+&lt;h4 id="优点-1">优点&lt;/h4>
+&lt;ul>
+&lt;li>大量光照场景优势明显&lt;/li>
+&lt;li>只渲染可见像素，节省计算量&lt;/li>
+&lt;li>对后处理支持良好&lt;/li>
+&lt;li>用更少的shader&lt;/li>
+&lt;/ul>
+&lt;h2 id="forward-1">Forward+&lt;/h2>
+&lt;h3 id="渲染流程-2">渲染流程&lt;/h3>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E6%B8%B2%E6%9F%93%E8%B7%AF%E5%BE%84/image-3.png"
+width="3840"
+height="2396"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="160"
+data-flex-basis="384px"
+>&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// 伪代码
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// Depth PrePass
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">foreach&lt;/span> &lt;span class="n">object&lt;/span> &lt;span class="n">in&lt;/span> &lt;span class="n">sceen&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">get&lt;/span> &lt;span class="n">depth&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// Light Culling
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">foreach&lt;/span> &lt;span class="n">tile&lt;/span> &lt;span class="n">in&lt;/span> &lt;span class="nl">screen&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">get&lt;/span> &lt;span class="n">max&lt;/span> &lt;span class="n">min&lt;/span> &lt;span class="n">depth&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Frustum&lt;/span> &lt;span class="n">Intersection&lt;/span> &lt;span class="n">test&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">Generate&lt;/span> &lt;span class="n">a&lt;/span> &lt;span class="n">list&lt;/span> &lt;span class="n">of&lt;/span> &lt;span class="n">light&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">// Final Shading
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="n">foreach&lt;/span> &lt;span class="n">pixel&lt;/span> &lt;span class="n">in&lt;/span> &lt;span class="nl">screen&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">foreach&lt;/span> &lt;span class="n">light&lt;/span> &lt;span class="n">in&lt;/span> &lt;span class="nl">light_list_of_this_tile&lt;/span>&lt;span class="p">:&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">pixelLighting&lt;/span> &lt;span class="o">+=&lt;/span> &lt;span class="n">light_contribution_to_pixel&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">light&lt;/span>&lt;span class="p">,&lt;/span>&lt;span class="n">pixel&lt;/span>&lt;span class="p">)&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="depth-prepass">Depth PrePass&lt;/h4>
+&lt;p>只渲染深度，相当于 Z-Prepass，因此其实也可以结合 HiZ 或者 Early-Z 来。&lt;/p>
+&lt;h4 id="light-culling">Light Culling&lt;/h4>
+&lt;p>全程在 GPU Compute Shader 中完成，分为屏幕分块 → Tile 视锥构建 → 光源视锥相交测试 → 光源列表生成四步。&lt;/p>
+&lt;p>&lt;strong>最容易影响整体Forward+效率的阶段也就是Light Culling阶段。&lt;/strong>&lt;/p>
+&lt;ol>
+&lt;li>屏幕分块（Tile Grid）&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>每个 Tile 对应一个线程组（Thread Group），线程数 = Tile 内像素数（如 16×16=256 线程）&lt;/li>
+&lt;li>为每个 Tile 分配：LightList[MaxLightPerTile]（光源索引数组）、LightCount（光源数量）&lt;/li>
+&lt;/ul>
+&lt;ol start="2">
+&lt;li>构建 Tile 视锥体（Tile Frustum）&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>每个 Tile 对应一个 3D 视锥体，包含空间范围和深度范围&lt;/li>
+&lt;li>根据 Tile 内最大最小深度，把 Tile 的 2D 屏幕矩形，拉伸为 3D 视锥体
+&lt;img src="https://hebohang.github.io/p/%E6%B8%B2%E6%9F%93%E8%B7%AF%E5%BE%84/image-5.png"
+width="905"
+height="597"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="151"
+data-flex-basis="363px"
+>&lt;/li>
+&lt;/ul>
+&lt;ol start="3">
+&lt;li>光源与 Tile 视锥相交测试&lt;/li>
+&lt;/ol>
+&lt;ul>
+&lt;li>点光（Point Light）：用球体（Sphere） 表示，中心 = 光源位置，半径 = 光源影响范围。&lt;/li>
+&lt;li>聚光（Spot Light）：用圆锥体（Cone）+ 球体 表示。&lt;/li>
+&lt;li>方向光（Directional Light）：通常不参与剔除（影响全屏幕），直接加入所有 Tile 的 Light List。&lt;/li>
+&lt;/ul>
+&lt;ol start="4">
+&lt;li>光源列表生成与存储
+&lt;img src="https://hebohang.github.io/p/%E6%B8%B2%E6%9F%93%E8%B7%AF%E5%BE%84/image-4.png"
+width="1422"
+height="850"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="167"
+data-flex-basis="401px"
+>&lt;/li>
+&lt;/ol>
+&lt;h4 id="final-shading">Final Shading&lt;/h4>
+&lt;p>从Light List中获取到影响该像素的光源。然后进行相应的着色计算。&lt;/p>
+&lt;h3 id="优缺点-2">优缺点&lt;/h3>
+&lt;h4 id="缺点-2">缺点&lt;/h4>
+&lt;ul>
+&lt;li>Light Culling效果不稳定，Light Culling是基于深度u去做的，场景每帧的深度信息都不一样，导致每帧最终生成的light List也是不一样的。&lt;/li>
+&lt;li>寻找minZ和maxZ需要遍历Tile中的像素，有一定的性能消耗，由其是在移动端。并且现在的实现是强依赖Computer Shader，可能兼容性没那么好&lt;/li>
+&lt;li>强制的 early depth test，在某些三角形数量特别多的场景，这个可能会成为瓶颈&lt;/li>
+&lt;/ul>
+&lt;h4 id="优点-2">优点&lt;/h4>
+&lt;ul>
+&lt;li>对多光源的支持&lt;/li>
+&lt;li>有Forward的一切好处(透明物体的支持以及MSAA，复杂材质的支持)&lt;/li>
+&lt;/ul>
+&lt;h2 id="tbr-tbdr">TBR TBDR&lt;/h2>
+&lt;h3 id="渲染流程-3">渲染流程&lt;/h3>
+&lt;h3 id="优缺点-3">优缺点&lt;/h3>
+&lt;h4 id="缺点-3">缺点&lt;/h4>
+&lt;h4 id="优点-3">优点&lt;/h4>
+&lt;h2 id="参考">参考&lt;/h2>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/408238134" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/408238134&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/553907076" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/553907076&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/672881713" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/672881713&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/112120206" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/112120206&lt;/a>&lt;/p></description></item><item><title>D3D12</title><link>https://hebohang.github.io/p/d3d12/</link><pubDate>Thu, 05 Mar 2026 15:59:08 +0800</pubDate><guid>https://hebohang.github.io/p/d3d12/</guid><description>&lt;h2 id="渲染流程">渲染流程&lt;/h2>
 &lt;h3 id="初始化阶段">初始化阶段&lt;/h3>
 &lt;h4 id="初始化d3d">初始化D3D&lt;/h4>
 &lt;p>首先是初始化DirectX的东西，每个版本基本都有，即 Factory、Adapter、Device&lt;/p>
