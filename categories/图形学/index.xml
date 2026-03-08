@@ -158,10 +158,100 @@ data-flex-basis="401px"
 &lt;li>有Forward的一切好处(透明物体的支持以及MSAA，复杂材质的支持)&lt;/li>
 &lt;/ul>
 &lt;h2 id="tbr-tbdr">TBR TBDR&lt;/h2>
+&lt;p>移动平台更看重性能功耗比，如果性能只有一半，但功耗只有四分之一，也会考虑采纳。于是移动平台上光栅化往往采用tile-based方案，而不是立即式渲染 Immediate Mode。&lt;/p>
+&lt;p>&lt;a class="link" href="https://www.bilibili.com/video/BV1dL4y1c789" target="_blank" rel="noopener"
+>https://www.bilibili.com/video/BV1dL4y1c789&lt;/a>&lt;/p>
 &lt;h3 id="渲染流程-3">渲染流程&lt;/h3>
-&lt;h3 id="优缺点-3">优缺点&lt;/h3>
-&lt;h4 id="缺点-3">缺点&lt;/h4>
-&lt;h4 id="优点-3">优点&lt;/h4>
+&lt;p>把渲染目标划分为很多固定大小的tile，常见的是32*32.每个 tile 包含一个列表，存有和这个 tile 相交的所有三角形。&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E6%B8%B2%E6%9F%93%E8%B7%AF%E5%BE%84/image-6.png"
+width="1709"
+height="1599"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="106"
+data-flex-basis="256px"
+>&lt;/p>
+&lt;p>所以 tile-based 光栅化不再是一个一个三角形处理，而是一批一批处理。这样的GPU，需要有一个片上内存充当cache的角色，不需要大，但访问速度远远高于内存。&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E6%B8%B2%E6%9F%93%E8%B7%AF%E5%BE%84/image-7.png"
+width="3308"
+height="1400"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="236"
+data-flex-basis="567px"
+>&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E6%B8%B2%E6%9F%93%E8%B7%AF%E5%BE%84/image-8.png"
+width="2130"
+height="1441"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="147"
+data-flex-basis="354px"
+>&lt;/p>
+&lt;ol>
+&lt;li>对于每个tile，先会把渲染目标的对应区域载入GPU的片上内存&lt;/li>
+&lt;li>接着用扫描线算法，把列表里的三角形都渲染上去&lt;/li>
+&lt;li>最后把片上内存里的结果存到渲染目标&lt;/li>
+&lt;/ol>
+&lt;p>不管三角形如何层层叠叠，每个tile每次对内存的读写总是只有32x32个像素，远低于立即式。但因为一个三角形没法一直填充下去，会因为tile而被打断，性能其实是降低的。只是相比之下功耗降得更多。&lt;/p>
+&lt;h3 id="tbdr">TBDR&lt;/h3>
+&lt;p>tile-based deferred rendering&lt;/p>
+&lt;p>开启深度测试的情况下，在 TBR 基础上增加硬件级隐面剔除（Hidden Surface Removal, HSR），先确定 Tile 内所有可见像素，再统一执行片段着色，被遮挡像素直接丢弃，完全消除 Overdraw。&lt;/p>
+&lt;ol>
+&lt;li>几何阶段（Binning）：同 TBR，生成 Tile List。&lt;/li>
+&lt;li>可见性判断（HSR）：对 Tile 内所有图元做深度排序与遮挡测试，标记可见像素，丢弃不可见像素。&lt;/li>
+&lt;li>渲染阶段（Tile Processing）：仅对可见像素执行片段着色与混合，结果写回帧缓冲。&lt;/li>
+&lt;/ol>
+&lt;h3 id="和立即式渲染的对比">和立即式渲染的对比&lt;/h3>
+&lt;h4 id="立即式">立即式&lt;/h4>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E6%B8%B2%E6%9F%93%E8%B7%AF%E5%BE%84/image-10.png"
+width="2724"
+height="1510"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="180"
+data-flex-basis="432px"
+>&lt;/p>
+&lt;h4 id="tile-based">tile-based&lt;/h4>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E6%B8%B2%E6%9F%93%E8%B7%AF%E5%BE%84/image-9.png"
+width="3195"
+height="1615"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="197"
+data-flex-basis="474px"
+>&lt;/p>
+&lt;h2 id="early-z">Early-Z&lt;/h2>
+&lt;p>Early Z由硬件实现，随着硬件的演进，它的功能也在不断进化，处理的情况也变多。&lt;/p>
+&lt;p>在渲染状态符合条件的情况下，驱动会检查一下pixel shader，如果不输出深度、不用discard丢弃像素，就启用early-z
+&lt;img src="https://hebohang.github.io/p/%E6%B8%B2%E6%9F%93%E8%B7%AF%E5%BE%84/image-11.png"
+width="1347"
+height="549"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="245"
+data-flex-basis="588px"
+>&lt;/p>
+&lt;p>像素在进入pixel shader之前提前进行一次深度测试，如果已经被挡住就不往下走，直接丢弃掉。
+&lt;img src="https://hebohang.github.io/p/%E6%B8%B2%E6%9F%93%E8%B7%AF%E5%BE%84/image-12.png"
+width="3258"
+height="1496"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="217"
+data-flex-basis="522px"
+>&lt;/p>
+&lt;p>Early‑Z 只有在近的物体先渲染时才能有效遮挡远处物体。若大量物体从远到近渲染，Early‑Z 几乎无法剔除任何像素，Overdraw 依然很高。&lt;/p>
+&lt;h3 id="earlyz-生效的必要条件">Early‑Z 生效的必要条件&lt;/h3>
+&lt;p>要让 Early‑Z 正常工作，必须同时满足：&lt;/p>
+&lt;ol>
+&lt;li>ZTest On、ZWrite On&lt;/li>
+&lt;li>片元着色器中无 clip/discard、无 AlphaTest&lt;/li>
+&lt;li>不手动修改深度值（SV_Depth）&lt;/li>
+&lt;li>关闭 Alpha Blend（不透明物体）&lt;/li>
+&lt;li>物体尽量按近→远排序渲染&lt;/li>
+&lt;/ol>
+&lt;p>个人想法：这都是一趟渲染的情况，如果提前做了 preZ 的 pass，提前先写入深度，理论上这里的 5 应该不需要，ZWrite On 也不需要。&lt;/p>
 &lt;h2 id="参考">参考&lt;/h2>
 &lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/408238134" target="_blank" rel="noopener"
 >https://zhuanlan.zhihu.com/p/408238134&lt;/a>&lt;/p>
@@ -170,7 +260,9 @@ data-flex-basis="401px"
 &lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/672881713" target="_blank" rel="noopener"
 >https://zhuanlan.zhihu.com/p/672881713&lt;/a>&lt;/p>
 &lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/112120206" target="_blank" rel="noopener"
->https://zhuanlan.zhihu.com/p/112120206&lt;/a>&lt;/p></description></item><item><title>D3D12</title><link>https://hebohang.github.io/p/d3d12/</link><pubDate>Thu, 05 Mar 2026 15:59:08 +0800</pubDate><guid>https://hebohang.github.io/p/d3d12/</guid><description>&lt;h2 id="渲染流程">渲染流程&lt;/h2>
+>https://zhuanlan.zhihu.com/p/112120206&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://www.bilibili.com/video/BV1dL4y1c789" target="_blank" rel="noopener"
+>https://www.bilibili.com/video/BV1dL4y1c789&lt;/a>&lt;/p></description></item><item><title>D3D12</title><link>https://hebohang.github.io/p/d3d12/</link><pubDate>Thu, 05 Mar 2026 15:59:08 +0800</pubDate><guid>https://hebohang.github.io/p/d3d12/</guid><description>&lt;h2 id="渲染流程">渲染流程&lt;/h2>
 &lt;h3 id="初始化阶段">初始化阶段&lt;/h3>
 &lt;h4 id="初始化d3d">初始化D3D&lt;/h4>
 &lt;p>首先是初始化DirectX的东西，每个版本基本都有，即 Factory、Adapter、Device&lt;/p>
@@ -855,6 +947,15 @@ data-flex-basis="431px"
 >https://zhuanlan.zhihu.com/p/1973068100296527933&lt;/a>&lt;/p>
 &lt;h2 id="contact-shadow">Contact Shadow&lt;/h2>
 &lt;p>在屏幕空间进行逐像素的 RayMaraching，来得到高质量的近距离阴影。因为RayMarching的开销较大，Contact Shadow RayMarching的距离一般都很短，大约在0.1m~0.5m左右。&lt;/p>
+&lt;h3 id="基本原理">基本原理&lt;/h3>
+&lt;p>从 Shading Point 位置往光源方向做 RayMarching，每一步 March 后根据此位置对
+SceneDepth （Depth Buffer）进行一个采样（不是ShadowMap！），然后根据该位置本身的
+深度（即射线上的深度 z 分量，由 Shading Point 深度与光源方向计算得出）与从Depth
+Buffer 采样的值进行一个对比，如果小于某个阈值则说明 Shading Point 被遮挡了。&lt;/p>
+&lt;h3 id="个人优化">个人优化&lt;/h3>
+&lt;p>加了一个bias减弱闪烁；光源方向（即Marching方向）和物体表面相切时会闪烁剧烈，我
+通过深度反推出物体该位置的法线（Forward 下后处理不好拿法线），然后增加了法线和光
+源方向的一个判断。&lt;/p>
 &lt;h2 id="sdf-阴影">SDF 阴影&lt;/h2>
 &lt;p>SDF 可以很好的做软阴影。软阴影由来就是一个面光源有一部分被挡住了，那么用SDF就可以近似得到大概有多少范围被挡住的一个信息，虽然不准，但是比较符合人们的观察。&lt;/p>
 &lt;p>&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/image-7.png"
@@ -886,9 +987,108 @@ data-flex-basis="450px"
 &lt;a class="link" href="https://zhuanlan.zhihu.com/p/1973068100296527933" target="_blank" rel="noopener"
 >https://zhuanlan.zhihu.com/p/1973068100296527933&lt;/a>&lt;/p></description></item><item><title>实时渲染</title><link>https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/</link><pubDate>Wed, 04 Feb 2026 17:08:43 +0800</pubDate><guid>https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/</guid><description>&lt;h2 id="本质思考">本质思考&lt;/h2>
 &lt;p>实时渲染本质上是一个在有限时间预算内，对三维连续场景信号（几何、材质、光照）进行离散化采样（生成屏幕像素），并不可避免地与走样进行斗争的过程。&lt;/p>
-&lt;h2 id="渲染管线与渲染路径">渲染管线与渲染路径&lt;/h2>
+&lt;h2 id="渲染管线">渲染管线&lt;/h2>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/image.png"
+width="3340"
+height="2041"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="163"
+data-flex-basis="392px"
+>&lt;/p>
+&lt;p>如上图，shader 是可编程部分，其余是固定流水线单元。&lt;/p>
+&lt;p>Input Assembler 从 Vertex Buffer 里组装出一个顶点送入 Vertex Shader；&lt;/p>
+&lt;p>Early Primitive Assembler 把顶点组装成 Primitive 送给 Hull Shader（因为只是 Vexter Shader 没有处理 Primitive 的能力，如线、三角形，所以诞生了 Geometry Shader，就把原先的 Primitive Assembler 拆成了两部分；处理 Primitive 最主要的是细分操作，于是单独拆分出 Tessellator 的部分）&lt;/p>
+&lt;p>Hull Shader 指定每个图元需要如何被细分，比如内部分成多少个，每条线分成多少段。&lt;/p>
+&lt;p>固定流水线 Tessellator 固定算法来细分。&lt;/p>
+&lt;p>Domain Shader 根据细分的参数负责计算细分后每个顶点的信息。&lt;/p>
+&lt;p>Geometry Shader 可以单入多出，一个 Primitive 送入 Geometry Shader 可以输出多个 Primitive，即可以送入 Primitive Assembler 完成整条流水线，也可以直接送入内存。&lt;/p>
+&lt;p>Primitive Assembler 图元组装单元，把顶点组装成三角形，并把屏幕外的三角形过滤掉，只保留屏幕内的三角形
+&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/image-1.png"
+width="690"
+height="534"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="129"
+data-flex-basis="310px"
+>
+后续拆分成两块，前者 Early Primitive Assembler 完成 Primitive 的组装，后者完成剩余事情。&lt;/p>
+&lt;p>Rasterizer 计算三角形覆盖哪些像素，把这些像素送入 Pixel Shader 处理。&lt;/p>
+&lt;p>Output Merger 进行各种测试，并最后写入到渲染目标。&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/image-9.png"
+width="3211"
+height="1890"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="169"
+data-flex-basis="407px"
+>&lt;/p>
+&lt;p>我们希望在少量数据甚至没有数据的时候，也有能力生成数据并送入 Rasterizer 里（Compute Shader 不能接入 Rasterizer），
+所以催生出了 Amplification Shader 和 Mesh Shader。&lt;/p>
+&lt;p>Amplification Shader 负责指定执行多少次 Mesh Shader，Mesh Shader 负责产生几何体。这时渲染单位就不是图元Primitive，而是一小块网格，称为 Meshlet。一个Meshlet送入 Amplification Shader，它可以决定这个 Meshlet 是否需要进一步处理，要则传入到Mesh Shader。&lt;/p>
+&lt;p>实际渲染中，硬件光栅化的输出并不是一个一个像素，而是一个一个2x2的像素块。这称为一个quad。这样才可以计算任何变量的ddx、ddy。
+&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/image-7.png"
+width="2490"
+height="1314"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="189"
+data-flex-basis="454px"
+>&lt;/p>
+&lt;p>这四个像素如果有在三角形之外的，之后才会被丢弃。对大三角形来说，最多就是边缘被浪费，但对于小于一个像素的三角形，这就浪费了3/4。因此，对于大量三角形都小于一个像素的时候，构造一个以像素为单位的软件光栅化器，可以避免浪费，性能反而更高。如 UE5 的Nanite。&lt;/p>
 &lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/408238134" target="_blank" rel="noopener"
 >https://zhuanlan.zhihu.com/p/408238134&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://www.bilibili.com/video/BV1xF411g7Z9" target="_blank" rel="noopener"
+>https://www.bilibili.com/video/BV1xF411g7Z9&lt;/a>&lt;/p>
+&lt;h2 id="gpu-架构">GPU 架构&lt;/h2>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/image-2.png"
+width="3022"
+height="1861"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="162"
+data-flex-basis="389px"
+>&lt;/p>
+&lt;p>GPU 有多个 SM （Streaming Multi-Processor）。一组SP加上控制器、片上内存等，组成一个功能相对完整的 SM。里面装一堆 Warp 和 SP&lt;/p>
+&lt;p>Warp（线程束，Nvidia术语，AMD叫 Wavefront），32个线程为一组，一起取指、一起发射，是调度和执行的最小单位&lt;/p>
+&lt;p>SP（Streaming Processor）跑一个线程，称为一个核，代表单个线程&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/image-3.png"
+width="2441"
+height="1595"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="153"
+data-flex-basis="367px"
+>&lt;/p>
+&lt;p>厂商提供的驱动也分为用户态部分 UMD 和内核态部分 KMD，提高稳定性。&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/image-4.png"
+width="2997"
+height="1635"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="183"
+data-flex-basis="439px"
+>&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/image-5.png"
+width="3032"
+height="1678"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="180"
+data-flex-basis="433px"
+>&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/image-6.png"
+width="2239"
+height="1674"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="133"
+data-flex-basis="321px"
+>&lt;/p>
+&lt;p>GPU 执行的是驱动发来的操作，并不知道来自于哪个API。所谓GPU支持哪个API指的是GPU厂商提供了哪个API的驱动。所以GPU支持什么API的什么功能都取决于驱动。&lt;/p>
+&lt;p>API和操作系统也高度相关，不同操作系统驱动不一样，换一个操作系统就得重写一遍驱动。&lt;/p>
+&lt;p>&lt;a class="link" href="https://www.bilibili.com/video/BV1u3411M72A" target="_blank" rel="noopener"
+>https://www.bilibili.com/video/BV1u3411M72A&lt;/a>&lt;/p>
 &lt;h2 id="抗锯齿">抗锯齿&lt;/h2>
 &lt;p>对信号的采样频率不够，就会走样，那么锯齿可以简单分为：&lt;/p>
 &lt;ul>
