@@ -109,7 +109,7 @@
 &lt;p>我们拷贝顶点数据到上传堆，再将上传堆的数据拷贝到默认堆，通过 BufferView 来标记 Buffer，绑定到根签名RootSignature，来让 Shader 知道从哪读数据。&lt;/p>
 &lt;h3 id="管线准备阶段">管线准备阶段&lt;/h3>
 &lt;h4 id="编译shader到中间码">编译Shader到中间码&lt;/h4>
-&lt;p>HLSL 编译成 DXIL（DirectX Intermediate Language），这种中间码保存到了Blob中，所谓Blob基本可以认为是一个std::vector&lt;a class="link" href="std::byte" >std::byte&lt;/a>一样的容器，原理简单。&lt;/p>
+&lt;p>HLSL 编译成 DXIL（DirectX Intermediate Language），这种中间码保存到了Blob中，所谓Blob基本可以认为是一个std::vector&amp;lt;std::byte&amp;gt;一样的容器，原理简单。&lt;/p>
 &lt;h4 id="创建rootsignature">创建RootSignature&lt;/h4>
 &lt;p>RootSignature，描述了shader要使用哪些类型的资源，以及这些资源将会被绑定到哪些register space的registers上。比如绑定之前上传堆的 BufferView&lt;/p>
 &lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/388534044" target="_blank" rel="noopener"

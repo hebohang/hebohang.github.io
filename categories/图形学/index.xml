@@ -373,7 +373,7 @@ data-flex-basis="522px"
 &lt;p>我们拷贝顶点数据到上传堆，再将上传堆的数据拷贝到默认堆，通过 BufferView 来标记 Buffer，绑定到根签名RootSignature，来让 Shader 知道从哪读数据。&lt;/p>
 &lt;h3 id="管线准备阶段">管线准备阶段&lt;/h3>
 &lt;h4 id="编译shader到中间码">编译Shader到中间码&lt;/h4>
-&lt;p>HLSL 编译成 DXIL（DirectX Intermediate Language），这种中间码保存到了Blob中，所谓Blob基本可以认为是一个std::vector&lt;a class="link" href="std::byte" >std::byte&lt;/a>一样的容器，原理简单。&lt;/p>
+&lt;p>HLSL 编译成 DXIL（DirectX Intermediate Language），这种中间码保存到了Blob中，所谓Blob基本可以认为是一个std::vector&amp;lt;std::byte&amp;gt;一样的容器，原理简单。&lt;/p>
 &lt;h4 id="创建rootsignature">创建RootSignature&lt;/h4>
 &lt;p>RootSignature，描述了shader要使用哪些类型的资源，以及这些资源将会被绑定到哪些register space的registers上。比如绑定之前上传堆的 BufferView&lt;/p>
 &lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/388534044" target="_blank" rel="noopener"
@@ -893,7 +893,7 @@ data-flex-basis="1097px"
 &lt;h4 id="不能用于点光源且通常只有主光源如太阳用-csm">不能用于点光源，且通常只有主光源（如太阳）用 CSM&lt;/h4>
 &lt;p>理论上可以为场景中的每一个方向光都分配一组CSM，但这意味着渲染开销会成倍增长。因为每一组CSM都需要每帧为每个级联渲染一次场景。考虑到性能预算，这种做法非常奢侈。对于次要的方向光（如补光），通常使用简单的单张阴影贴图甚至不开启实时阴影，以平衡画面效果和运行效率。只有在包含多个主光源的复杂场景中，才有可能需要为每个主光源配置CSM。&lt;/p>
 &lt;h4 id="csm-caching">CSM Caching&lt;/h4>
-&lt;p>在使用CSM时，我们常常会遇到 CSM开销较大的问题，比如现在使用四级CSM级联，就意味着在生成shaodwmap时，很多物体需要重复绘制四次。因此有的时候我们会对 CSM 进行一些优化。&lt;/p>
+&lt;p>在使用CSM时，我们常常会遇到 CSM开销较大的问题，比如现在使用四级CSM级联，就意味着在生成shadowmap时，很多物体需要重复绘制四次。因此有的时候我们会对 CSM 进行一些优化。&lt;/p>
 &lt;p>一种方式是降低远处 CSM 的更新频率。比如在原神的PC版中，共有八级的CSM，前四级是每帧都更新的，后四级是逐帧依次更新的，这样相当于每帧需要更新五级的CSM。&lt;/p>
 &lt;p>另外一种方式是将 CSM 中算出的阴影动态缓存，对于静态物体的 shadowmap，是可以实现前后两帧之间的复用的。上一帧中静态物体的shadowmap，经过一些小小的处理，在当前帧仍然是可用的，对于一些没有覆盖的区域，可以动态来检测，重新绘制生成：
 &lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/image-5.png"
