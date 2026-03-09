@@ -434,6 +434,10 @@ class="gallery-image"
 data-flex-grow="141"
 data-flex-basis="339px"
 >&lt;/p>
+&lt;p>这个 bias 可以为常量 constant bias；不过我们发现，在斜面角度较大时，一个固定的偏移值就不再适用了，因此一个常见的改进，就是根据斜面角度来改变偏移值（偏移仍然是沿着光照的方向的），叫做 slope scaled depth bias / slop bias 。&lt;/p>
+&lt;p>Unreal 中，使用的 constant bias + slope scaled depth bias&lt;/p>
+&lt;p>另外一种常用的替代 slope scaled depth bias的方案是 normal offset bias。和 slop bias 不同， normal offset bias 将阴影的计算位置沿着物体表面的法线偏移。&lt;/p>
+&lt;p>Unity中，使用的是 constant bias + normal offset bias&lt;/p>
 &lt;h4 id="走样aliasing">走样(Aliasing)&lt;/h4>
 &lt;p>&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/image-4.png"
 width="256"
@@ -447,6 +451,27 @@ data-flex-basis="305px"
 &lt;p>这块可以看：
 &lt;a class="link" href="https://learnopengl-cn.github.io/05%20Advanced%20Lighting/03%20Shadows/01%20Shadow%20Mapping/#_7" target="_blank" rel="noopener"
 >https://learnopengl-cn.github.io/05%20Advanced%20Lighting/03%20Shadows/01%20Shadow%20Mapping/#_7&lt;/a>&lt;/p>
+&lt;h4 id="light-space-frustrum的计算">Light Space Frustrum的计算&lt;/h4>
+&lt;p>Shadowmap的效果，一般会非常依赖于 shadowmap 分辨率的大小和zbuffer的精度。因此我们要尽量提高 shadowmap的精度。&lt;/p>
+&lt;p>如果直接使用整个场景的AABB，转化到 Light Space，肯定是不行的，这样会造成很多不需要的阴影投射计算。&lt;/p>
+&lt;p>通常我们会将世界空间视锥的八个顶点，变换到光照空间，算出在光照空间下，最远和最近的z值，并计算出AABB边界。不过，这样也可能会造成另外一个问题，就是当摄影机的View Frustrum 很小时，造成计算出来的 light space frustrum 非常小，无法正确地投射所有需要投射阴影的物体：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/image-23.png"
+width="646"
+height="306"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="211"
+data-flex-basis="506px"
+>&lt;/p>
+&lt;p>因此我们还会根据整个场景的AABB空间，对得到的light space frustrum 进行扩展，使其能否覆盖到可能产生阴影的物体。当然，为了防止 light space frustrum 的 near plane 和 far plane的值相差过大，我们还会在光照中设置一个最大阴影距离，当阴影投射物体，超出这个最大距离后，就不再投射阴影，来提高阴影的精度。&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/image-24.png"
+width="609"
+height="336"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="181"
+data-flex-basis="435px"
+>&lt;/p>
 &lt;h2 id="percentage-closer-filtering-pcf">Percentage Closer Filtering (PCF)&lt;/h2>
 &lt;p>主要是想解决走样而非实现软阴影，但后来人们也想应用到软阴影上。&lt;/p>
 &lt;p>核心思想是多次采样深度贴图，每一次采样的纹理坐标都稍有不同，独立判断每个采样点的阴影状态后，将子结果混合取平均，最终获得相对柔和的阴影。&lt;/p>
@@ -481,6 +506,59 @@ data-flex-basis="305px"
 &lt;/div>
 &lt;/div>&lt;p>因为这只是最终采样做的手段，所以也可以和 CSM 之类的阴影技术结合。&lt;/p>
 &lt;p>从信号角度来看，PCF 就是对是否是阴影的这么一个可见性函数进行低通滤波，在边缘处信号量变化剧烈，所以需要先低通滤波再去采样。&lt;/p>
+&lt;h3 id="bias">bias&lt;/h3>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/image-10.png"
+width="622"
+height="310"
+loading="lazy"
+alt="左：bias cone；右：receiver plane depth bias"
+class="gallery-image"
+data-flex-grow="200"
+data-flex-basis="481px"
+>&lt;/p>
+&lt;p>bias cone，根据当前采样点到采样中心的位置，来缩放bias的大小&lt;/p>
+&lt;p>Receiver Plane Depth Bias，这种方式需要假定接受阴影的是一个平面，然后会根据每个阴影采样点到中心的位置，来计算偏移。&lt;/p>
+&lt;h2 id="pcsspercentage-closer-soft-shadows">PCSS（Percentage closer soft shadows）&lt;/h2>
+&lt;p>面光源-&amp;gt;半影（Penumbra）：
+&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/image-11.png"
+width="2793"
+height="1870"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="149"
+data-flex-basis="358px"
+>&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/image-12.png"
+width="1895"
+height="1294"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="146"
+data-flex-basis="351px"
+>&lt;/p>
+&lt;p>软阴影，思考之前那个半影的图，其实和阴影接受物的某个位置到阴影投射物的对应位置是近还是远有关。因此我们就想用根据这个距离值（我们叫做 blocker distance）来定义不同的 Filter size。这里的 Filter size 其实就是和 Wpenumbra 正相关的，例如 shading point 离 blocker 越近（例如上图的笔尖）阴影理应越硬，那么就不应该用很大的 Filter size（即 pcf 的搜索区域范围），而 Wpenumbra 越大则表示 shading point 离 blocker 越远，因此应该用很大的 Filter size&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/image-13.png"
+width="1889"
+height="1313"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="143"
+data-flex-basis="345px"
+>&lt;/p>
+&lt;p>（注：面光源肯定不能搞一个shadow map出来，所以大家常先用点光源生成一个shadow map，再根据面光源参数来确定阴影的软硬）&lt;/p>
+&lt;h3 id="pcss流程">PCSS流程&lt;/h3>
+&lt;ol>
+&lt;li>对shading point，找到对应的shadow map的那个像素，然后对这个像素周围的一块区域进行比较（比如 5 * 5，或者更好的用面光源的参数来算，如下图）：若在阴影中则标记为blocker，然后对这些 blocker 取平均（如果被遮挡的话，shadow map记录的深度也就是 blocker 的深度了）
+&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/image-14.png"
+width="2447"
+height="1126"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="217"
+data-flex-basis="521px"
+>&lt;/li>
+&lt;li>有了 blocker 的深度，我们就可以计算 filter 有多大，然后就回到了 PCF 的流程了。&lt;/li>
+&lt;/ol>
 &lt;h2 id="csm-cascaded-shadow-maps">CSM (Cascaded Shadow Maps)&lt;/h2>
 &lt;p>针对方向光（如太阳）的大范围场景，CSM 是最常用的阴影技术。它将摄像机的视锥体按深度分割成多个级联（cascade），每个级联对应一张阴影图，覆盖近到远不同距离的区域。&lt;/p>
 &lt;h3 id="渲染流程-1">渲染流程&lt;/h3>
@@ -710,6 +788,95 @@ Buffer 采样的值进行一个对比，如果小于某个阈值则说明 Shadin
 &lt;p>加了一个bias减弱闪烁；光源方向（即Marching方向）和物体表面相切时会闪烁剧烈，我
 通过深度反推出物体该位置的法线（Forward 下后处理不好拿法线），然后增加了法线和光
 源方向的一个判断。&lt;/p>
+&lt;h2 id="variance-soft-shadow-mapping">Variance soft shadow mapping&lt;/h2>
+&lt;p>PCSS因为要多次采样，太慢了，于是出来了 Variance soft shadow mapping（VSMM），其实际上可以看成 PCSS 的快速版本，不过现在降噪手段越来越多，大家还是PCSS用的多一点？&lt;/p>
+&lt;p>VSMM的思想是，我不需要那么精准的数据，我只需要大概知道我的 shading point 对应的 shadow map 那一段采样区域内的平均值大概排什么水平（之前PCF的时候说过shadow map一块区域都会和shading point的深度值进行非零即一的比较），我们直接假设这一段分布是正态分布的，要获得正态分布的曲线我们只需要求均值和方差即可。&lt;/p>
+&lt;p>对shadow map的一个矩形区域快速求均值可以用 mipmap 或者 summed area tables（SAT）&lt;/p>
+&lt;p>那么求方差只需要按方差公式即可：
+&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/image-15.png"
+width="2663"
+height="1635"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="162"
+data-flex-basis="390px"
+>&lt;/p>
+&lt;p>因此我们还需要额外的一张shadow map（其实可以直接记录在一张 RT 的不同的通道里，在生成shadow map的时候顺手往其他通道写入深度平方的数据）。&lt;/p>
+&lt;p>而有了均值方差之后，我们接着就是根据pcf的那个平均值，求出对应的 CDF 值（如下图），也就知道了有百分之多少的地方比我的深度小。
+&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/image-16.png"
+width="2751"
+height="1789"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="153"
+data-flex-basis="369px"
+>&lt;/p>
+&lt;p>而这个积分求解可以直接通过读表来做，但其实VSMM用的是切比雪夫不等式（也就没有用正态分布公式了实际上）：
+&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/image-17.png"
+width="2651"
+height="1774"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="149"
+data-flex-basis="358px"
+>&lt;/p>
+&lt;p>重新回到PCSS流程，我们还需要知道 Blocker 的深度距离，我们应该用那一块区域内的遮挡深度求平均。&lt;/p>
+&lt;h3 id="vssm流程">VSSM流程&lt;/h3>
+&lt;p>例子：shading point 深度为7，PCSS 第一步的范围为 5 * 5，这个shadow map在该范围内的深度值如下图：
+&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/image-18.png"
+width="585"
+height="552"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="105"
+data-flex-basis="254px"
+>&lt;/p>
+&lt;p>（这里假设可以通过 mipmap 或者 summed area tables（SAT）得到一个矩形区域内的深度平均值或者深度的方差）&lt;/p>
+&lt;ol>
+&lt;li>第一个 pass，我们要生成 shadow map，生成的同时把深度的平方写入第二个通道&lt;/li>
+&lt;li>这一步实际上是优化PCSS的求bloker的步骤：获取shading point的深度值（假设为7）。我们有了这个 55 矩形的深度平均值，我们假设大于shading point的那些深度值都为7（即上图红色的所有值我们都当作7来算，再根据这个55内的深度平均值算出遮挡物的深度：
+&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/image-19.png"
+width="2570"
+height="1350"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="190"
+data-flex-basis="456px"
+>
+其实就是，PCSS第一步希望求 Zocc （即蓝色区域平均值），我们先假设 Zunocc 直接为 shading point 的深度值，然后通过该 5*5 矩阵的平均深度来计算出 Zocc，从而求出 PCSS 第一步的所需的那个 blocker distance （这样就避免了采样）&lt;/li>
+&lt;li>PCSS第二步，根据 blocker distance 计算出需要采样区域的大小（PCF 的 filter 的大小）。&lt;/li>
+&lt;li>对于第三步得出的区域（假设 7 * 7），得出这个区域的深度均值与方差，由切比雪夫不等式，可以知道这个区域大于shading point的深度的概率，也即 PCF 要求的那个值了。&lt;/li>
+&lt;/ol>
+&lt;h3 id="快速求均值">快速求均值&lt;/h3>
+&lt;p>之前说了可以用 mipmap 或者 summed area tables（SAT），用 mipmap 如果矩阵不是2的幂之类的就势必要双线性或是三线性插值，不太方便；我们可以用 summed area tables（SAT），就是一个经典的二维前缀和罢了？不过构建的时候原本是 O（n）的复杂度，但是可以写成并行去构建。&lt;/p>
+&lt;h2 id="moment-shadow-mapping">Moment shadow mapping&lt;/h2>
+&lt;p>之前的 VSSM 存在的问题是，如果真正的分布并不那么正态，如下图，那么还用正态分布去描述的话就会出问题（阴影黑一点倒是没啥，人们不希望的是阴影突然变白了）：
+&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/image-20.png"
+width="2388"
+height="1820"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="131"
+data-flex-basis="314px"
+>&lt;/p>
+&lt;p>因此人们想要VSSM对遮挡分布的描述更准，于是引入更高阶的moments：
+&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/image-21.png"
+width="2613"
+height="1162"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="224"
+data-flex-basis="539px"
+>
+&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/image-22.png"
+width="2666"
+height="1783"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="149"
+data-flex-basis="358px"
+>&lt;/p>
+&lt;p>其实就是某个展开而已。&lt;/p>
 &lt;h2 id="sdf-阴影">SDF 阴影&lt;/h2>
 &lt;p>SDF 可以很好的做软阴影。软阴影由来就是一个面光源有一部分被挡住了，那么用SDF就可以近似得到大概有多少范围被挡住的一个信息，虽然不准，但是比较符合人们的观察。&lt;/p>
 &lt;p>&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/image-7.png"
@@ -725,21 +892,22 @@ data-flex-basis="450px"
 >https://zhuanlan.zhihu.com/p/398656596&lt;/a>&lt;/p>
 &lt;h2 id="参考-1">参考&lt;/h2>
 &lt;p>&lt;a class="link" href="https://learnopengl-cn.github.io/05%20Advanced%20Lighting/03%20Shadows/01%20Shadow%20Mapping/#_2" target="_blank" rel="noopener"
->https://learnopengl-cn.github.io/05%20Advanced%20Lighting/03%20Shadows/01%20Shadow%20Mapping/#_2&lt;/a>
-&lt;a class="link" href="https://learnopengl-cn.github.io/05%20Advanced%20Lighting/03%20Shadows/02%20Point%20Shadows/" target="_blank" rel="noopener"
->https://learnopengl-cn.github.io/05%20Advanced%20Lighting/03%20Shadows/02%20Point%20Shadows/&lt;/a>
-&lt;a class="link" href="https://learnopengl.com/Guest-Articles/2021/CSM" target="_blank" rel="noopener"
->https://learnopengl.com/Guest-Articles/2021/CSM&lt;/a>
-&lt;a class="link" href="https://zhuanlan.zhihu.com/p/53689987" target="_blank" rel="noopener"
->https://zhuanlan.zhihu.com/p/53689987&lt;/a>
-&lt;a class="link" href="https://www.zhihu.com/search?type=content&amp;amp;q=%E7%A8%B3%E5%AE%9ACSM" target="_blank" rel="noopener"
->https://www.zhihu.com/search?type=content&amp;q=%E7%A8%B3%E5%AE%9ACSM&lt;/a>
-&lt;a class="link" href="https://learn.microsoft.com/en-us/windows/win32/dxtecharts/cascaded-shadow-maps" target="_blank" rel="noopener"
->https://learn.microsoft.com/en-us/windows/win32/dxtecharts/cascaded-shadow-maps&lt;/a>
-&lt;a class="link" href="https://zhuanlan.zhihu.com/p/104687855" target="_blank" rel="noopener"
->https://zhuanlan.zhihu.com/p/104687855&lt;/a>
-&lt;a class="link" href="https://zhuanlan.zhihu.com/p/1973068100296527933" target="_blank" rel="noopener"
->https://zhuanlan.zhihu.com/p/1973068100296527933&lt;/a>&lt;/p></description></item><item><title>实时渲染</title><link>https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/</link><pubDate>Wed, 04 Feb 2026 17:08:43 +0800</pubDate><guid>https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/</guid><description>&lt;h2 id="本质思考">本质思考&lt;/h2>
+>https://learnopengl-cn.github.io/05%20Advanced%20Lighting/03%20Shadows/01%20Shadow%20Mapping/#_2&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://learnopengl-cn.github.io/05%20Advanced%20Lighting/03%20Shadows/02%20Point%20Shadows/" target="_blank" rel="noopener"
+>https://learnopengl-cn.github.io/05%20Advanced%20Lighting/03%20Shadows/02%20Point%20Shadows/&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://learnopengl.com/Guest-Articles/2021/CSM" target="_blank" rel="noopener"
+>https://learnopengl.com/Guest-Articles/2021/CSM&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/53689987" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/53689987&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://www.zhihu.com/search?type=content&amp;amp;q=%E7%A8%B3%E5%AE%9ACSM" target="_blank" rel="noopener"
+>https://www.zhihu.com/search?type=content&amp;q=%E7%A8%B3%E5%AE%9ACSM&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://learn.microsoft.com/en-us/windows/win32/dxtecharts/cascaded-shadow-maps" target="_blank" rel="noopener"
+>https://learn.microsoft.com/en-us/windows/win32/dxtecharts/cascaded-shadow-maps&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/104687855" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/104687855&lt;/a>&lt;/p>
+&lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/1973068100296527933" target="_blank" rel="noopener"
+>https://zhuanlan.zhihu.com/p/1973068100296527933&lt;/a>&lt;/p>
+&lt;p>GAMES202&lt;/p></description></item><item><title>实时渲染</title><link>https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/</link><pubDate>Wed, 04 Feb 2026 17:08:43 +0800</pubDate><guid>https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/</guid><description>&lt;h2 id="本质思考">本质思考&lt;/h2>
 &lt;p>实时渲染本质上是一个在有限时间预算内，对三维连续场景信号（几何、材质、光照）进行离散化采样（生成屏幕像素），并不可避免地与走样进行斗争的过程。&lt;/p>
 &lt;h2 id="渲染管线">渲染管线&lt;/h2>
 &lt;p>&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E6%B8%B2%E6%9F%93/image.png"
