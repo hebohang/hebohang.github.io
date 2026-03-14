@@ -784,10 +784,56 @@ data-flex-basis="431px"
 SceneDepth （Depth Buffer）进行一个采样（不是ShadowMap！），然后根据该位置本身的
 深度（即射线上的深度 z 分量，由 Shading Point 深度与光源方向计算得出）与从Depth
 Buffer 采样的值进行一个对比，如果小于某个阈值则说明 Shading Point 被遮挡了。&lt;/p>
-&lt;h3 id="个人优化">个人优化&lt;/h3>
+&lt;h3 id="优化">优化&lt;/h3>
+&lt;h4 id="个人优化">个人优化&lt;/h4>
 &lt;p>加了一个bias减弱闪烁；光源方向（即Marching方向）和物体表面相切时会闪烁剧烈，我
 通过深度反推出物体该位置的法线（Forward 下后处理不好拿法线），然后增加了法线和光
 源方向的一个判断。&lt;/p>
+&lt;h4 id="其他优化">其他优化&lt;/h4>
+&lt;h5 id="使用-compute-shader">使用 Compute Shader&lt;/h5>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/image-25.png"
+width="1433"
+height="705"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="203"
+data-flex-basis="487px"
+>&lt;/p>
+&lt;p>可以看到ue也是用 cs 来进行的，代码位于 ScreenSpaceShadows.usf 中&lt;/p>
+&lt;p>Compute Shader 的优势（来源于deepseek）：&lt;/p>
+&lt;ol>
+&lt;li>
+&lt;p>更精细的线程调度与分组&lt;/p>
+&lt;p>在 Compute Shader 中，开发者可以精确控制线程组（thread group）的大小和共享内存（shared memory）的使用。&lt;/p>
+&lt;p>利用共享内存（Shared Memory）：这是最关键的一点。Compute Shader 允许一个线程组内的所有线程访问一块极快的、由开发者管理的共享内存。在计算 Contact Shadow 时，可以把线程组对应的屏幕区块（tile）所需的深度数据，预先从全局显存（VRAM）加载到共享内存中。这样，线程在步进射线时，可以直接访问这块高速缓存，而不是每次都去慢得多的全局显存里读取。这极大地减少了带宽压力，是性能提升的核心。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>更灵活的计算与访客模式&lt;/p>
+&lt;p>Compute Shader 可以打破 Pixel Shader 中“一个像素对应一个线程”的严格限制。&lt;/p>
+&lt;p>动态分支与负载均衡：虽然 GPU 的分支仍然有成本，但 Compute Shader 允许更灵活的逻辑控制。可以设计算法，让一部分线程处理简单的像素，另一部分处理复杂的像素，尽量减少线程束内的分歧。甚至可以重新组织任务，让计算负载更均衡。&lt;/p>
+&lt;p>非矩形调度：可以只对需要计算阴影的像素启动线程，而不是像 Pixel Shader 那样必须处理整个屏幕矩形范围内的所有像素。不过 Contact Shadow 通常还是需要全屏处理，所以这一点优势在这个场景下不是最主要的。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>解耦与并行化&lt;/p>
+&lt;p>Compute Shader 作为一个独立的计算 Pass，可以与图形渲染管线并行执行（在支持异步计算的 GPU 上）。例如，可以在 GPU 渲染主场景的同时，让空闲的计算单元去计算 Contact Shadow。这种并行能力是传统、固定的 Pixel Shader 难以做到的。&lt;/p>
+&lt;/li>
+&lt;li>
+&lt;p>提高资源利用率&lt;/p>
+&lt;p>通过精心设计 Compute Shader 的调度策略（例如让每个线程处理多个像素），可以更好地隐藏显存访问的延迟，让 GPU 的计算单元始终处于忙碌状态，从而提高整体吞吐量。&lt;/p>
+&lt;/li>
+&lt;/ol>
+&lt;h4 id="gbuffer存flag按需进行">GBuffer存flag，按需进行&lt;/h4>
+&lt;p>&lt;img src="https://hebohang.github.io/p/%E5%AE%9E%E6%97%B6%E9%98%B4%E5%BD%B1%E6%8A%80%E6%9C%AF/image-26.png"
+width="823"
+height="265"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="310"
+data-flex-basis="745px"
+>&lt;/p>
+&lt;p>可以看到ue会判断当前像素是否要用 Contact Shadow（位于 DeferredShadingCommon.ush），所以 ue 会对一些物体有 Cast Contact Shadow 的开关。&lt;/p>
+&lt;p>例如 ULandscapeGrassType，就可以对每个 Grass Varieties 选择 Cast Dynamic Shadow 或者 Cast Contact Shadow，Contact Shadow 本身就是 UE 为解决 “细碎物体（草、小石子）无阴影导致的浮空感” 设计的轻量化方案，对
+这些细碎的草如果是动态的不能烘培阴影，开启 Dynamic Shadow 开销会比较高，所以我们可以关闭 Dynamic Shadow 只开启 Contact Shadow 就行。&lt;/p>
 &lt;h2 id="variance-soft-shadow-mapping">Variance soft shadow mapping&lt;/h2>
 &lt;p>PCSS因为要多次采样，太慢了，于是出来了 Variance soft shadow mapping（VSMM），其实际上可以看成 PCSS 的快速版本，不过现在降噪手段越来越多，大家还是PCSS用的多一点？&lt;/p>
 &lt;p>VSMM的思想是，我不需要那么精准的数据，我只需要大概知道我的 shading point 对应的 shadow map 那一段采样区域内的平均值大概排什么水平（之前PCF的时候说过shadow map一块区域都会和shading point的深度值进行非零即一的比较），我们直接假设这一段分布是正态分布的，要获得正态分布的曲线我们只需要求均值和方差即可。&lt;/p>
