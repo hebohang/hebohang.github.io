@@ -1263,6 +1263,64 @@ data-flex-basis="476px"
 &lt;/li>
 &lt;/ol>
 &lt;p>UObject、继承FGCObject的对象可被 GC。通过UClass的反射信息可以在可达性分析时快速拿到对象的引用关系。&lt;/p>
+&lt;h3 id="uobjectfgcobject的收集">UObject、FGCObject的收集&lt;/h3>
+&lt;ul>
+&lt;li>GUObjectArray：UE 中存储所有 UObject 实例的全局数组（准确说是 TArray + 分块存储），是 UObject GC 的「根目录」，所有 UObject 的创建 / 销毁都要注册 / 注销到这里。&lt;/li>
+&lt;li>FGCObject：一个接口类，用于让非 UObject 类型（如 STL 容器、自定义 C++ 类）参与 UObject 的 GC 引用追踪，避免 UObject 被误回收。&lt;/li>
+&lt;/ul>
+&lt;h4 id="guobjectarray">GUObjectArray&lt;/h4>
+&lt;p>GUObjectArray 中不直接存储 UObject 指针，而是存储 FUObjectItem 结构体 —— 它是 UObject 的「元数据包装器」，负责记录 UObject 的生命周期、GC 状态、索引等核心信息。
+FUObjectItem 有 Flag 判断是不是root，简化示例：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-cpp" data-lang="cpp">&lt;span class="line">&lt;span class="cl">&lt;span class="k">struct&lt;/span> &lt;span class="nc">FUObjectItem&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 核心：指向对应的UObject实例（真正的对象指针）
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="n">UObject&lt;/span>&lt;span class="o">*&lt;/span> &lt;span class="n">Object&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="k">nullptr&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// GC相关标记位（最关键）
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="n">EObjectFlags&lt;/span> &lt;span class="n">ObjectFlags&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1">// 对象标记，包含Root标记、GC相关标记等
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="n">EInternalObjectFlags&lt;/span> &lt;span class="n">InternalFlags&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1">// 内部标记，如是否被GC标记为可达
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 索引与管理信息
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="n">int32&lt;/span> &lt;span class="n">ClusterIndex&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1">// 分块存储的集群索引（优化内存）
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="n">int32&lt;/span> &lt;span class="n">SerialNumber&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1">// 序列化编号（唯一标识UObject）
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 生命周期状态
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="n">EObjectLifeCycle&lt;/span> &lt;span class="n">LifeCycle&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1">// 对象生命周期阶段（如未初始化、已初始化、待销毁）
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="c1">// 调试与辅助信息
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="n">FName&lt;/span> &lt;span class="n">ClassName&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1">// UObject所属类名
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span> &lt;span class="n">uint32&lt;/span> &lt;span class="n">HashNext&lt;/span>&lt;span class="p">;&lt;/span> &lt;span class="c1">// 哈希表下一个节点（用于快速查找）
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="c1">&lt;/span>&lt;span class="p">};&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h4 id="fgcobject">FGCObject&lt;/h4>
+&lt;p>FGCObject 本身不是 UObject,当你创建一个继承自 FGCObject 的类实例时，它的构造函数会自动将自己注册到一个全局的单例对象——GGCObjectReferencer 上。这个 GGCObjectReferencer 本身是一个特殊的、被引擎牢牢持有的 UObject。&lt;/p>
+&lt;p>正因为 GGCObjectReferencer 是一个被持有的 UObject，它本身就在GC的根集之中。当GC进行可达性分析时，会遍历到这个引用器。&lt;/p>
+&lt;p>在遍历 GGCObjectReferencer 时，GC会调用它管理的所有 FGCObject 的 AddReferencedObjects() 函数。而你需要在 FGCObject 子类中实现的 AddReferencedObjects() 函数里，做的就是将你所持有的 UObject 指针通过 FReferenceCollector 对象“上报”给GC。&lt;/p>
 &lt;h3 id="cluster优化">Cluster优化&lt;/h3>
 &lt;p>如果一堆UObject生命周期与一个节点一致，则可以绑成一个 Cluster，这个节点则为 Cluster Root。可达性分析时每次遍历到这个 Cluster 时就可以认为整个 Cluster 里所有对象都可达。&lt;/p>
 &lt;p>AddToCluster 可以把一个UObject加入到一个 Cluster 里。&lt;/p>
@@ -1291,6 +1349,8 @@ data-flex-basis="476px"
 &lt;p>增量式的垃圾回收，目前还是Experimental阶段。&lt;/p>
 &lt;p>对于UE的GC的三个部分：所有UObject先标记不可达，可达性分析，销毁垃圾。最后销毁垃圾是可以分帧的，但是前两个部分是不能分帧的。而可达性分析阶段是耗时主要部分。&lt;/p>
 &lt;p>这里主要要考虑写入屏障，UE 引入 TObjectPtr，使得A.XX = B这种语句能被捕获到了。&lt;/p>
+&lt;h4 id="可达性分析的批处理">可达性分析的批处理&lt;/h4>
+&lt;p>UE5将传统的、庞大的单次引用遍历，优化为基于“批”（Batch）的处理方式。它将处理逻辑拆解为多个对CPU缓存更友好的小函数，并以大约500个对象为一个批次进行处理，显著提升了标记阶段的性能。&lt;/p>
 &lt;h4 id="参考-1">参考&lt;/h4>
 &lt;p>&lt;a class="link" href="https://zhuanlan.zhihu.com/p/1991647341095179509" target="_blank" rel="noopener"
 >https://zhuanlan.zhihu.com/p/1991647341095179509&lt;/a>&lt;/p>
