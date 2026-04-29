@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>GitHub Actions on 何律师</title><link>https://hebohang.github.io/tags/github-actions/</link><description>Recent content in GitHub Actions on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Wed, 29 Apr 2026 14:20:00 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/tags/github-actions/index.xml" rel="self" type="application/rss+xml"/><item><title>网页部署</title><link>https://hebohang.github.io/p/%E7%BD%91%E9%A1%B5%E9%83%A8%E7%BD%B2/</link><pubDate>Wed, 29 Apr 2026 14:20:00 +0800</pubDate><guid>https://hebohang.github.io/p/%E7%BD%91%E9%A1%B5%E9%83%A8%E7%BD%B2/</guid><description>&lt;p>这篇主要记录我这次博客部署里踩到的一个坑：Hugo 本地构建没有问题，GitHub Actions 里也能正常编译，但是最后推送到站点仓库时报了认证错误。&lt;/p>
+&lt;p>我最后把问题收敛到了三件事：&lt;/p>
+&lt;ul>
+&lt;li>外部仓库部署和单仓部署不是一回事。&lt;/li>
+&lt;li>公开仓库不等于可以匿名写入。&lt;/li>
+&lt;li>token 不能明文写在 workflow 里，应该放到 GitHub Actions Secrets 中。&lt;/li>
+&lt;/ul>
+&lt;h2 id="当前部署结构">当前部署结构&lt;/h2>
+&lt;p>我现在的博客不是直接把源码放在 &lt;code>hebohang/hebohang.github.io&lt;/code> 里，而是分成了两层：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>HebohangWebsiteHugo&lt;/code>：存放 Hugo 源文件、主题和工作流。&lt;/li>
+&lt;li>&lt;code>hebohang/hebohang.github.io&lt;/code>：作为最终发布仓库。&lt;/li>
+&lt;/ul>
+&lt;p>GitHub Actions 的流程是：&lt;/p>
+&lt;ol>
+&lt;li>在源码仓库里执行 &lt;code>hugo --minify --gc&lt;/code>&lt;/li>
+&lt;li>得到生成后的 &lt;code>public/&lt;/code>&lt;/li>
+&lt;li>再把 &lt;code>public/&lt;/code> 推送到 &lt;code>hebohang/hebohang.github.io&lt;/code> 的 &lt;code>hugo&lt;/code> 分支&lt;/li>
+&lt;/ol>
+&lt;p>所以这不是“当前仓库自己发布自己”，而是“当前仓库构建后，推送到另一个仓库”。&lt;/p>
+&lt;h2 id="这次遇到的报错">这次遇到的报错&lt;/h2>
+&lt;p>报错大概是这样：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">remote: Invalid username or token. Password authentication is not supported for Git operations.
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">fatal: Authentication failed for &amp;#39;https://github.com/hebohang/hebohang.github.io.git/&amp;#39;
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Error: Action failed with &amp;#34;The process &amp;#39;/usr/bin/git&amp;#39; failed with exit code 128&amp;#34;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>出错的位置不是 Hugo 构建，而是部署阶段的：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">git push origin hugo
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>也就是说，页面已经生成出来了，只是最后一步推送失败。&lt;/p>
+&lt;p>后来在把明文 token 改成 GitHub Actions secret 之后，我又遇到了第二种报错：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">remote: Permission to hebohang/hebohang.github.io.git denied to hebohang.
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">fatal: unable to access &amp;#39;https://github.com/hebohang/hebohang.github.io.git/&amp;#39;: The requested URL returned error: 403
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">Error: Action failed with &amp;#34;The process &amp;#39;/usr/bin/git&amp;#39; failed with exit code 128&amp;#34;
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这个 403 和前面的 &lt;code>Invalid username or token&lt;/code> 不一样，它说明：&lt;/p>
+&lt;ul>
+&lt;li>token 已经是有效的&lt;/li>
+&lt;li>GitHub 也识别出了这个 token 对应的账号&lt;/li>
+&lt;li>但是这个 token 没有目标仓库的写权限&lt;/li>
+&lt;/ul>
+&lt;p>所以这里失败的不是“身份校验”，而是“授权不足”。&lt;/p>
+&lt;h2 id="为什么公开仓库也会认证失败">为什么公开仓库也会认证失败&lt;/h2>
+&lt;p>一开始容易误会：&lt;code>hebohang/hebohang.github.io&lt;/code> 是公开仓库，为什么还会认证失败？&lt;/p>
+&lt;p>原因很简单，&lt;strong>公开仓库只代表任何人都能读，不代表任何人都能写。&lt;/strong>&lt;/p>
+&lt;p>我的 workflow 需要把内容推送到目标仓库，这本质上就是一次写操作，所以必须要有有效的写权限。&lt;/p>
+&lt;p>如果是把站点直接部署回当前仓库，很多时候可以使用 &lt;code>GITHUB_TOKEN&lt;/code>。&lt;br>
+但我这里是推送到&lt;strong>外部仓库&lt;/strong>，因此要额外准备能够写入这个目标仓库的凭据，通常就是：&lt;/p>
+&lt;ul>
+&lt;li>PAT（Personal Access Token）&lt;/li>
+&lt;li>或者 deploy key&lt;/li>
+&lt;/ul>
+&lt;p>我这次采用的是 PAT。&lt;/p>
+&lt;h2 id="pat-是什么">PAT 是什么&lt;/h2>
+&lt;p>PAT 全称是 &lt;strong>Personal Access Token&lt;/strong>，也就是“个人访问令牌”。&lt;/p>
+&lt;p>可以把它理解成 GitHub 提供给程序、命令行和 CI 使用的一种访问凭据。&lt;br>
+它的作用有点像“专门给自动化流程使用的密码”，但是它比密码更细，可以单独限制权限、单独撤销，也更适合放进 CI 里。&lt;/p>
+&lt;p>在这个场景里，PAT 的作用就是：&lt;/p>
+&lt;ul>
+&lt;li>让 GitHub Actions 有权限把构建产物推送到 &lt;code>hebohang/hebohang.github.io&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;h2 id="pat-在哪里创建">PAT 在哪里创建&lt;/h2>
+&lt;p>登录 GitHub 之后，路径是：&lt;/p>
+&lt;ol>
+&lt;li>右上角头像&lt;/li>
+&lt;li>&lt;code>Settings&lt;/code>&lt;/li>
+&lt;li>&lt;code>Developer settings&lt;/code>&lt;/li>
+&lt;li>&lt;code>Personal access tokens&lt;/code>&lt;/li>
+&lt;/ol>
+&lt;p>这里会看到两种 token：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>Tokens (classic)&lt;/code>&lt;/li>
+&lt;li>&lt;code>Fine-grained tokens&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>我更推荐 &lt;code>Fine-grained token&lt;/code>，因为权限更细，也更安全。&lt;/p>
+&lt;h2 id="pat-该给什么权限">PAT 该给什么权限&lt;/h2>
+&lt;p>如果使用 &lt;code>Fine-grained token&lt;/code>，我这里推荐的配置是：&lt;/p>
+&lt;ul>
+&lt;li>Token owner：你的 GitHub 账号&lt;/li>
+&lt;li>Repository access：只选择 &lt;code>hebohang/hebohang.github.io&lt;/code>&lt;/li>
+&lt;li>Repository permissions：
+&lt;ul>
+&lt;li>&lt;code>Contents: Read and write&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;p>这样就足够支撑这类部署流程了。&lt;/p>
+&lt;p>如果使用的是 &lt;code>Tokens (classic)&lt;/code>，通常会直接勾：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>repo&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>它也能用，只是权限范围更大，不如 fine-grained 精确。&lt;/p>
+&lt;h3 id="fine-grained-pat-最容易配错的地方">Fine-grained PAT 最容易配错的地方&lt;/h3>
+&lt;p>真正需要写入的是&lt;strong>目标仓库&lt;/strong> &lt;code>hebohang/hebohang.github.io&lt;/code>，而不是当前这个源码仓库 &lt;code>HebohangWebsiteHugo&lt;/code>。&lt;/p>
+&lt;p>所以如果你使用的是 fine-grained PAT，最常见的 403 原因通常是：&lt;/p>
+&lt;ul>
+&lt;li>选错了仓库，只授权了 &lt;code>HebohangWebsiteHugo&lt;/code>&lt;/li>
+&lt;li>选对了仓库，但没有给 &lt;code>Contents: Read and write&lt;/code>&lt;/li>
+&lt;/ul>
+&lt;p>出现下面这种报错时：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">Permission to hebohang/hebohang.github.io.git denied to hebohang
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>优先就检查这两个点。&lt;/p>
+&lt;h2 id="secrets-应该怎么配">Secrets 应该怎么配&lt;/h2>
+&lt;p>就算拿到了 PAT，也&lt;strong>不要&lt;/strong>把它直接写进仓库。&lt;/p>
+&lt;p>正确做法是把它放进 GitHub Actions Secrets：&lt;/p>
+&lt;ol>
+&lt;li>打开源码仓库 &lt;code>HebohangWebsiteHugo&lt;/code>&lt;/li>
+&lt;li>进入 &lt;code>Settings&lt;/code>&lt;/li>
+&lt;li>&lt;code>Secrets and variables&lt;/code>&lt;/li>
+&lt;li>&lt;code>Actions&lt;/code>&lt;/li>
+&lt;li>新建一个 secret&lt;/li>
+&lt;/ol>
+&lt;p>我这里使用的名称是：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">GH_PAGES_DEPLOY_TOKEN
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>然后把刚创建的 PAT 值填进去。&lt;/p>
+&lt;p>这样 workflow 就可以通过：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-yml" data-lang="yml">&lt;span class="line">&lt;span class="cl">&lt;span class="l">${{ secrets.GH_PAGES_DEPLOY_TOKEN }}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>来读取这个凭据，而不是把 token 明文提交到 git 历史中。&lt;/p>
+&lt;h2 id="workflow-的正确写法">workflow 的正确写法&lt;/h2>
+&lt;p>我现在用的是 &lt;code>peaceiris/actions-gh-pages@v3&lt;/code>，核心配置如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-yml" data-lang="yml">&lt;span class="line">&lt;span class="cl">- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Build&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">run&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">hugo --minify --gc&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Validate deploy secret&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">if&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">github.event_name == &amp;#39;push&amp;#39; &amp;amp;&amp;amp; github.ref == &amp;#39;refs/heads/main&amp;#39;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">env&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">GH_PAGES_DEPLOY_TOKEN&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">${{ secrets.GH_PAGES_DEPLOY_TOKEN }}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">run&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="p">|&lt;/span>&lt;span class="sd">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="sd"> if [ -z &amp;#34;$GH_PAGES_DEPLOY_TOKEN&amp;#34; ]; then
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="sd"> echo &amp;#34;Missing GH_PAGES_DEPLOY_TOKEN secret.&amp;#34; &amp;gt;&amp;amp;2
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="sd"> exit 1
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="sd"> fi&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w">&lt;/span>- &lt;span class="nt">name&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">Deploy&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">if&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">github.event_name == &amp;#39;push&amp;#39; &amp;amp;&amp;amp; github.ref == &amp;#39;refs/heads/main&amp;#39;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">uses&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">peaceiris/actions-gh-pages@v3&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">with&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">PERSONAL_TOKEN&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">${{ secrets.GH_PAGES_DEPLOY_TOKEN }}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">EXTERNAL_REPOSITORY&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">hebohang/hebohang.github.io&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">PUBLISH_BRANCH&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">hugo&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">PUBLISH_DIR&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">./public&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">&lt;span class="w"> &lt;/span>&lt;span class="nt">commit_message&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">${{ github.event.head_commit.message }}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这里有几个点要注意：&lt;/p>
+&lt;h3 id="1-不要把-token-明文写进-workflow">1. 不要把 token 明文写进 workflow&lt;/h3>
+&lt;p>错误示范：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-yml" data-lang="yml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">PERSONAL_TOKEN&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">ghp_xxx&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这会带来几个问题：&lt;/p>
+&lt;ul>
+&lt;li>token 暴露在仓库里&lt;/li>
+&lt;li>可能被 GitHub 自动吊销&lt;/li>
+&lt;li>后续维护时也很容易忘记它来自哪里&lt;/li>
+&lt;/ul>
+&lt;p>如果 token 已经明文提交过，最稳妥的处理方式是：&lt;/p>
+&lt;ol>
+&lt;li>删除明文引用&lt;/li>
+&lt;li>重新创建一个新的 token&lt;/li>
+&lt;li>旧 token 直接废弃&lt;/li>
+&lt;/ol>
+&lt;h3 id="2-只在-push-main-时执行-deploy">2. 只在 &lt;code>push main&lt;/code> 时执行 deploy&lt;/h3>
+&lt;p>PR 场景下通常只需要验证构建能不能通过，不应该真的往生产仓库推内容。&lt;br>
+因此我这里把 deploy 限制在：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-yml" data-lang="yml">&lt;span class="line">&lt;span class="cl">&lt;span class="l">github.event_name == &amp;#39;push&amp;#39; &amp;amp;&amp;amp; github.ref == &amp;#39;refs/heads/main&amp;#39;&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>这样 pull request 仍然可以跑 Hugo build，但不会触发外部仓库写入。&lt;/p>
+&lt;h3 id="3-external_repository-要写对">3. &lt;code>EXTERNAL_REPOSITORY&lt;/code> 要写对&lt;/h3>
+&lt;p>因为我这里是把产物推送到外部仓库，所以这个字段必须明确写成：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-yml" data-lang="yml">&lt;span class="line">&lt;span class="cl">&lt;span class="nt">EXTERNAL_REPOSITORY&lt;/span>&lt;span class="p">:&lt;/span>&lt;span class="w"> &lt;/span>&lt;span class="l">hebohang/hebohang.github.io&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>如果你自己的站点仓库不同，这里也要改成对应地址。&lt;/p>
+&lt;h2 id="修复完成后怎么验证">修复完成后怎么验证&lt;/h2>
+&lt;p>可以按下面这个顺序检查：&lt;/p>
+&lt;h3 id="本地验证">本地验证&lt;/h3>
+&lt;p>先确认本地构建没问题：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-bash" data-lang="bash">&lt;span class="line">&lt;span class="cl">hugo --minify --gc
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;h3 id="远端验证">远端验证&lt;/h3>
+&lt;p>然后推送一次提交，或者在 Actions 中手动重跑 workflow：&lt;/p>
+&lt;ol>
+&lt;li>看 &lt;code>Build&lt;/code> 是否成功&lt;/li>
+&lt;li>看 &lt;code>Validate deploy secret&lt;/code> 是否通过&lt;/li>
+&lt;li>看 &lt;code>Deploy&lt;/code> 是否成功&lt;/li>
+&lt;/ol>
+&lt;p>如果成功，还可以继续检查：&lt;/p>
+&lt;ul>
+&lt;li>&lt;code>hebohang/hebohang.github.io&lt;/code> 的 &lt;code>hugo&lt;/code> 分支是否有新提交&lt;/li>
+&lt;li>页面内容是否已经更新&lt;/li>
+&lt;/ul>
+&lt;h2 id="常见排查点">常见排查点&lt;/h2>
+&lt;p>如果还是失败，可以优先看下面几项：&lt;/p>
+&lt;h3 id="1-secret-名称写错">1. secret 名称写错&lt;/h3>
+&lt;p>代码里写的是：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-yml" data-lang="yml">&lt;span class="line">&lt;span class="cl">&lt;span class="l">${{ secrets.GH_PAGES_DEPLOY_TOKEN }}&lt;/span>&lt;span class="w">
+&lt;/span>&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>那 GitHub 仓库里的 secret 名称也必须一模一样。&lt;/p>
+&lt;h3 id="2-把-secret-加错仓库">2. 把 secret 加错仓库&lt;/h3>
+&lt;p>&lt;code>GH_PAGES_DEPLOY_TOKEN&lt;/code> 要加在&lt;strong>源码仓库&lt;/strong> &lt;code>HebohangWebsiteHugo&lt;/code> 的 Actions secrets 中，因为 workflow 是在这个仓库执行的。&lt;/p>
+&lt;h3 id="3-token-没有目标仓库权限">3. token 没有目标仓库权限&lt;/h3>
+&lt;p>如果 token 对 &lt;code>hebohang/hebohang.github.io&lt;/code> 没有写权限，也会部署失败。&lt;/p>
+&lt;h3 id="4-fine-grained-pat-授权到了错误的仓库">4. fine-grained PAT 授权到了错误的仓库&lt;/h3>
+&lt;p>如果 token 只授权给了 &lt;code>HebohangWebsiteHugo&lt;/code>，而没有授权给 &lt;code>hebohang/hebohang.github.io&lt;/code>，也会得到 403。&lt;/p>
+&lt;h3 id="5-token-已经过期或被撤销">5. token 已经过期或被撤销&lt;/h3>
+&lt;p>重新生成一个新的 PAT 通常是最快的排查手段。&lt;/p>
+&lt;h3 id="6-把外部仓库和当前仓库混淆了">6. 把外部仓库和当前仓库混淆了&lt;/h3>
+&lt;p>当前 workflow 是“源码仓库构建，再推送到站点仓库”。&lt;br>
+所以权限检查要看的是&lt;strong>目标仓库&lt;/strong>，不是源码仓库本身。&lt;/p>
+&lt;h3 id="7-用-classic-pat-做一次快速排查">7. 用 classic PAT 做一次快速排查&lt;/h3>
+&lt;p>如果你一时不确定是 fine-grained PAT 的哪个权限没配对，可以临时创建一个 classic PAT，直接授予：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-text" data-lang="text">&lt;span class="line">&lt;span class="cl">repo
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>然后把它写入 &lt;code>GH_PAGES_DEPLOY_TOKEN&lt;/code> 再跑一次 workflow。&lt;/p>
+&lt;p>如果 classic PAT 可以通过，而 fine-grained PAT 不行，那基本就可以确认问题出在 fine-grained PAT 的仓库选择或权限勾选上。&lt;/p>
+&lt;h2 id="总结">总结&lt;/h2>
+&lt;p>这次问题看起来像是 Hugo 部署失败，实际上根因和 Hugo 本身关系不大，而是 GitHub Actions 的认证配置出了问题。&lt;/p>
+&lt;p>核心经验就是：&lt;/p>
+&lt;ul>
+&lt;li>公开仓库也不能匿名写入&lt;/li>
+&lt;li>外部仓库部署通常需要单独的 PAT 或 deploy key&lt;/li>
+&lt;li>token 不要明文写在 workflow 里&lt;/li>
+&lt;li>Secrets 名称、仓库权限和目标仓库地址要完全对齐&lt;/li>
+&lt;/ul>
+&lt;p>如果只是单仓部署，事情会简单一些；但只要涉及“源码仓库”和“发布仓库”分离，认证和权限就必须单独处理清楚。&lt;/p></description></item></channel></rss>
