@@ -1,4 +1,73 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>何律师</title><link>https://hebohang.github.io/</link><description>Recent content on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Wed, 29 Apr 2026 14:20:00 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>网页部署</title><link>https://hebohang.github.io/p/%E7%BD%91%E9%A1%B5%E9%83%A8%E7%BD%B2/</link><pubDate>Wed, 29 Apr 2026 14:20:00 +0800</pubDate><guid>https://hebohang.github.io/p/%E7%BD%91%E9%A1%B5%E9%83%A8%E7%BD%B2/</guid><description>&lt;p>这篇主要记录我这次博客部署里踩到的一个坑：Hugo 本地构建没有问题，GitHub Actions 里也能正常编译，但是最后推送到站点仓库时报了认证错误。&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>何律师</title><link>https://hebohang.github.io/</link><description>Recent content on 何律师</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><copyright>hebohang</copyright><lastBuildDate>Fri, 22 May 2026 00:00:00 +0800</lastBuildDate><atom:link href="https://hebohang.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>看看小树的学校</title><link>https://hebohang.github.io/xiaoshu/kankanxiaoshudexuexiao/</link><pubDate>Fri, 22 May 2026 00:00:00 +0800</pubDate><guid>https://hebohang.github.io/xiaoshu/kankanxiaoshudexuexiao/</guid><description>&lt;img src="https://hebohang.github.io/xiaoshu/kankanxiaoshudexuexiao/image.jpg" alt="Featured image of post 看看小树的学校" />&lt;p>因为打工人假期非常难得，在很早之前我就计划了26年跳槽并旅行的计划，同时也办好了三年澳签。我完全没有想过在同一年能认识小树、能遇见这么一个让我喜欢到极点的女生，
+更没有想到小树曾经在澳洲生活过。因此悉尼大学是我必须要去的地方，悉尼大学法学院更是我一定要去参观的楼。&lt;/p>
+&lt;p>我的整个旅行计划是这样的：&lt;/p>
+&lt;ul>
+&lt;li>5.5：潮州&lt;/li>
+&lt;li>5.6-5.8：悉尼&lt;/li>
+&lt;li>5.9-5.16：新西兰（南岛跟团游）&lt;/li>
+&lt;li>5.17-5.19：墨尔本&lt;/li>
+&lt;li>5.20-5.21：吉隆坡&lt;/li>
+&lt;/ul>
+&lt;p>在之前我就有过solo trip——一个人去日本，但是那时我只呆了一个周末，吃吃喝喝逛逛就过去了，而这次我将进行长达17天的旅行。&lt;/p>
+&lt;p>旅行是快乐的，也是痛苦的。见识到了更多的风景让我很满足，但对小树的想念让我很难熬，时间越往后越煎熬。&lt;/p>
+&lt;p>我不管看到什么都很想分享给小树，所幸有小树远程陪伴，这段旅程变得更加丰富多彩了起来。&lt;/p>
+&lt;h2 id="神奇的经历">神奇的经历&lt;/h2>
+&lt;p>5.6到达悉尼，这一天我安排就是在城市里随便逛逛。我到达了circular quey，看到了小树曾经给我描绘过的风景。远远看去，湛蓝的海水与洁白的歌剧院交相辉映，港湾大桥赫然耸立。真的非常漂亮。&lt;/p>
+&lt;p>中午我去入住四季酒店，没想到这么好的酒店效率非常低下，说有空房了再给我发邮件，结果还是等到了下午三点我自己过去再办的入住，邮件压根没发。入住之后我发现我的转换头用不了，手机充不了电，让我很感动的事我刚跟小树说完，
+小树就帮我在小红书搜寻有没有当地留学生可以给我转换头的，最后差点就给我买了，结果只是这儿充电旁边有个按钮需要按下：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/xiaoshu/kankanxiaoshudexuexiao/image.png"
+width="533"
+height="704"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="75"
+data-flex-basis="181px"
+>&lt;/p>
+&lt;p>之后我去了小树给我推荐的漫画店，看到了好多精装漫画，老外吃的真好，就是很贵。&lt;/p>
+&lt;p>接着得吃晚饭了，我想找一家牛排店，于是顺着地图随便找到了一家附近的店，里头人还挺多，进去发现怎么是日本人开的。我点好餐并跟小树吐槽，结果发现误打误撞进了小树最想推荐给我的饭店，小树一直在搜这家饭店叫什么，
+因为没找到所以不好意思让我找（感动再次+1小树真好）：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/xiaoshu/kankanxiaoshudexuexiao/image-1.png"
+width="438"
+height="928"
+loading="lazy"
+alt="小树一直在回忆饭店名字"
+class="gallery-image"
+data-flex-grow="47"
+data-flex-basis="113px"
+>&lt;img src="https://hebohang.github.io/xiaoshu/kankanxiaoshudexuexiao/image-2.png"
+width="428"
+height="926"
+loading="lazy"
+alt="小树当时点的菜"
+class="gallery-image"
+data-flex-grow="46"
+data-flex-basis="110px"
+>&lt;/p>
+&lt;p>我点的菜：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/xiaoshu/kankanxiaoshudexuexiao/image-3.png"
+width="817"
+height="606"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="134"
+data-flex-basis="323px"
+>&lt;/p>
+&lt;p>我无意中找到的饭店就是小树背地里一直搜寻想推荐给我的饭店，这真是太神奇了，也许这就是心有灵犀吧。&lt;/p>
+&lt;h2 id="看看小树的过去">看看小树的过去&lt;/h2>
+&lt;p>5.7我去了悉尼大学，不愧是南半球最美大学：&lt;/p>
+&lt;p>&lt;img src="https://hebohang.github.io/xiaoshu/kankanxiaoshudexuexiao/image.jpg"
+width="1706"
+height="1279"
+loading="lazy"
+class="gallery-image"
+data-flex-grow="133"
+data-flex-basis="320px"
+>&lt;/p>
+&lt;p>同时我也进了法学院，看了小树以前上课的教室，再去了一趟小树曾经租房居住的地方（当然我没有进去，找到是哪栋楼就心满意足的离开了）。今天的午餐是小树推荐的烤鱼，下午甜点是小树推荐的冰淇淋。&lt;/p>
+&lt;p>5.18我则是在墨尔本报了大洋路的一日团，万幸当天天气十分不错，体验到了小树之前跟我描述的大洋路、十二门徒的美丽壮阔。并且在墨尔本也吃了小树推荐菜，超级好吃。&lt;/p></description></item><item><title>吸血鬼猎人D：妖杀行</title><link>https://hebohang.github.io/xiaoshu/xixueguilierendzhanyaoxing/</link><pubDate>Sun, 17 May 2026 00:00:00 +0000</pubDate><guid>https://hebohang.github.io/xiaoshu/xixueguilierendzhanyaoxing/</guid><description>&lt;img src="https://hebohang.github.io/xiaoshu/xixueguilierendzhanyaoxing/cover.jpg" alt="Featured image of post 吸血鬼猎人D：妖杀行" />&lt;p>这天已经是我solo trip的第13天了，想小树想的要疯掉了。之前刷剪辑刷到过这个剧场版动画，所以晚上我就想在墨尔本的酒店和在上海的小树远程连麦观看。（不过不愧是小树，早早就看过这部了，但据她所说她也忘的差不多了）&lt;/p>
+&lt;p>我们采用最原始但很好用的同步方法，在b站找好了片源，然后321一起播放。&lt;/p>
+&lt;p>作画很精致，人物和背景都画的十分出色，好几处的bgm配上画面都能营造出非常沉浸的氛围感。不过作为几十年前的作品，剧情比较一般，而且有几处打斗有种强行删掉的痕迹，比如男主打狼人还特意给了一个狼人变化的镜头，下一刻就被一刀秒，疑似经费或者工期不够。结局有点小浪漫。&lt;/p>
+&lt;p>整体槽点满满，很适合一起看，非常幸福。&lt;/p></description></item><item><title>网页部署</title><link>https://hebohang.github.io/p/%E7%BD%91%E9%A1%B5%E9%83%A8%E7%BD%B2/</link><pubDate>Wed, 29 Apr 2026 14:20:00 +0800</pubDate><guid>https://hebohang.github.io/p/%E7%BD%91%E9%A1%B5%E9%83%A8%E7%BD%B2/</guid><description>&lt;p>这篇主要记录我这次博客部署里踩到的一个坑：Hugo 本地构建没有问题，GitHub Actions 里也能正常编译，但是最后推送到站点仓库时报了认证错误。&lt;/p>
 &lt;p>我最后把问题收敛到了三件事：&lt;/p>
 &lt;ul>
 &lt;li>外部仓库部署和单仓部署不是一回事。&lt;/li>
